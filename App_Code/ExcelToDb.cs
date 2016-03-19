@@ -4,16 +4,19 @@ using System.Collections.Generic;
 using System.Data.OleDb;
 using System.Data.SqlClient;
 using System.Web;
+using WebMatrix.Data;
+
+
 
 /// <summary>
 /// Summary description for ExcelToDb
 /// </summary>
 /// 
-class MyData
+class Student
 {
     public string   Groep { get; set; }
     public string   mentor  { get; set; }
-    public long     studentnummer { get; set; }
+    public string     studentnummer { get; set; }
     public string   roepnaam    { get; set; }
     public string   voorvoegsels { get; set; }
     public string   naam   { get; set; }
@@ -33,11 +36,11 @@ class MyData
     public string   herinschrijving { get; set; }
     public string   opleiding { get; set; }
     public string   fase    { get; set; }
-    public DateTime datumvan { get; set; }
-    public DateTime datumtot    { get; set; }
-    public DateTime aankomstBijIsatcode { get; set; }
-    public DateTime aanmeldingdatum { get; set; }
-    public DateTime datumdefinitief { get; set; }
+    public string datumvan { get; set; }
+    public string datumtot    { get; set; }
+    public string aankomstBijIsatcode { get; set; }
+    public string aanmeldingdatum { get; set; }
+    public string datumdefinitief { get; set; }
 
 
 }
@@ -51,43 +54,45 @@ public class ExcelToDb
         //
     }
 
+  
+
     public void LoadeExcelToDb(string path)
     {
-               // string sqlConnectionString = @"Data Source=SIETSE\SQLEXPRESS;Database=test;Trusted_Connection=true;Persist Security Info=true";
-                                             
-
-                //Create connection string to Excel work book
-                string excelConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + path + ";Extended Properties=Excel 12.0;Persist Security Info=False";
-                //Create Connection to Excel work book
-                OleDbConnection excelConnection = new OleDbConnection(excelConnectionString);
-                //Create OleDbCommand to fetch data from Excel
-
-                OleDbCommand cmd = new OleDbCommand("select [groep],[mentor],[studentnummer],[roepnaam],[voorvoegsels],[naam],[geslacht],[geboortedatum],[vooropleiding],[emailprive],[emailinstelling],[adrestype],[etiketnaam],[etiketregel1],[etiketregel2],[land],[telefoonlandnummer],[telefoonnummer],[telefoonnummermobiel],[herinschrijving],[opleiding],[fase],[datumvan],[datumtot],[aankomst bij isatcode],[aanmeldingdatum],[datumdefinitief] from [sheet1$]", excelConnection);
-
-                excelConnection.Open();
-                OleDbDataReader dReader;
-                dReader = cmd.ExecuteReader();
+        //Create connection string to Excel work book
+        string excelConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + path + ";Extended Properties=Excel 12.0;Persist Security Info=False";
+        
+        //Create Connection to Excel work book
+        OleDbConnection excelConnection = new OleDbConnection(excelConnectionString);
+        
+        //Create OleDbCommand to fetch data from Excel
+        OleDbCommand cmd = new OleDbCommand("select [groep],[mentor],[studentnummer],[roepnaam],[voorvoegsels],[naam],[geslacht],[geboortedatum],[vooropleiding],[emailprive],[emailinstelling],[adrestype],[etiketnaam],[etiketregel1],[etiketregel2],[land],[telefoonlandnummer],[telefoonnummer],[telefoonnummermobiel],[herinschrijving],[opleiding],[fase],[datumvan],[datumtot],[aankomst bij isatcode],[aanmeldingdatum],[datumdefinitief] from [sheet1$]", excelConnection);
+        
+        excelConnection.Open();
+        OleDbDataReader dReader;
+        dReader = cmd.ExecuteReader();
                 
-                List<MyData> list = new List<MyData>();
+        List<Student> StudentList = new List<Student>();
+
+        // Reading the data from excel into the list
         while (dReader.Read())
         {
-            MyData data = new MyData();
+            Student data = new Student();
 
-            //data.Groep = (string)dReader["groep"];
-            //data.mentor = (string)dReader["mentor"];
-            //data.studentnummer = Convert.ToInt64(dReader["studentnummer"]);
-            //data.roepnaam = (string)dReader["roepnaam"];
-            //data.voorvoegsels = (string)dReader["voorvoegsels"];
-            //data.naam = (string)dReader["naam"];
-            //data.geslacht = (string)dReader["geslacht"];
-            //data.geboortedatum = Convert.ToString(dReader["geboortedatum"]);
-            //data.vooropleiding = (string)dReader["vooropleiding"];
-            //data.emailprive = (string)dReader["emailprive"];
-            //data.emailinstelling = (string)dReader["emailinstelling"];
-            //data.adrestype = (string)dReader["adrestype"];
-            //data.etiketnaam = (string)dReader["etiketnaam"];
-            //data.etiketregel1 = (string)dReader["etiketregel1"];
-            //data.etiketregel2 = (string)dReader["etiketregel2"];
+            data.Groep = (string)dReader["groep"];
+            data.mentor = (string)dReader["mentor"];
+            data.studentnummer =Convert.ToString(dReader["studentnummer"]);
+            data.roepnaam = (string)dReader["roepnaam"];
+            data.voorvoegsels = (string)dReader["voorvoegsels"];
+            data.naam = (string)dReader["naam"];
+            data.geslacht = (string)dReader["geslacht"];
+            data.geboortedatum = Convert.ToString(dReader["geboortedatum"]);
+            data.vooropleiding = (string)dReader["vooropleiding"];
+            data.emailprive = (string)dReader["emailprive"];
+            data.emailinstelling = (string)dReader["emailinstelling"];
+            data.adrestype = (string)dReader["adrestype"];
+            data.etiketnaam = (string)dReader["etiketnaam"];
+            data.etiketregel1 = (string)dReader["etiketregel1"];
+            data.etiketregel2 = (string)dReader["etiketregel2"];
             if (dReader["land"] != null)
             {
                 data.land = (string)dReader["land"];
@@ -100,32 +105,33 @@ public class ExcelToDb
             //Datum 0/0/0000 00:00:00
             //kijken naar datetime
 
-            
-            // data.telefoonlandnummer = Convert.ToString(dReader["telefoonlandnummer"]);
-            //data.telefoonnummer = Convert.ToString(dReader["telefoonnummer"]);
-            // data.telefoonnummermobiel = Convert.ToString(dReader["telefoonnummermobiel"]);
-            //data.herinschrijving = Convert.ToString(dReader["herinschrijving"]);
-            //data.opleiding = (string)dReader["opleiding"];
-            //data.fase = (string)dReader["fase"];
-            //data.datumvan = Convert.ToDateTime(dReader["datumvan"]);
-            //data.datumtot = Convert.ToDateTime(dReader["datumtot"]);
-            //data.aankomstBijIsatcode = Convert.ToDateTime(dReader["aankomst bij isatcode"]);
-            //data.aanmeldingdatum = Convert.ToDateTime(dReader["aanmeldingdatum"]);
-            //data.datumdefinitief = Convert.ToDateTime(dReader["datumdefinitief"]);
+            data.telefoonlandnummer = Convert.ToString(dReader["telefoonlandnummer"]);
+            data.telefoonnummer = Convert.ToString(dReader["telefoonnummer"]);
+            data.telefoonnummermobiel = Convert.ToString(dReader["telefoonnummermobiel"]);
+            data.herinschrijving = Convert.ToString(dReader["herinschrijving"]);
+            data.opleiding = Convert.ToString(dReader["opleiding"]);
+            data.fase = Convert.ToString(dReader["fase"]);
+            data.datumvan = Convert.ToString(dReader["datumvan"]);
+            data.datumtot = Convert.ToString(dReader["datumtot"]);
+            data.aankomstBijIsatcode = Convert.ToString(dReader["aankomst bij isatcode"]);
+            data.aanmeldingdatum = Convert.ToString(dReader["aanmeldingdatum"]);
+            data.datumdefinitief = Convert.ToString(dReader["datumdefinitief"]);
 
-            list.Add(data);
-                }
-                
+            StudentList.Add(data);
+        }
 
-
-            //SqlBulkCopy sqlBulk = new SqlBulkCopy(sqlConnectionString);
-            //Give your Destination table name
-            //sqlBulk.DestinationTableName = "testdb";
-            //sqlBulk.WriteToServer(dReader);
-            excelConnection.Close();
+        // Insert all the data from the sheet in the db
         
+        var db = Database.Open("database");
+
+        foreach(Student s in StudentList)
+        {
+            var query = "INSERT INTO Students (groep, mentor, studentnummer, roepnaam, voorvoegsels, naam, geslacht, geboortedatum, vooropleiding, emailprive, emailinstelling, adrestype, etiketnaam, etiketregel1, etiketregel2, land, telefoonlandnummer, telefoonnummermobiel, herinschrijving, opleiding, fase, datumvan, datumtot, aanmeldingdatum, datumdefinitief, telefoonnummer, aankomst_bij_isatcode) VALUES(@0, @1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11, @12, @13, @14, @15, @16, @17, @18, @19, @20, @21, @22, @23, @24, @25, @26)";
+            db.Execute(query, s.Groep, s.mentor, s.studentnummer, s.roepnaam, s.voorvoegsels, s.naam, s.geslacht, s.geboortedatum, s.vooropleiding, s.emailprive, s.emailinstelling, s.adrestype, s.etiketnaam, s.etiketregel1, s.etiketregel2, s.land, s.telefoonlandnummer, s.telefoonnummermobiel, s.herinschrijving, s.opleiding, s.fase, s.datumvan, s.datumtot, s.aanmeldingdatum, s.datumdefinitief, s.telefoonnummer, s.aankomstBijIsatcode);
+        } 
+            
+        db.Close();
+        excelConnection.Close();
     }
-
-
 }
 
