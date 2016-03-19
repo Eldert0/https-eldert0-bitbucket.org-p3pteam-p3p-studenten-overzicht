@@ -1,0 +1,113 @@
+﻿@{
+        Layout = "~/_MainLayout.cshtml";
+        Page.Title = "Gebruiker toevoegen";
+
+
+
+     // Initialize general page variables
+    var email = "";
+    var role = "";
+    var password = "awnawndiawdin";
+    Database db;
+
+
+    // Setup validation
+    Validation.RequireField("email", "Er is een email adres vereist");
+    Validation.RequireField("roleSelect", "Rol moet geselecteerd zijn.");
+
+    // If this is a POST request, validate and process data
+    if (IsPost) {
+      
+        email = Request.Form["email"];
+        role = Request.Form["roleSelect"];
+
+        // If all information is valid, create a new account
+        if (Validation.IsValid()) {
+            // Insert a new user into the database
+            db = Database.Open("database");
+
+            // Check if user already exists
+            var user = db.QuerySingle("SELECT Email FROM UserProfile WHERE LOWER(Email) = LOWER(@0)", email);
+            if (user == null) {
+                // Insert email into the profile table
+                db.Execute("INSERT INTO UserProfile (Email) VALUES (@0)", email);
+
+                var id = db.QuerySingle("SELECT UserId FROM UserProfile WHERE Email = LOWER(@0)", email);
+
+
+
+                var insertCommand = "INSERT INTO webpages_UsersInRoles (UserId, RoleId) VALUES(@0, @1)";
+                db.Execute(insertCommand,role, 66);
+
+                // Create and associate a new entry in the membership database.
+                // If successful, continue processing the request
+                try {
+                    bool requireEmailConfirmation = !WebMail.SmtpServer.IsEmpty();
+                    var token = WebSecurity.CreateAccount(email, password, requireEmailConfirmation);
+                    if (requireEmailConfirmation) {
+                        var hostUrl = Request.Url.GetComponents(UriComponents.SchemeAndServer, UriFormat.Unescaped);
+                        var confirmationUrl = hostUrl + VirtualPathUtility.ToAbsolute("~/Account/Confirm?confirmationCode=" + HttpUtility.UrlEncode(token));
+
+                        WebMail.Send(
+                            to: email,
+                            subject: "Please confirm your account",
+                            body: "Your confirmation code is: " + token + ". Visit <a href=\"" + confirmationUrl + "\">" + confirmationUrl + "</a> to activate your account."
+                        );
+                    }
+
+                    if (requireEmailConfirmation) {
+                        // Thank the user for registering and let them know an email is on its way
+                        Response.Redirect("~/Account/Thanks");
+                    } else {
+                        // Navigate back to the homepage and exit
+                        WebSecurity.Login(email, password);
+
+                        Response.Redirect("~/");
+                    }
+                } catch (System.Web.Security.MembershipCreateUserException e) {
+                    ModelState.AddFormError(e.Message);
+                }
+            } else {
+                // User already exists
+                ModelState.AddFormError("Email address is already in use.");
+            }
+        }
+    }
+
+  db = Database.Open("database");
+        var query = "SELECT * FROM webpages_Roles";
+        var data = db.Query(query);
+
+
+}
+<div id="content">
+    <div id="customForm">
+    <div class="row">
+         <form method="POST" action="">
+    
+
+ 
+
+           
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+                </div>
+                <input name="__RequestVerificationToken" type="hidden" value="" />  
+                <div class="form-group">
+                <label for="exampleInputFile">Rol van de nieuwe gebruiker</label>
+                    <select name="roleSelect" class="form-control">
+                       @foreach(var row in db.Query("SELECT * FROM webpages_Roles")) {
+                            <option value="@row.RoleId">@row.rolename</option>
+                       }
+                       db.Close();          
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-default">Toevoegen</button>
+            
+
+             </form>
+        </div>
+    </div>
+</div>
+

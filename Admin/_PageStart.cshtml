@@ -1,0 +1,7 @@
+﻿@{
+    if (!Roles.IsUserInRole("administrator") && !Roles.IsUserInRole("user") || !WebSecurity.IsAuthenticated) 
+    { 
+        Response.Redirect("~/Account/Login");
+    }
+}
+

@@ -1,0 +1,21 @@
+﻿@{
+    Layout = "~/_MainLayout.cshtml";
+    Page.Title = "Studenten toevoegen";
+    ExcelToDb t = new ExcelToDb();
+
+    if (IsPost)
+    {  
+            
+        var file = Request.Files["Excelfile"];
+        var filename = Path.GetFileName(file.FileName); 
+        var filePath = Server.MapPath("~/Content/Upload/");
+        file.SaveAs(filePath + filename);
+        t.LoadeExcelToDb(filePath + filename);
+    }
+}
+
+
+<form action="" enctype="multipart/form-data" method="post">
+  <input type="file" name="Excelfile" accept=".xlsx">
+  <input type="submit" id="Submit" name="Submit" value="Submit"/>  
+</form>
