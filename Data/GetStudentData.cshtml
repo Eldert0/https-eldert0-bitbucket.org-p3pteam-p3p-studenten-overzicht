@@ -1,0 +1,61 @@
+﻿@{
+    if(!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Account/Login");
+    }
+
+    var value = "";
+
+    if(IsAjax)
+    { 
+       value = Request.Form["id"];
+    }
+    else
+    {
+        // Redirect to login page
+    }
+    
+    var db = Database.Open("database");
+    var query = "SELECT * FROM Students WHERE id = @0";
+
+    var result = db.Query(query, value);
+
+    var data = result.Select(x => new
+    {
+        Uid = x.id,
+        groep = x.groep,
+        mentor = x.mentor,
+        studentnummer = x.studentnummer,
+        roepnaam = x.roepnaam,
+        voorvoegsels = x.voorvoegsels,
+        naam = x.naam,
+        geslacht = x.geslacht,
+        geboortedatum = x.geboortedatum,
+        vooropleiding = x.vooropleiding,
+        emailprive = x.emailprive,
+        emailinstelling = x.emailinstelling,
+        adrestype = x.adrestype,
+        etiketnaam = x.etiketnaam,
+        etiketregel1 = x.etiketregel1,
+        etiketregel2 = x.etiketregel2,
+        land = x.land,
+        telefoonlandnummer = x.telefoonlandnummer,
+        telefoonnummermobiel = x.telefoonnummermobiel,
+        herinschrijving = x.herinschrijving,
+        opleiding = x.opleiding,
+        fase = x.fase,
+        datumvan = x.datumvan,
+        datumtot = x.datumtot,
+        aanmeldingdatum = x.aanmeldingdatum,
+        datumdefinitief = x.datumdefinitief,
+        telefoonnummer = x.telefoonnummer,
+        aankomstBijIsatcode = x.aankomst_bij_isatcode
+        
+                     
+    }).ToArray();
+
+    Json.Write(data, Response.Output);
+    Response.ContentType = "application/json";
+}
+
+

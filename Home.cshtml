@@ -1,6 +1,11 @@
 ﻿@{
     Layout = "~/_StudentsLayout.cshtml";
     Page.Title = "Studenten";
-}
 
-hello
+
+    if(!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Account/Login");
+    }
+}
+<h1 class="StudentName"></h1>
