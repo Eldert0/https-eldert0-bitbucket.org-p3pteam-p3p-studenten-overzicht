@@ -1,6 +1,42 @@
 ﻿@{
     Layout = "~/_MainLayout.cshtml";
     Page.Title = "Studenten";
+    var db = Database.Open ("database");
+    var students = db.Query ("SELECT * FROM students");
 }
 
-Viewing students!!!
+<table id="example" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Voornaam</th>
+                <th>Voorvoegsel</th>
+                <th>Achternaam</th>
+                <th>Studentnummer</th>
+                <th>Groep</th>
+                <th>Email</th>
+                <th>Telefoonnummer</th>
+                <th>Geboortedatum</th>
+                <th>Mentor</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var student in students)
+      {
+                
+            <tr>
+             <td>@student.roepnaam</td>
+             <td>@student.voorvoegsels</td>
+             <td>@student.naam</td>
+             <td>@student.studentnummer</td>
+             <td>@student.groep</td>
+             <td>@student.emailprive</td>
+             <td>@student.telefoonnummermobiel</td>
+             <td>@student.geboortedatum</td>
+             <td>@student.mentor</td>
+             
+           </tr>
+      }
+        </tbody>
+    </table>
+</div>
