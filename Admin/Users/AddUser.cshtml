@@ -32,12 +32,13 @@
                 // Insert email into the profile table
                 db.Execute("INSERT INTO UserProfile (Email) VALUES (@0)", email);
 
-                var id = db.QuerySingle("SELECT UserId FROM UserProfile WHERE Email = LOWER(@0)", email);
+                //var id = db.QuerySingle("SELECT UserId FROM UserProfile WHERE Email = LOWER(@0)", email);
 
 
-
-                var insertCommand = "INSERT INTO webpages_UsersInRoles (UserId, RoleId) VALUES(@0, @1)";
-                db.Execute(insertCommand,role, 66);
+                Roles.AddUsersToRole(userNames, roleNames);
+                
+                //var insertCommand = "INSERT INTO webpages_UsersInRoles (UserId, RoleId) VALUES(@0, @1)";
+                //db.Execute(insertCommand,role, 66);
 
                 // Create and associate a new entry in the membership database.
                 // If successful, continue processing the request
