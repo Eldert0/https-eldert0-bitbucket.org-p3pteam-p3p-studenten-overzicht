@@ -108,7 +108,7 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (data) {
                 var final = JSON.stringify(data);
-                $('h1.StudentName').text(data[0].roepnaam +" "+ data[0].voorvoegsels +" "+ data[0].naam);    
+                $('.studentnaam').text(data[0].roepnaam +" "+ data[0].voorvoegsels +" "+ data[0].naam);    
             }
         });
     });

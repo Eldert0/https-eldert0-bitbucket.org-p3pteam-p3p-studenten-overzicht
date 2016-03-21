@@ -31,15 +31,7 @@
             if (user == null) {
                 // Insert email into the profile table
                 db.Execute("INSERT INTO UserProfile (Email) VALUES (@0)", email);
-
-                //var id = db.QuerySingle("SELECT UserId FROM UserProfile WHERE Email = LOWER(@0)", email);
-
-
-                Roles.AddUsersToRole(userNames, roleNames);
-                
-                //var insertCommand = "INSERT INTO webpages_UsersInRoles (UserId, RoleId) VALUES(@0, @1)";
-                //db.Execute(insertCommand,role, 66);
-
+                Roles.AddUserToRole(email, role);
                 // Create and associate a new entry in the membership database.
                 // If successful, continue processing the request
                 try {
@@ -85,11 +77,6 @@
     <div id="customForm">
     <div class="row">
          <form method="POST" action="">
-    
-
- 
-
-           
                 <div class="form-group">
                     <label for="email">Email address</label>
                 <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
@@ -99,14 +86,12 @@
                 <label for="exampleInputFile">Rol van de nieuwe gebruiker</label>
                     <select name="roleSelect" class="form-control">
                        @foreach(var row in db.Query("SELECT * FROM webpages_Roles")) {
-                            <option value="@row.RoleId">@row.rolename</option>
+                            <option value="@row.rolename">@row.rolename</option>
                        }
                        db.Close();          
                     </select>
                 </div>
                 <button type="submit" class="btn btn-default">Toevoegen</button>
-            
-
              </form>
         </div>
     </div>
