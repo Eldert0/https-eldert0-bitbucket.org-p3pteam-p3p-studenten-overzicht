@@ -1,11 +1,11 @@
-﻿
+﻿@import url(https://fonts.googleapis.com/css?family=Roboto:400,300);
 *{    
     font-family: 'Roboto', sans-serif;   
     
 }
 
 body{
-    
+    font-family: 'Roboto', sans-serif;
 }
 
 #content{
@@ -65,12 +65,59 @@ ul#StudentResultList li{
 }
 
 #PageContent{
-    margin-top: 50px;   
+   
 }
 .field-validation-error{
     color: red!important;
     padding: 5px 0px 0px;
 }
+
+
+#PageContent{
+   margin-top: 30px;
+}
+
+/* Student overzicht pagina css*/
+.row{
+   
+}
+.studentImage{
+    
+}
+
+HOnestudentnaam{
+    color: #808080;
+}
+#StudentContent{
+    width: 80%;
+    margin: auto;
+    color: #808080;
+    font-weight: 400;
+}
+#StudentContent h3{
+    font-weight: 300;
+    color: rgb(0, 171, 255);
+}
+#StudentNAW{
+    
+}
+.VolledigeNaam{
+    font-weight: 200;
+}
+.AbsoluteHeight{
+    height: 100px;
+}
+#StudentVooropleiding{
+
+}
+#StudentContactGegevens{
+
+    
+}
+#StudentOpleiding{
+
+}
+
 
 @media(max-width:768px) {
     .navbar-top-links .dropdown-user{
