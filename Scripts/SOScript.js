@@ -1,4 +1,5 @@
 $(document).ready(function () {
+<<<<<<< HEAD
     // voor beide tabellen (viewusers & viewstudents)
     $('#ViewUserTable, #ViewStudentTable').DataTable({
         language: {
@@ -29,6 +30,9 @@ $(document).ready(function () {
             ]
     });
 
+=======
+    $('#example').DataTable();
+>>>>>>> 573141103e29a9cb886448b9d92818ce19183bb6
 
     var windowHeigth = window.innerHeight - 150;
 
@@ -183,7 +187,8 @@ $(document).ready(function () {
             $('.vooropleiding').text(data[0].herinschrijving);
 
         }
-        else {
+        else 
+        {
             $('.studentnaam').text("");
             $('.groep').text("");
             $('.mentor').text("");
@@ -210,8 +215,4 @@ $(document).ready(function () {
             $('.datumdefinitief').text("");
         }
     }
-
-
-
-
 });
