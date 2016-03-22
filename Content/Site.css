@@ -51,6 +51,10 @@ ul#StudentResultList li{
     width: 50px;
     height: auto;
 }
+
+#PageContent{
+    margin-top: 50px;   
+}
 @media(max-width:768px) {
     .navbar-top-links .dropdown-user{
         left: 0px!important;
