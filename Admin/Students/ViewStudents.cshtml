@@ -4,20 +4,18 @@
     var db = Database.Open ("database");
     var students = db.Query ("SELECT * FROM students");
 }
-
+ 
 <table id="example" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
         <thead>
-            <tr>
+            <tr>	
                 <th>Voornaam</th>
-                <th>Voorvoegsel</th>
+                <th>Tussenvoegsel</th>
                 <th>Achternaam</th>
                 <th>Studentnummer</th>
-                <th>Groep</th>
-                <th>Email</th>
+                <th>Klas</th>
                 <th>Telefoonnummer</th>
-                <th>Geboortedatum</th>
-                <th>Mentor</th>
-                
+                <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -30,13 +28,16 @@
              <td>@student.naam</td>
              <td>@student.studentnummer</td>
              <td>@student.groep</td>
-             <td>@student.emailprive</td>
              <td>@student.telefoonnummermobiel</td>
-             <td>@student.geboortedatum</td>
-             <td>@student.mentor</td>
-             
+           
+                
+                <td><a href="~/admin/students/editstudent?student=@student.id"><button type="button" class="tablebutton btn btn-primary">edit</button></a></td>
+                <td><a href="~/admin/students/deletestudent?student=@student.id"><button type="button" class="tablebutton btn btn-danger">delete</button></a></td>
+                
+
            </tr>
       }
         </tbody>
     </table>
 </div>
+
