@@ -1,0 +1,197 @@
+﻿@{
+    Layout = "~/_MainLayout.cshtml";
+    Page.Title = "Edit student";
+    var userExist = 0;
+    Database db;
+    var id = "";
+ 
+    //userdata variables
+    var naam = "";
+    var achternaam = "";
+    var klas = ""; 
+    var mentor = "";
+    var studentnummer = "";
+    var tussenvoegsels = "";
+    var geslacht = "";
+    var geboortedatum = "";
+    var vooropleiding = "";
+    var email = "";
+    var emailinstelling  = "";
+    var adrestype = "";
+    var etiketnaam  = "";
+    var adres = "";
+    var postcode = "";
+    var telefoonnummer = "";
+    var telefoonnummermobiel = "";
+    var herinschrijving = "";
+    var opleiding = "";
+    var fase = "";
+    var datumvan = "";
+    var datumtot = "";
+    var aankomst_bij_isatcode = "";
+    var aanmeldingsdatum = "";
+    var datumdefinitief = "";
+ 
+ 
+    if (!Request.QueryString["student"].IsEmpty()){
+        id = Request.QueryString["student"];
+        db = Database.Open("database");
+ 
+        var Query = "SELECT count(*) FROM students WHERE id = @0";
+        userExist = db.QueryValue(Query,id);
+        
+         if(userExist == 1){
+            var DataQuery = "SELECT * FROM students WHERE id = @0";
+            var userData = db.QuerySingle(DataQuery,id);
+            db.Close();
+        naam = userData.roepnaam;
+        achternaam = userData.naam;
+        klas = userData.groep;
+        mentor = userData.mentor;
+        studentnummer = userData.studentnummer;
+        tussenvoegsels = userData.voorvoegsels;
+        geslacht = userData.geslacht;
+        geboortedatum = userData.geboortedatum;
+        vooropleiding = userData.vooropleiding;
+        email = userData.emailprive;
+        emailinstelling = userData.emailinstelling;
+        adrestype = userData.adrestype;
+        etiketnaam = userData.etiketnaam;
+        adres = userData.etiketregel1;
+        postcode = userData.etiketregel2;
+        telefoonnummer = userData.telefoonnummer;
+        telefoonnummermobiel = userData.telefoonnummermobiel;
+        herinschrijving = userData.herinschrijving;
+        opleiding = userData.opleiding;
+        fase = userData.fase;
+        datumvan = userData.datumvan;
+        datumtot = userData.datumtot;
+        aankomst_bij_isatcode = userData.aankomst_bij_isatcode;
+        aanmeldingsdatum = userData.aanmeldingdatum;
+        datumdefinitief = userData.datumdefinitief;
+ 
+ 
+        
+         } else {
+        Response.Redirect("~/admin/students/viewstudents");
+         }
+    }
+    else{
+        Response.Redirect("~/admin/students/viewstudents");
+    }
+ 
+}
+<div id="content">
+    
+       
+        
+    
+    <div id="customForm">
+        <form>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Voornaam</label>
+            <input type="text" value="@naam" class="form-control" id="exampleInputEmail1">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Achternaam</label>
+            <input type="text" value="@achternaam" class="form-control" id="exampleInputPassword1">
+          </div>
+            <div class="form-group">
+            <label for="exampleInputPassword1">Tussenvoegsels</label>
+            <input type="text" value="@tussenvoegsels" class="form-control" id="exampleInputPassword1">
+          </div>
+            <div class="form-group">
+            <label for="exampleInputPassword1">Initialen</label>
+            <input type="text" value="@etiketnaam" class="form-control" id="exampleInputPassword1">
+          </div>
+            <div class="form-group">
+            <label for="exampleInputPassword1">Klas</label>
+            <input type="text" value="@klas" class="form-control" id="exampleInputPassword1">
+          </div>
+            <div class="form-group">
+            <label for="exampleInputPassword1">Studentnummer</label>
+            <input type="text" value="@studentnummer" class="form-control" id="exampleInputPassword1">
+          </div>
+            <div class="form-group">
+            <label for="exampleInputPassword1">Geslacht</label>
+            <input type="text" value="@geslacht" class="form-control" id="exampleInputPassword1">
+          </div>
+            <div class="form-group">
+            <label for="exampleInputPassword1">Geboortedatum</label>
+            <input type="text" value="@geboortedatum" class="form-control" id="exampleInputPassword1">
+          </div>
+            <div class="form-group">
+            <label for="exampleInputPassword1">Telefoonnummer</label>
+            <input type="text" value="@telefoonnummer" class="form-control" id="exampleInputPassword1">
+          </div>
+            <div class="form-group">
+            <label for="exampleInputPassword1">Mobiele telefoonnummer</label>
+            <input type="text" value="@telefoonnummermobiel" class="form-control" id="exampleInputPassword1">
+          </div>
+            <div class="form-group">
+            <label for="exampleInputPassword1">Prive e-mail</label>
+            <input type="text" value="@email" class="form-control" id="exampleInputPassword1">
+          </div>
+            <div class="form-group">
+            <label for="exampleInputPassword1">School e-mail</label>
+            <input type="text" value="@emailinstelling" class="form-control" id="exampleInputPassword1">
+          </div>
+            <div class="form-group">
+            <label for="exampleInputPassword1">Adres</label>
+            <input type="text" value="@adres" class="form-control" id="exampleInputPassword1">
+          </div>
+            <div class="form-group">
+            <label for="exampleInputPassword1">Postcode</label>
+            <input type="text" value="@postcode" class="form-control" id="exampleInputPassword1">
+          </div>
+            <div class="form-group">
+            <label for="exampleInputPassword1">Adrestype</label>
+            <input type="text" value="@adrestype" class="form-control" id="exampleInputPassword1">
+          </div>
+            <div class="form-group">
+            <label for="exampleInputPassword1">Mentor</label>
+            <input type="text" value="@mentor" class="form-control" id="exampleInputPassword1">
+          </div>
+            <div class="form-group">
+            <label for="exampleInputPassword1">Vooropleiding</label>
+            <input type="text" value="@vooropleiding" class="form-control" id="exampleInputPassword1">
+          </div>
+            <div class="form-group">
+            <label for="exampleInputPassword1">Opleiding</label>
+            <input type="text" value="@opleiding" class="form-control" id="exampleInputPassword1">
+          </div>
+            <div class="form-group">
+            <label for="exampleInputPassword1">Herinschrijving</label>
+            <input type="text" value="@herinschrijving" class="form-control" id="exampleInputPassword1">
+          </div>
+            <div class="form-group">
+            <label for="exampleInputPassword1">Aanmeldingsdatum</label>
+            <input type="text" value="@aanmeldingsdatum" class="form-control" id="exampleInputPassword1">
+          </div>
+            <div class="form-group">
+            <label for="exampleInputPassword1">Aankomst bij isatcode</label>
+            <input type="text" value="@aankomst_bij_isatcode" class="form-control" id="exampleInputPassword1">
+          </div>
+            <div class="form-group">
+            <label for="exampleInputPassword1">Datum definitief</label>
+            <input type="text" value="@datumdefinitief" class="form-control" id="exampleInputPassword1">
+          </div>
+            <div class="form-group">
+            <label for="exampleInputPassword1">Datum van/tot</label>
+            <input type="text" value="@datumvan"  class="form-control" id="exampleInputPassword1"> tot <input type="text" value="@datumtot"  class="form-control" id="exampleInputPassword1">
+          </div>
+            <div class="form-group">
+            <label for="exampleInputPassword1">Fase</label>
+            <input type="text" value="@fase" class="form-control" id="exampleInputPassword1">
+          </div>
+            
+          
+  
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+       
+        
+      
+   </div>
+ </div>
+

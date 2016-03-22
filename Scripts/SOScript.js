@@ -66,7 +66,7 @@ $(document).ready(function () {
                 },
                 type: 'POST',
                 error: function () {
-                    
+
                 },
                 dataType: 'json',
                 success: function (data) {
@@ -83,9 +83,9 @@ $(document).ready(function () {
                     });
                 }
             });
-        } 
-        else
-        {
+        }
+        else {
+            RenderStudent("ClearData");
             $('#StudentResultList li').remove();
             $('#StudentResultList').append('<div id="NoResults">Geen resultaten, gebruik het zoekveld om naar sudenten te zoeken.</div>');
             // Show message that there are no result and let them search
@@ -107,9 +107,67 @@ $(document).ready(function () {
             },
             dataType: 'json',
             success: function (data) {
-                var final = JSON.stringify(data);
-                $('h1.StudentName').text(data[0].roepnaam +" "+ data[0].voorvoegsels +" "+ data[0].naam);    
+                RenderStudent(data)
             }
         });
     });
+
+    function RenderStudent(data) {
+
+        console.log(data);
+
+        if (data != "ClearData") {
+
+            $('.groep').text(data[0].groep);
+            $('.mentor').text(data[0].mentor);
+            $('.studentnummer').text(data[0].studentnummer);
+            $('.studentnaam').text(data[0].roepnaam);
+            $('.voorvoegsels').text(data[0].voorvoegsels);
+            $('.naam').text(data[0].naam);
+            $('.geslacht').text(data[0].geslacht);
+            $('.vooropleiding').text(data[0].vooropleiding);
+            $('.emailprive').text(data[0].emailprive);
+            $('.emailinstelling').text(data[0].emailinstelling);
+            $('.adrestype').text(data[0].adrestype);
+            $('.etiketnaam').text(data[0].etiketnaam);
+            $('.etiketregel1').text(data[0].etiketregel1);
+            $('.etiketregel2').text(data[0].etiketregel2);
+            $('.telefoonnummer').text(data[0].telefoonnummer);
+            $('.telefoonnummermobiel').text(data[0].telefoonnummermobiel);
+            $('.herinschrijving').text(data[0].herinschrijving);
+            $('.opleiding').text(data[0].opleiding);
+            $('.datumvan').text(data[0].datumvan);
+            $('.datumtot').text(data[0].datumtot);
+            $('.aankomst_bij_isatcode').text(data[0].aankomst_bij_isatcode);
+            $('.aanmeldingdatum').text(data[0].aanmeldingdatum);
+            $('.datumdefinitief').text(data[0].datumdefinitief);
+        }
+        else 
+        {
+            $('.studentnaam').text("");
+            $('.groep').text("");
+            $('.mentor').text("");
+            $('.studentnummer').text("");
+            $('.roepnaam').text("");
+            $('.voorvoegsels').text("");
+            $('.naam').text("");
+            $('.geslacht').text("");
+            $('.vooropleiding').text("");
+            $('.emailprive').text("");
+            $('.emailinstelling').text("");
+            $('.adrestype').text("");
+            $('.etiketnaam').text("");
+            $('.etiketregel1').text("");
+            $('.etiketregel2').text("");
+            $('.telefoonnummer').text("");
+            $('.telefoonnummermobiel').text("");
+            $('.herinschrijving').text("");
+            $('.opleiding').text("");
+            $('.datumvan').text("");
+            $('.datumtot').text("");
+            $('.aankomst_bij_isatcode').text("");
+            $('.aanmeldingdatum').text("");
+            $('.datumdefinitief').text("");
+        }
+    }
 });

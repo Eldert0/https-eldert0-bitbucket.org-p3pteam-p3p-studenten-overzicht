@@ -38,7 +38,7 @@ ul#StudentResultList li:hover{
 ul#StudentResultList li{
     list-style-type: none;
     padding: 25px 0px;
-    text-indent: 20px;
+    text-indent: 20px;;
 }
 .input-group{
         display: -webkit-box!important;
@@ -52,11 +52,9 @@ ul#StudentResultList li{
     height: auto;
 }
 
-.form-group .field-validation-error {
-    color: red!important;
-    padding: 5px;
+#PageContent{
+    margin-top: 50px;   
 }
-
 @media(max-width:768px) {
     .navbar-top-links .dropdown-user{
         left: 0px!important;
