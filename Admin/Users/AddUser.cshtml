@@ -8,18 +8,43 @@
     var email = "";
     var role = "";
     var password = "awnawndiawdin";
+    var voornaam = "";
+    var achternaam = "";
+    var telefoonnummer = "";
+    var geslacht = "";
     Database db;
 
 
     // Setup validation
-    Validation.RequireField("email", "Er is een email adres vereist");
-    Validation.RequireField("roleSelect", "Rol moet geselecteerd zijn.");
+    Validation.Add("voornaam", 
+        Validator.Required("Je moet een voornaam invullen"), 
+       Validator.StringLength(20, 2, "Niet meer dan 20 karakters"));
+    Validation.Add("achternaam", 
+        Validator.Required("Je moet een achternaam invullen"), 
+       Validator.StringLength(20, 2, "Niet meer dan 20 karakters"));
+    Validation.Add("geslacht", 
+       Validator.Required("je moet een geslacht invullen"));
+    Validation.Add("telefoonnummer", 
+        Validator.Required("je moet een telefoonnummer invullen"), 
+        Validator.StringLength(20, 0,"Niet meer dan 20 karakters")); 
+    Validation.Add("email", 
+        Validator.Required("Je moet een email-adres invullen"),
+        Validator.Regex(@"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$", 
+        "Invalid format for an email address")); 
+        
+
+   
 
     // If this is a POST request, validate and process data
     if (IsPost) {
       
         email = Request.Form["email"];
         role = Request.Form["roleSelect"];
+        voornaam = Request.Form["voornaam"];
+        achternaam = Request.Form["achternaam"];
+        telefoonnummer = Request.Form["telefoonnummer"];
+        geslacht = Request.Form["geslacht"];
+
 
         // If all information is valid, create a new account
         if (Validation.IsValid()) {
@@ -32,6 +57,7 @@
                 // Insert email into the profile table
                 db.Execute("INSERT INTO UserProfile (Email) VALUES (@0)", email);
                 Roles.AddUserToRole(email, role);
+
                 // Create and associate a new entry in the membership database.
                 // If successful, continue processing the request
                 try {
@@ -77,19 +103,49 @@
     <div id="customForm">
     <div class="row">
          <form method="POST" action="">
-                <div class="form-group">
-                    <label for="email">Email address</label>
-                <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+                <div class="form-group"> 
+                <label for="voornaam" @if(!ModelState.IsValidField("voornaam")) {<text>class="error-label"</text>}>Password</label>
+                <input type="text" name="voornaam" class="form-control" id="IdVoornaam" placeholder="Voer voornaam in" value="@voornaam" @Validation.For("voornaam")>
+                @Html.ValidationMessage("voornaam")
                 </div>
-                <input name="__RequestVerificationToken" type="hidden" value="" />  
+
+                <div class="form-group"> 
+                <label for="achternaam">Achternaam</label>
+                <input type="text" name="achternaam" class="form-control" id="IdAchternaam" placeholder="Voer achternaam in" value="@achternaam" @Validation.For("achternaam")>
+                @Html.ValidationMessage("achternaam")
+                </div>
+                <div class="form-group">
+                <label for="exampleInputFile">Geslacht</label>
+                <select name="geslacht" class="form-control">
+                <option selected="">Voer een geslacht in</option>
+                <option value="1" selected=@(Request.Form["geslacht"] == "1") >Man</option>
+                <option value="2" selected=@(Request.Form["geslacht"] == "2")>Vrouw</option>
+                </select>
+                </div>
+                
+                <div class="form-group"> 
+                <label for="telefoonnummer">Telefoonnummer</label>
+                <input type="tel" name="telefoonnummer" class="form-control" id="IdTelefoonnummer" placeholder="Voer telefoonnummer in" value="@telefoonnummer" @Validation.For("telefoonnummer")>
+                @Html.ValidationMessage("telefoonnummer")
+                </div>
+
+                <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" name="email" class="form-control" id="IdEmail" placeholder="Voer email-Adres in" value="@email" @Validation.For("email")>
+                @Html.ValidationMessage("email")
+                </div>
+
+                <input name="__RequestVerificationToken" type="hidden" value=""/>  
                 <div class="form-group">
                 <label for="exampleInputFile">Rol van de nieuwe gebruiker</label>
-                    <select name="roleSelect" class="form-control">
-                       @foreach(var row in db.Query("SELECT * FROM webpages_Roles")) {
-                            <option value="@row.rolename">@row.rolename</option>
-                       }
-                       db.Close();          
-                    </select>
+                <select name="roleSelect" class="form-control">
+                <option selected="selected">Voer een rol in</option>
+                @foreach(var row in db.Query("SELECT * FROM webpages_Roles")) 
+                 {
+                    <option value="@row.RoleId" selected=@(Request.Form["roleSelect"] == @row.RoleId.ToString())>@row.rolename</option>
+                 }
+                 db.Close();          
+                </select>
                 </div>
                 <button type="submit" class="btn btn-default">Toevoegen</button>
              </form>

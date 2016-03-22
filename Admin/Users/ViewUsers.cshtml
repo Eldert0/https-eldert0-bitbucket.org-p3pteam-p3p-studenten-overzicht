@@ -5,26 +5,33 @@
         var users = db.Query("SELECT * FROM UserProfile");
 }
 
-<p>
-<button type="button" class="btn btn-success ">Gebruiker toevoegen</button>
-</p>
-
 <table id="example" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
         <thead>
             <tr>
-                <th>Email</th>
-                <th>Last name</th>
-                
-               
+                <th>Voornaam</th>
+                <th>Achternaam</th>
+                <th>Geslacht</th>
+                <th>Telefoonnummer</th>
+                <th>Email-Adres</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var user in users)
             {
                 <tr>
-                <td>
-                    @user.Email
+                <td> @user.voornaam </td>
+                <td> @user.achternaam</td>
+                <td> @if(user.geslacht == 1)
+                     {
+                         <text>Man</text> 
+                     }
+                     else if (user.geslacht == 2)
+                     {
+                         <text>Vrouw</text>
+                     }
                 </td>
+                <td> @user.telefoonnummer</td>
+                <td> @user.email</td>
                 </tr>
             }
             
