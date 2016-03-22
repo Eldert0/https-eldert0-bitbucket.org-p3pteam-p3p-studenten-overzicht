@@ -72,10 +72,6 @@ ul#StudentResultList li{
     padding: 5px 0px 0px;
 }
 
-
-
-
-
 @media(max-width:768px) {
     .navbar-top-links .dropdown-user{
         left: 0px!important;
