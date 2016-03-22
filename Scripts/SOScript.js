@@ -1,5 +1,39 @@
 $(document).ready(function () {
-    $('#example').DataTable();
+    // voor beide tabellen (viewusers & viewstudents)
+    $('#ViewUserTable, #ViewStudentTable').DataTable({
+        language: {
+            "sProcessing": "Bezig...",
+            "sLengthMenu": "_MENU_ resultaten weergeven",
+            "sZeroRecords": "Geen resultaten gevonden",
+            "sInfo": "_START_ tot _END_ van _TOTAL_ resultaten",
+            "sInfoEmpty": "Geen resultaten om weer te geven",
+            "sInfoFiltered": " (gefilterd uit _MAX_ resultaten)",
+            "sInfoPostFix": "",
+            "sSearch": "Zoeken:",
+            "sEmptyTable": "Geen resultaten aanwezig in de tabel",
+            "sInfoThousands": ".",
+            "sLoadingRecords": "Een moment geduld aub - bezig met laden...",
+            "oPaginate": {
+                "sFirst": "Eerste",
+                "sLast": "Laatste",
+                "sNext": "Volgende",
+                "sPrevious": "Vorige"
+            },
+            responsive: true
+
+        },
+        "columnDefs": [
+            { "orderable": false, "targets": 5 },
+            { "orderable": false, "targets": 6 }
+
+            ]
+    });
+
+
+   
+       
+    
+
 
     var windowHeigth = window.innerHeight - 150;
 
@@ -142,8 +176,7 @@ $(document).ready(function () {
             $('.aanmeldingdatum').text(data[0].aanmeldingdatum);
             $('.datumdefinitief').text(data[0].datumdefinitief);
         }
-        else 
-        {
+        else {
             $('.studentnaam').text("");
             $('.groep').text("");
             $('.mentor').text("");
@@ -173,5 +206,5 @@ $(document).ready(function () {
 
 
 
-     
+
 });
