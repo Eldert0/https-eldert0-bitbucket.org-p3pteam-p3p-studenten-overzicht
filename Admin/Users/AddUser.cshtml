@@ -56,11 +56,7 @@
             if (user == null) {
                 // Insert email into the profile table
                 db.Execute("INSERT INTO UserProfile (Email) VALUES (@0)", email);
-                db.Execute("INSERT INTO UserProfile (Email) VALUES (@0)", email);
-                db.Execute("INSERT INTO UserProfile (Email) VALUES (@0)", email);
-                db.Execute("INSERT INTO UserProfile (Email) VALUES (@0)", email);
-                db.Execute("INSERT INTO UserProfile (Email) VALUES (@0)", email);
-                Roles.AddUserToRole(email, role, voornaam, achternaam, telefoonnummer, geslacht);
+                Roles.AddUserToRole(email, role);
 
                 // Create and associate a new entry in the membership database.
                 // If successful, continue processing the request
@@ -106,20 +102,22 @@
 <div id="content">
     <div id="customForm">
     <div class="row">
-         <form id="AddUserForm" method="POST" action="">
+         <form method="POST" action="">
+
                 <div class="form-group"> 
-                <label for="voornaam" @if(!ModelState.IsValidField("voornaam")) {<text>class="error-label"</text>}>Voornaam</label>
+                <label for="voornaam" @if(!ModelState.IsValidField("voornaam")) {<text>class="error-label"</text>}>Password</label>
                 <input type="text" name="voornaam" class="form-control" id="IdVoornaam" placeholder="Voer voornaam in" value="@voornaam" @Validation.For("voornaam")>
-                @Html.ValidationMessage("voornaam")
+                <noscript>@Html.ValidationMessage("voornaam")</noscript>
                 </div>
 
                 <div class="form-group"> 
-                <label for="achternaam" @if(!ModelState.IsValidField("achternaam")) {<text>class="error-label"</text>}>Achternaam</label>
+                <label for="achternaam">Achternaam</label>
                 <input type="text" name="achternaam" class="form-control" id="IdAchternaam" placeholder="Voer achternaam in" value="@achternaam" @Validation.For("achternaam")>
-                @Html.ValidationMessage("achternaam")
+                <noscript>@Html.ValidationMessage("voornaam")</noscript>
                 </div>
+
                 <div class="form-group">
-                <label for="geslacht" @if(!ModelState.IsValidField("geslacht")) {<text>class="error-label"</text>}>Geslacht</label>
+                <label for="exampleInputFile">Geslacht</label>
                 <select name="geslacht" class="form-control">
                 <option selected="">Voer een geslacht in</option>
                 <option value="1" selected=@(Request.Form["geslacht"] == "1") >Man</option>
@@ -128,20 +126,20 @@
                 </div>
                 
                 <div class="form-group"> 
-                <label for="telefoonnummer" @if(!ModelState.IsValidField("telefoonnummer")) {<text>class="error-label"</text>}>Telefoonnummer</label>
+                <label for="telefoonnummer">Telefoonnummer</label>
                 <input type="tel" name="telefoonnummer" class="form-control" id="IdTelefoonnummer" placeholder="Voer telefoonnummer in" value="@telefoonnummer" @Validation.For("telefoonnummer")>
                 @Html.ValidationMessage("telefoonnummer")
                 </div>
 
                 <div class="form-group">
-                <label for="email" @if(!ModelState.IsValidField("email")) {<text>class="error-label"</text>}>Email-adres</label>
-                <input type="email" name="email" class="form-control" id="IdEmail" placeholder="Voer Email-adres in" value="@email" @Validation.For("email")>
+                <label for="email">Email address</label>
+                <input type="email" name="email" class="form-control" id="IdEmail" placeholder="Voer email-Adres in" value="@email" @Validation.For("email")>
                 @Html.ValidationMessage("email")
                 </div>
 
                 <input name="__RequestVerificationToken" type="hidden" value=""/>  
                 <div class="form-group">
-                <label for="role" @if(!ModelState.IsValidField("role")) {<text>class="error-label"</text>}>Rol van gebruiker</label>
+                <label for="exampleInputFile">Rol van de nieuwe gebruiker</label>
                 <select name="roleSelect" class="form-control">
                 <option selected="selected">Voer een rol in</option>
                 @foreach(var row in db.Query("SELECT * FROM webpages_Roles")) 

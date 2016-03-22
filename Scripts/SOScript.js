@@ -170,8 +170,4 @@ $(document).ready(function () {
             $('.datumdefinitief').text("");
         }
     }
-
-
-
-     
 });

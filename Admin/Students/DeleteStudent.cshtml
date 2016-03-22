@@ -1,0 +1,20 @@
+﻿@{
+    if (!Request.QueryString["student"].IsEmpty())
+    {
+        var db = Database.Open("database");
+        var students = db.Execute("DELETE FROM students WHERE id = @0", Request.QueryString["student"]); 
+         
+        
+         db.Close();         
+    }
+    else
+    {
+        Response.Redirect("~/admin/students/viewstudents");
+    }
+}
+
+
+
+
+
+
