@@ -1,11 +1,11 @@
 ﻿
 *{    
     font-family: 'Roboto', sans-serif;   
-    color: red!important;
+    
 }
 
 body{
-    background-color: blue!important;
+    
 }
 
 #content{
@@ -67,17 +67,12 @@ ul#StudentResultList li{
 #PageContent{
     margin-top: 50px;   
 }
-span.field-validation-error{
+.field-validation-error{
     color: red!important;
-    background-color: blue!important;
-}
-.form-group{
-    color: red!important;
+    padding: 5px 0px 0px;
 }
 
-#IdVoornaam{
-    color: red;
-}
+
 
 
 
