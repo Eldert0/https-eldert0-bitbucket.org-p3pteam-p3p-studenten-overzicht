@@ -102,7 +102,7 @@
 <div id="content">
     <div id="customForm">
     <div class="row">
-         <form method="POST" action="">
+         <form id="AddUserForm" method="POST" action="">
                 <div class="form-group"> 
                 <label for="voornaam" @if(!ModelState.IsValidField("voornaam")) {<text>class="error-label"</text>}>Password</label>
                 <input type="text" name="voornaam" class="form-control" id="IdVoornaam" placeholder="Voer voornaam in" value="@voornaam" @Validation.For("voornaam")>
