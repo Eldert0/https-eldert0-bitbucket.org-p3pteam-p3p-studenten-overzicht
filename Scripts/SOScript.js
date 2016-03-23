@@ -33,28 +33,37 @@ $(document).ready(function () {
 
     $('#SearchResultContainer').css("height", windowHeigth);
     $('#StudentResultList').append('<div id="NoResults">Geen resultaten, gebruik het zoekveld om naar sudenten te zoeken.</div>');
-    $(".removeCertificate").click(function () {
+
+
+
+    $(".verwijderbutton").click(function () {
+
+        var element = $(this).closest("tr");
+        var UserTodelete = $(this).attr("data-id");
+
         var txt;
-        var r = confirm("Are you sure of deleting this certificate?");
-        if (r == true) {
-            var profileid = $(this).attr("data-profileid");
+        var r = confirm("Weet je zeker dat je deze gebruiker wilt verwijderen?");
 
-            $.ajax({
-                url: 'http://oliveira.frolich-it.nl/certificates/delete_cert',
-                type: 'POST',
-                data: ({ cert_id: profileid }),
-                dataType: 'json',
-                success: removeUser() // End of success function of ajax form
-            }); // End of ajax call
+        if (r == true) 
+        {
+             $.ajax({
+            url: '/admin/users/deleteuser.cshtml',
+            type: 'GET',
+            data: {
+            data: UserTodelete
+            },
+            dataType: 'json',
+            success: FadeRow(UserTodelete) // End of success function of ajax form
+            });
 
-            function removeUser() {
-                $(".removeCertificate[data-profileid='" + profileid + "']").closest("tr").fadeOut("slow");
-                $(this).remove();
+            function FadeRow(trID) 
+            {
+                element.fadeOut(500, function() {
+                    element.remove();
+                });
             }
         }
     });
-
-
 
 
     var level = "1";
@@ -82,24 +91,10 @@ $(document).ready(function () {
         });
     }
 
-
-
-
-
-
     // Search onchage method Ajax
     $('#SearchBox').on('input', (function () {
-
-
-        // Remove search content placeholder
-        $('#preContent').css("display", "none");
-
-
-
         var fieldData = $(this).val();
-
-        if (fieldData.length >= 2) {
-
+        if (!fieldData == "") {
             $('#StudentResultList li').remove();
             $('#StudentResultList #NoResults').remove();
 
@@ -118,52 +113,27 @@ $(document).ready(function () {
                 success: function (data) {
                     var final = JSON.stringify(data);
 
-                    if (data.length != 0) {
-                        $.each(data, function (idx, obj) {
-                            $('#StudentResultList').append(
-                                '<li class="StudentItem" sId="' + obj.Uid + '">' +
-                                '<img class="ThumbStudentIMage" src="/Images/Thumb.png"></img>' +
-                                '<span class="StudentItemText">'
-                                + obj.Naam + " " + obj.Voorvoegsel + " " + obj.Achternaam +
-                                '</span></li>'
-                            );
-                        });
-
-                    } else {
-
-                        $('#StudentResultList li').remove();
-                        $('#NoResults').remove();
-                        $('#StudentResultList').append('<div id="NoResults" class="LowError"></div>');
-                        $('#NoResults').text('Uw zoekopdracht heeft geen resultaten opgeleverd.');
-                    }
+                    $.each(data, function (idx, obj) {
+                        $('#StudentResultList').append(
+                        '<li class="StudentItem" sId="' + obj.Uid + '">' +
+                        '<img class="ThumbStudentIMage" src="/Images/Thumb.png"></img>' +
+                        '<span class="StudentItemText">'
+                        + obj.Naam + " " + obj.Voorvoegsel + " " + obj.Achternaam +
+                        '</span></li>'
+                        );
+                    });
                 }
             });
         }
-        else if (!fieldData == "" && fieldData.length < 2) {
-            $('#StudentResultList li').remove();
-            $('#NoResults').remove();
-            $('#StudentResultList').append('<div id="NoResults" class="LowError"></div>');
-            $('#NoResults').text('Vul een groter zoekwoord in...');
-        } else {
-            $('#StudentContent').addClass('fadeOut');
-            $('#preContent').css("display", "block");
-            $('#preContent').addClass('fadeIn');
-            $('#StudentContent').css("display:", "none")
+        else {
             RenderStudent("ClearData");
             $('#StudentResultList li').remove();
-            $('#NoResults').remove();
             $('#StudentResultList').append('<div id="NoResults">Geen resultaten, gebruik het zoekveld om naar sudenten te zoeken.</div>');
+            // Show message that there are no result and let them search
         }
     }));
 
-
     $('#StudentResultList').on('click', 'li', function () {
-
-        $('.sidebar-nav').addClass("collapse");
-        $('.sidebar-nav').removeClass("in");
-        $('#StudentContent').removeClass('fadeOut');
-        $('#StudentContent').addClass('bounceInLeft');
-
         var student = $(this).attr("sId");
 
         $.ajax({
@@ -183,51 +153,14 @@ $(document).ready(function () {
         });
     });
 
-
-
-    // Foto stuff
-    //$(".NoImageYet").trigger("click");
-
-    //$('.NoImageYet').click(function (event) { console.log(event.target.id); });
-
-    $('.StudentImageHolder').on("click", "img.NoImageYet", function () {
-         $('input[type=file]').click();
-    
-
-        console.log("Hello!");
-
-        return false;
-
-    });
-
     function RenderStudent(data) {
+
         console.log(data);
+
         if (data != "ClearData") {
-            //http://blog.teamtreehouse.com/using-jquery-asynchronously-loading-image
-            //http://imagesloaded.desandro.com/
-
-            // Handle image buttons depending on the user having one.
-            if (data[0].imageUrl == null) {
-                $('.StudentImageHolder').empty();
-                $('.StudentImageHolder').append('<img id="NoImageID" alt="StudentPicture" class="NoImageYet studentImage animated shake" src="/Images/thumb.png"></img>');
-
-                console.log("Image is null");
-            } else {
-                $('.StudentImageHolder').empty();
-                $('.StudentImageHolder').append('<img alt="StudentPicture" class="studentImage" src="/Images/thumb.png"></img>');
-               
-
-                console.log("Image is there!");
-            }
 
 
-
-
-            $('#StudentContent').addClass('bounceInLeft');
-
-            // Display  the content of student
-            $('#StudentContent').css("display", "block");
-
+            // Student
             $('.etiketnaam').text(data[0].etiketnaam);
             $('.roepnaam').text(data[0].roepnaam);
             $('.voorvoegsels').text(data[0].voorvoegsels);
@@ -264,7 +197,6 @@ $(document).ready(function () {
 
         }
         else {
-            var first = false;
             $('.studentnaam').text("");
             $('.groep').text("");
             $('.mentor').text("");
@@ -291,6 +223,7 @@ $(document).ready(function () {
             $('.datumdefinitief').text("");
         }
     }
+<<<<<<< .merge_file_UX7xiy
 
 
     $('.AddImage').click(function () {
@@ -298,3 +231,6 @@ $(document).ready(function () {
     });
 
 });
+=======
+});
+>>>>>>> .merge_file_qLTUwY

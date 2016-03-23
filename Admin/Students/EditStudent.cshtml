@@ -2,7 +2,7 @@
     Layout = "~/_MainLayout.cshtml";
     Page.Title = "Edit student";
     var userExist = 0;
-    Database db;
+    var db = Database.Open("database");
     var id = "";
     
     //userdata variables
@@ -15,7 +15,7 @@
         var geslacht = "";
         var geboortedatum = "";
         var vooropleiding = "";
-        var email = "";
+        var emailprive = "";
         var emailinstelling  = "";
         var adrestype = "";
         var etiketnaam  = "";
@@ -123,7 +123,7 @@
     {
     var DataQuery = "SELECT * FROM students WHERE id = @0";
     var userData = db.QuerySingle(DataQuery,id);
-    db.Close();
+    
     roepnaam = userData.roepnaam;
     naam = userData.naam;
     groep = userData.groep;
@@ -133,7 +133,7 @@
     geslacht = userData.geslacht;
     geboortedatum = userData.geboortedatum;
     vooropleiding = userData.vooropleiding;
-    email = userData.emailprive;
+    emailprive = userData.emailprive;
     emailinstelling = userData.emailinstelling;
     adrestype = userData.adrestype;
     etiketnaam = userData.etiketnaam;
@@ -173,7 +173,7 @@
         geslacht                = Request.Form["geslacht"];
         geboortedatum           = Request.Form["geboortedatum"];
         vooropleiding           = Request.Form["vooropleiding"];
-        email                   = Request.Form["emailprive"];
+        emailprive              = Request.Form["emailprive"];
         emailinstelling         = Request.Form["emailinstelling"];
         adrestype               = Request.Form["adrestype"];
         etiketnaam              = Request.Form["etiketnaam"];
@@ -191,14 +191,12 @@
         datumdefinitief         = Request.Form["datumdefinitief"];
 
         
-         if (Validation.IsValid()) 
+        if (Validation.IsValid()) 
         {
             db = Database.Open("database");
-          
-             
 
-            var updateCommand = "UPDATE students SET roepnaam=@0, naam=@1, groep=@2, mentor=@3, studentnummer=@4, voorvoegsels=@5, geslacht=@6, geboortedatum=@7, vooropleiding=@8, emailprive=@9, emailinstelling=@10, adrestype=@11, etiketnaam=@12, etiketregel1=@13, etiketregel2=@14, telefoonnummer=@15, telefoonnummermobiel=@16, herinschrijving=@17, opleiding=@18, fase=@19, datumvan=@20, datumtot=@21, aankomst_bij_isatcode=@22, aanmeldingdatum=@23, datumdefinitief=@24 WHERE Id = @25";
-            db.Execute(updateCommand, roepnaam, naam, groep, mentor, studentnummer, voorvoegsels, geslacht, geboortedatum, vooropleiding, email, emailinstelling, adrestype, etiketnaam, etiketregel1, etiketregel2, telefoonnummer, telefoonnummermobiel, herinschrijving, opleiding, fase, datumvan, datumtot, aankomst_bij_isatcode, aanmeldingdatum, datumdefinitief, id);  
+            var updateCommand = "UPDATE students SET roepnaam=@0, naam=@1, groep=@2, mentor=@3, studentnummer=@4, voorvoegsels=@5, geslacht=@6, geboortedatum=@7, vooropleiding=@8, emailprive=@9, emailinstelling=@10, adrestype=@11, etiketnaam=@12, etiketregel1=@13, etiketregel2=@14, telefoonnummer=@15, telefoonnummermobiel=@16, herinschrijving=@17, opleiding=@18, fase=@19, datumvan=@20, datumtot=@21, aankomst_bij_isatcode=@22, aanmeldingdatum=@23, datumdefinitief=@24 WHERE id = @25";
+            db.Execute(updateCommand, roepnaam, naam, groep, mentor, studentnummer, voorvoegsels, geslacht, geboortedatum, vooropleiding, emailprive, emailinstelling, adrestype, etiketnaam, etiketregel1, etiketregel2, telefoonnummer, telefoonnummermobiel, herinschrijving, opleiding, fase, datumvan, datumtot, aankomst_bij_isatcode, aanmeldingdatum, datumdefinitief, id);  
             Response.Redirect("~/admin/Students/ViewStudents");
         }
     else 
@@ -215,7 +213,6 @@
 <div id="content">
      <div class="row">
        <form method="POST" action="">
-
          <div id="customForm">
 
              <div class="form-group"> 
@@ -279,9 +276,9 @@
          </div>
 
             <div class="form-group">
-            <label for="email">Prive e-mail</label></label>
-            <input type="email" name="email" class="form-control" id="Idemail" placeholder="Voer een prive e-mail in" value="@email" @Validation.For("email")>
-            <noscript>@Html.ValidationMessage("email")</noscript>
+            <label for="emailprive">Prive e-mail</label></label>
+            <input type="email" name="emailprive" class="form-control" id="Idpriveemail" placeholder="Voer een prive e-mail in" value="@emailprive" @Validation.For("emailprive")>
+            <noscript>@Html.ValidationMessage("emailprive")</noscript>
          </div>
 
             <div class="form-group">
@@ -359,6 +356,7 @@
             <div class="form-group">
             <label for="fase">Fase</label></label>
             <input type="text" name="fase" class="form-control" id="Idfase" placeholder="Voer fase in" value="@fase" @Validation.For("fase")>
+            @{db.Close();} 
             <noscript>@Html.ValidationMessage("fase")</noscript>
           </div>
              

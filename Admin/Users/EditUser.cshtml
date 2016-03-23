@@ -8,16 +8,21 @@
     Validation.Add("voornaam", 
        Validator.Required("Veld mag niet leeg zijn"), 
        Validator.StringLength(20, 2, "Voornaam moet langer zijn dan 2 karakters"));
+
     Validation.Add("achternaam", 
        Validator.Required("Veld mag niet leeg zijn"), 
        Validator.StringLength(20, 2, "Niet meer dan 20 karakters"));
+
     Validation.Add("geslacht", 
        Validator.Required("Veld mag niet leeg zijn"));
+
     Validation.Add("roleSelect", 
        Validator.Required("Veld mag niet leeg zijn"));
+
     Validation.Add("telefoonnummer", 
        Validator.Required("Veld mag niet leeg zijn"), 
-       Validator.StringLength(20, 0,"Niet meer dan 20 karakters")); 
+       Validator.StringLength(20, 0,"Niet meer dan 20 karakters"));
+        
     Validation.Add("email", 
        Validator.Required("Veld mag niet leeg zijn"),
        Validator.Regex(@"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$","Foutief Email-adres")); 
@@ -164,8 +169,7 @@
                          <option value="@row.RoleId" >@row.rolename</option>
                      }
   
-                 }
-                         
+                 }    
                 </select>
                 @{db.Close();} 
                 <noscript>@Html.ValidationMessage("roleSelect")</noscript>

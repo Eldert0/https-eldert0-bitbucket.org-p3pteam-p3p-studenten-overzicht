@@ -41,9 +41,7 @@
         ean: {
             'default': 'Please enter a valid EAN number'
         },
-        emailAddress: {
-            'default': 'Please enter a valid email address'
-        },
+        
         file: {
             'default': 'Please choose a valid file'
         },

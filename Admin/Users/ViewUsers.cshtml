@@ -3,6 +3,7 @@
         Page.Title = "Gebruikers";
         var db = Database.Open("database");
         var users = db.Query("SELECT * FROM UserProfile");
+        var userrole = db.QuerySingle("SELECT RoleId FROM webpages_UsersInRoles");
 }
 
 <table id="ViewUserTable" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
@@ -13,13 +14,16 @@
                 <th>Geslacht</th>
                 <th>Telefoonnummer</th>
                 <th>Email-Adres</th>
+                <th>Rol</th>
                 <th>Edit</th>
                 <th>Delete</th>
+               
             </tr>
         </thead>
         <tbody>
             @foreach (var user in users)
             {
+                userrole = db.QuerySingle("SELECT RoleId FROM webpages_UsersInRoles WHERE UserId = @0", user.UserId);
                 <tr>  
                 <td> @user.voornaam </td>
                 <td> @user.achternaam</td>
@@ -34,8 +38,22 @@
                 </td>
                 <td> @user.telefoonnummer</td>
                 <td> @user.email</td>
+                <td>@if(userrole.RoleId == 1)
+                    {
+                        <text>Administrator</text>
+                    }
+                    else if  (userrole.RoleId == 2)
+                    {
+                        <text>User</text>
+                    }
+                    else if (userrole.RoleId == 3)
+                    {
+                        <text>Student</text>
+                    }
+                </td>
+
                 <td><a href="~/admin/users/edituser?user=@user.UserId"><button type="button" class="tablebutton btn btn-primary">Edit</button></a></td>
-                <td><a href="~/admin/users/deleteuser?user=@user.UserId"><button type="button" class="tablebutton btn btn-danger">Delete</button></a></td>
+                <td><a href="#"><button type="button" data-id="@user.UserId" class="tablebutton btn btn-danger verwijderbutton">Delete</button></a></td>
                 </tr>
             }
            

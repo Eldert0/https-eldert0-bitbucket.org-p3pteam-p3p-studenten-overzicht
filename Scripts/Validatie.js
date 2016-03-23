@@ -1,3 +1,4 @@
+//formvalidatie voor adduser
 $('#AddUserForm').bootstrapValidator({
         
         message: 'This value is not valid',
@@ -17,7 +18,7 @@ $('#AddUserForm').bootstrapValidator({
                         message: 'Voornaam moet langer zijn dan 2 letters'
                     },
                     regexp: {
-                        regexp: /^[a-zA-Z]+$/,
+                        regexp: /[a-zA-Z]/,
                         message: 'Voornaam mag alleen alfabetische karakters bevatten'
                     }
                 }
@@ -80,5 +81,415 @@ $('#AddUserForm').bootstrapValidator({
                         message: 'Veld mag niet leeg zijn'
                     }
                     }
-                }
+             }
 }});
+
+
+//formvalidatie voor addstudent
+$('#AddForm').bootstrapValidator({
+        
+        message: 'This value is not valid',
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        
+        
+        fields: {
+            roepnaam: { 
+                validators: {
+                    notEmpty: {
+                        message: 'Veld mag niet leeg zijn'
+                    },
+                    stringLength: {
+                        min: 2,
+                        message: 'Roepnaam moet langer zijn dan 2 letters'
+                    },
+                    regexp: {
+                        regexp: /^[a-zA-Z]+$/,
+                        message: 'Roepnaam mag alleen alfabetische karakters bevatten'
+                    }
+                }
+            },
+
+            groep: { 
+                validators: {
+                    notEmpty: {
+                        message: 'Veld mag niet leeg zijn'
+                    },
+                    stringLength: {
+                        min: 2,
+                        message: 'Klas moet langer zijn dan 2 letters'
+                    },
+                    regexp: {
+                        regexp: /[0-9a-zA-Z. ]/,
+                        message: 'Klas mag alleen alfabetische karakters en cijfers bevatten'
+                    }
+                }
+            },
+
+            naam: {
+                validators: {
+                    notEmpty: {
+                        message: 'Veld mag niet leeg zijn'
+                    },
+                    stringLength: {
+                        max: 20,
+                        message: 'Achternaam kan niet langer zijn dan 20 karakters'
+                        },
+                    regexp: {
+                        regexp: /^[a-zA-Z_ ]*$/,
+                        message: 'Achternaam mag alleen alfabetische letters bevatten'
+                    }
+                }
+            },
+
+            mentor: { 
+                validators: {
+                    notEmpty: {
+                        message: 'Veld mag niet leeg zijn'
+                    },
+                    stringLength: {
+                        max: 20,
+                        message: 'Mentor moet langer zijn dan 2 letters'
+                    },
+                    regexp: {
+                        regexp: /^[a-zA-Z. ]+$/,
+                        message: 'Mentor mag alleen alfabetische karakters bevatten'
+                    }
+                }
+            },
+           
+            voorvoegsels: { 
+                validators: {
+                  regexp: {
+                        regexp: /^[a-zA-Z]+$/,
+                        message: 'Voorvoegsels mogen alleen alfabetische karakters bevatten'
+                    }
+                }
+            },
+
+            studentnummer: {
+                validators: {
+                    notEmpty: {
+                        message: 'Veld mag niet leeg zijn'
+                    },
+                    stringLength: {
+                        min: 1,
+                        max: 10,
+                        message: 'Studentnummer mag maximaal 10 cijfers bevatten'
+                    },
+                    regexp: {
+                        regexp: /[0-9]/,
+                        message: 'Alleen cijfers gebruiken'
+                    }
+                }
+            },
+
+            telefoonnummer: {
+                validators: {
+                    notEmpty: {
+                        message: 'Veld mag niet leeg zijn'
+                    },
+                    stringLength: {
+                        min: 1,
+                        max: 10,
+                        message: 'Telefoonnummer mag maximaal 10 cijfers bevatten'
+                    },
+                    regexp: {
+                        regexp: /[0-9. ]/,
+                        message: 'Alleen cijfers gebruiken'
+                    }
+                }
+            },
+
+            telefoonnummermobiel: {
+                validators: {
+                    notEmpty: {
+                        message: 'Veld mag niet leeg zijn'
+                    },
+                    stringLength: {
+                        min: 1,
+                        max: 10,
+                        message: 'Telefoonnummermobiel mag maximaal 10 cijfers bevatten'
+                    },
+                    regexp: {
+                        regexp: /[0-9. ]/,
+                        message: 'Alleen cijfers gebruiken'
+                    }
+                }
+            },
+
+            email: {
+                validators: {
+                    notEmpty: {
+                        message: 'Veld mag niet leeg zijn'
+                    },
+                    regexp: {
+                        regexp: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/,
+                        message: 'Foutief email-adres'
+                    }
+                }
+            },
+
+            emailinstelling: {
+                validators: {
+                    notEmpty: {
+                        message: 'Veld mag niet leeg zijn'
+                    },
+                    regexp: {
+                        regexp: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/,
+                        message: 'Foutief email-adres'
+                    }
+                }
+            },
+
+            geboortedatum: {
+                validators: {
+                    notEmpty: {
+                        message: 'Veld mag niet leeg zijn'
+                    },
+                    regexp: {
+                        regexp: /[0-9a-zA-Z. ]/,
+                        message: 'Foutief geboortedatum mag alleen alfabetische karakters en cijfers bevatten'
+                    }
+                }
+            },
+
+
+            
+            vooropleiding: { 
+                validators: {
+                    notEmpty: {
+                        message: 'Veld mag niet leeg zijn'
+                    },
+                    stringLength: {
+      
+                        max: 50,
+                        message: 'Vooropleiding kan niet langer zijn dan 50 karakters'
+                    },
+                    regexp: {
+                        regexp: /[0-9a-zA-Z. ]/,
+                        message: 'Vooropleiding mag alleen alfabetische karakters en cijfers bevatten'
+                    }
+                }
+            },
+
+           
+           opleiding: { 
+                validators: {
+                    notEmpty: {
+                        message: 'Veld mag niet leeg zijn'
+                    },
+                    stringLength: {
+                        min: 2,
+                        max: 30,
+                        message: 'Opleiding kan niet langer zijn dan 30 karakters'
+                    },
+                    regexp: {
+                        regexp: /^[a-zA-Z. ]+$/,
+                        message: 'Opleiding mag alleen alfabetische karakters bevatten'
+                    }
+                }
+            },
+
+            
+            fase: { 
+                validators: {
+                    notEmpty: {
+                        message: 'Veld mag niet leeg zijn'
+                    },
+                    stringLength: {
+                        min: 2,
+                        max: 50,
+                        message: 'fase kan niet langer zijn dan 50 karakters'
+                    },
+                    regexp: {
+                        regexp: /[a-zA-Z. ]/,
+                        message: 'Vooropleiding mag alleen alfabetische karakters bevatten'
+                    }
+                }
+            },
+
+           
+            adrestype: { 
+                validators: {
+                    notEmpty: {
+                        message: 'Veld mag niet leeg zijn'
+                    },
+                    stringLength: {
+                        min: 2,
+                        max: 5,
+                        message: 'Adrestype kan niet langer zijn dan 5 karakters'
+                    },
+                    regexp: {
+                        regexp: /^[a-zA-Z]+$/,
+                        message: 'Adrestype mag alleen alfabetische karakters bevatten'
+                    }
+                }
+            },
+
+            
+            etiketnaam: { 
+                validators: {
+                    notEmpty: {
+                        message: 'Veld mag niet leeg zijn'
+                    },
+                    stringLength: {
+                        min: 2,
+                        max: 20,
+                        message: 'Initialen kan niet langer zijn dan 20 karakters'
+                    },
+                    regexp: {
+                        regexp: /^[a-zA-Z. ]+$/,
+                        message: 'Initialen mag alleen alfabetische karakters bevatten'
+                    }
+                }
+            },
+
+          
+            etiketregel1: { 
+                validators: {
+                    notEmpty: {
+                        message: 'Veld mag niet leeg zijn'
+                    },
+                    stringLength: {
+                        min: 2,
+                        max: 30,
+                        message: 'Straatnaam en huisnummer kan niet langer zijn dan 30 karakters'
+                    },
+                    regexp: {
+                        regexp: /[0-9a-zA-Z. ]/,
+                        message: 'Straatnaam en huisnummer mogen alleen alfabetische karakters en cijfers bevatten'
+                    }
+                }
+            },
+
+           
+            etiketregel2: { 
+                validators: {
+                    notEmpty: {
+                        message: 'Veld mag niet leeg zijn'
+                    },
+                    stringLength: {
+                        min: 2,
+                        max: 30,
+                        message: 'Postcode en woonplaats kan niet langer zijn dan 30 karakters'
+                    },
+                    regexp: {
+                        regexp: /[0-9a-zA-Z. ]/,
+                        message: 'Postcode en woonplaats mag alleen alfabetische karakters en cijfers bevatten'
+                    }
+                }
+            },
+
+             
+            herinschrijving: { 
+                validators: {
+                    notEmpty: {
+                        message: 'Veld mag niet leeg zijn'
+                    },
+                    stringLength: {
+                        min: 1,
+                        max: 30,
+                        message: 'Herinschrijving kan niet langer zijn dan 30 karakters'
+                    },
+                    regexp: {
+                        regexp: /^[0-2]/,
+                        message: 'Herinschrijving mag alleen cijfers bevatten'
+                    }
+                }
+            },
+
+           
+            datumvan: { 
+                validators: {
+                    notEmpty: {
+                        message: 'Veld mag niet leeg zijn'
+                    },
+                        stringLength: {
+                        min: 1,
+                        max: 30,
+                        message: 'Datumvan kan niet langer zijn dan 30 karakters'
+                    },
+                    regexp: {
+                        regexp: /[0-9a-zA-Z. ]/,
+                        message: 'Datumvan mag alleen alfabetische karakters en cijfers bevatten'
+                    }
+                }
+            },
+
+           
+            datumtot: { 
+                validators: {
+                    notEmpty: {
+                        message: 'Veld mag niet leeg zijn'
+                    },
+                        stringLength: {
+                        min: 1,
+                        max: 30,
+                        message: 'Datumtot kan niet langer zijn dan 30 karakters'
+                    },
+                    regexp: {
+                        regexp: /[0-9a-zA-Z. ]/,
+                        message: 'Datumtot mag alleen alfabetische karakters en cijfers bevatten'
+                    }
+                }
+            },
+
+            
+            aanmeldingsdatum: { 
+                validators: {
+                    notEmpty: {
+                        message: 'Veld mag niet leeg zijn'
+                    },
+                        stringLength: {
+                        min: 1,
+                        max: 30,
+                        message: 'Datumtot kan niet langer zijn dan 30 karakters'
+                    },
+                    regexp: {
+                        regexp: /[0-9a-zA-Z. ]/,
+                        message: 'Aanmeldingsdatum mag alleen alfabetische karakters en cijfers bevatten'
+                    }
+                }
+            },
+
+           
+            aankomst_bij_isatcode: { 
+                validators: {
+                    notEmpty: {
+                        message: 'Veld mag niet leeg zijn'
+                    },
+                    regexp: {
+                        regexp: /[0-9a-zA-Z. ]/,
+                        message: 'Aankomst bij isatcode mag alleen alfabetische karakters en cijfers bevatten'
+                    }
+                }
+            },
+
+           
+            datumdefinitief: { 
+                validators: {
+                    notEmpty: {
+                        message: 'Veld mag niet leeg zijn'
+                    },
+                    regexp: {
+                        regexp: /[0-9a-zA-Z. ]/,
+                        message: 'Datumdefinitief mag alleen alfabetische karakters en cijfers bevatten'
+                    }
+                }
+            },
+
+            geslacht: {
+                validators: {
+                    notEmpty: {
+                        message: 'Veld mag niet leeg zijn'
+                    }
+                    }
+                }
+            
+           
+}});
+
