@@ -45,11 +45,11 @@ $('#AddUserForm').bootstrapValidator({
                     stringLength: {
                         min: 1,
                         max: 10,
-                        message: 'Telefoonnummer mag maximaal 10 karakters zijn'
+                        message: 'Telefoonnummer mag maximaal 10 cijfers bevatten'
                     },
                     regexp: {
-                        regexp: /^[0-9]+$_ /,
-                        message: 'Telefoonnummer '
+                        regexp: /[0-9]/,
+                        message: 'Alleen cijfers gebruiken'
                     }
                 }
             },
