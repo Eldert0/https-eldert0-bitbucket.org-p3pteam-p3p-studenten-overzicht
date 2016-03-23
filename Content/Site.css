@@ -67,12 +67,28 @@ ul#StudentResultList li{
 #PageContent{
    
 }
+.arrow{
+    width: 500px;
+    position: fixed;
+    top: 40px;
+    left: 310px;
+    opacity: 0.2;
+}
 .field-validation-error{
     color: red!important;
     padding: 5px 0px 0px;
 }
-
-
+#preContent{
+    margin: 250px auto;
+    width: 90%;
+}
+.preTitle{
+    font-size: 5em;
+    vertical-align: central;
+    color: rgb(204, 229, 255);
+    text-align:center;
+    font-weight: 300;
+}
 #PageContent{
    margin-top: 30px;
 }

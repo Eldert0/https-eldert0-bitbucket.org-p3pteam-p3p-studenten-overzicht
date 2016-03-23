@@ -89,6 +89,13 @@ $(document).ready(function () {
 
     // Search onchage method Ajax
     $('#SearchBox').on('input', (function () {
+
+
+        // Remove search content placeholder
+        $('#preContent').css("display", "none");
+
+
+
         var fieldData = $(this).val();
 
         if (fieldData.length >= 2) {
@@ -139,6 +146,8 @@ $(document).ready(function () {
             $('#NoResults').text('Vul een groter zoekwoord in...');
         } else {
             $('#StudentContent').addClass('fadeOut');
+            $('#preContent').css("display", "block");
+            $('#preContent').addClass('fadeIn');
             $('#StudentContent').css("display:", "none")
             RenderStudent("ClearData");
             $('#StudentResultList li').remove();
@@ -152,6 +161,9 @@ $(document).ready(function () {
 
         $('.sidebar-nav').addClass("collapse");
         $('.sidebar-nav').removeClass("in");
+        $('#StudentContent').removeClass('fadeOut');
+        $('#StudentContent').addClass('bounceInLeft');
+
         var student = $(this).attr("sId");
 
         $.ajax({
@@ -173,12 +185,43 @@ $(document).ready(function () {
 
 
 
+    // Foto stuff
+    //$(".NoImageYet").trigger("click");
 
+    //$('.NoImageYet').click(function (event) { console.log(event.target.id); });
 
+    $('.StudentImageHolder').on("click", "img.NoImageYet", function () {
+         $('input[type=file]').click();
+    
+
+        console.log("Hello!");
+
+        return false;
+
+    });
 
     function RenderStudent(data) {
-
+        console.log(data);
         if (data != "ClearData") {
+            //http://blog.teamtreehouse.com/using-jquery-asynchronously-loading-image
+            //http://imagesloaded.desandro.com/
+
+            // Handle image buttons depending on the user having one.
+            if (data[0].imageUrl == null) {
+                $('.StudentImageHolder').empty();
+                $('.StudentImageHolder').append('<img id="NoImageID" alt="StudentPicture" class="NoImageYet studentImage animated shake" src="/Images/thumb.png"></img>');
+
+                console.log("Image is null");
+            } else {
+                $('.StudentImageHolder').empty();
+                $('.StudentImageHolder').append('<img alt="StudentPicture" class="studentImage" src="/Images/thumb.png"></img>');
+               
+
+                console.log("Image is there!");
+            }
+
+
+
 
             $('#StudentContent').addClass('bounceInLeft');
 
@@ -220,8 +263,7 @@ $(document).ready(function () {
             $('.vooropleiding').text(data[0].herinschrijving);
 
         }
-        else
-        {
+        else {
             var first = false;
             $('.studentnaam').text("");
             $('.groep').text("");
