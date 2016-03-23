@@ -27,8 +27,12 @@ $('#AddUserForm').bootstrapValidator({
                     notEmpty: {
                         message: 'Veld mag niet leeg zijn'
                     },
+                    stringLength: {
+                        max: 20,
+                        message: 'Achternaam kan niet langer zijn dan 20 karakters'
+                        },
                     regexp: {
-                        regexp: /^[a-zA-Z]+$/,
+                        regexp: /^[a-zA-Z_ ]*$/,
                         message: 'Achternaam mag alleen alfabetische letters bevatten'
                     }
                 }
@@ -44,7 +48,7 @@ $('#AddUserForm').bootstrapValidator({
                         message: 'Telefoonnummer mag maximaal 10 karakters zijn'
                     },
                     regexp: {
-                        regexp: /^[0-9]+$/,
+                        regexp: /^[0-9]+$_ /,
                         message: 'Telefoonnummer '
                     }
                 }
@@ -60,7 +64,21 @@ $('#AddUserForm').bootstrapValidator({
                         message: 'Foutief email-adres'
                     }
                 }
-            }
-           
-     
+            },
+
+            geslacht: {
+                validators: {
+                    notEmpty: {
+                        message: 'Veld mag niet leeg zijn'
+                    }
+                    }
+                },
+
+            roleSelect: {
+                validators: {
+                    notEmpty: {
+                        message: 'Veld mag niet leeg zijn'
+                    }
+                    }
+                }
 }});
