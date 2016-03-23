@@ -10,7 +10,10 @@
         var filename = Path.GetFileName(file.FileName); 
         var filePath = Server.MapPath("~/Content/Upload/");
         file.SaveAs(filePath + filename);
+
         t.LoadeExcelToDb(filePath + filename);
+
+
     }
 }
 

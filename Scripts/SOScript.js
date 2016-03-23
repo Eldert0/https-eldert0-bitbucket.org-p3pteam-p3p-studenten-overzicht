@@ -1,5 +1,4 @@
 $(document).ready(function () {
-<<<<<<< HEAD
     // voor beide tabellen (viewusers & viewstudents)
     $('#ViewUserTable, #ViewStudentTable').DataTable({
         language: {
@@ -29,10 +28,6 @@ $(document).ready(function () {
 
             ]
     });
-
-=======
-    $('#example').DataTable();
->>>>>>> 573141103e29a9cb886448b9d92818ce19183bb6
 
     var windowHeigth = window.innerHeight - 150;
 
@@ -166,15 +161,16 @@ $(document).ready(function () {
             $('.mentor').text(data[0].mentor);
             $('.groep').text(data[0].groep);
             $('.fase').text(data[0].fase);
+
             $('.datumvan').text(data[0].datumvan);
             $('.datumtot').text(data[0].datumtot);
-            $('.aankomst_bij_isatcode').text(data[0].aankomst_bij_isatcode);
+            $('.aankomst_bij_isatcode').text(data[0].aankomstBijIsatcode);
             $('.aanmeldingdatum').text(data[0].aanmeldingdatum);
             $('.datumdefinitief').text(data[0].datumdefinitief);
 
 
             // Contact gegevens
-            
+
             $('.etiketregel1').text(data[0].etiketregel1);
             $('.etiketregel2').text(data[0].etiketregel2);
             $('.emailinstelling').text(data[0].emailinstelling);
@@ -187,8 +183,7 @@ $(document).ready(function () {
             $('.vooropleiding').text(data[0].herinschrijving);
 
         }
-        else 
-        {
+        else {
             $('.studentnaam').text("");
             $('.groep').text("");
             $('.mentor').text("");

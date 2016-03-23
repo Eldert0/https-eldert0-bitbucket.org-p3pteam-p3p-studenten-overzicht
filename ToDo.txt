@@ -1,0 +1,10 @@
+- Fix add user login redirect
+- Regex add user field phonenumber corrupt
+- Set passwords
+- Email new user
+- Front end validatie Edit student
+- Add student Single record into db
+- Delete user
+- Do not show own delete button
+- Studenten overzicht (Knoppen maken (Next / Vorige) en edit -> Dan naar student pagina)\
+- 

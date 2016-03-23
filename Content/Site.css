@@ -117,6 +117,9 @@ HOnestudentnaam{
 #StudentOpleiding{
 
 }
+.value{
+    text-indent: 20px;
+}
 
 
 @media(max-width:768px) {
