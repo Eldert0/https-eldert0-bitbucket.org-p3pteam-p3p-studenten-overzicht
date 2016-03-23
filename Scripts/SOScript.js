@@ -1,6 +1,7 @@
 $(document).ready(function () {
-    // voor VieuwUserTable
-    $('#ViewUserTable').DataTable({
+<<<<<<< HEAD
+    // voor beide tabellen (viewusers & viewstudents)
+    $('#ViewUserTable, #ViewStudentTable').DataTable({
         language: {
             "sProcessing": "Bezig...",
             "sLengthMenu": "_MENU_ resultaten weergeven",
@@ -27,37 +28,11 @@ $(document).ready(function () {
             { "orderable": false, "targets": 6 }
 
             ]
-            
-            });
-
-     $('#ViewStudentTable').DataTable({
-        language: {
-            "sProcessing": "Bezig...",
-            "sLengthMenu": "_MENU_ resultaten weergeven",
-            "sZeroRecords": "Geen resultaten gevonden",
-            "sInfo": "_START_ tot _END_ van _TOTAL_ resultaten",
-            "sInfoEmpty": "Geen resultaten om weer te geven",
-            "sInfoFiltered": " (gefilterd uit _MAX_ resultaten)",
-            "sInfoPostFix": "",
-            "sSearch": "Zoeken:",
-            "sEmptyTable": "Geen resultaten aanwezig in de tabel",
-            "sInfoThousands": ".",
-            "sLoadingRecords": "Een moment geduld aub - bezig met laden...",
-            "oPaginate": {
-                "sFirst": "Eerste",
-                "sLast": "Laatste",
-                "sNext": "Volgende",
-                "sPrevious": "Vorige"
-            },
-            responsive: true
-
-        },
-        "columnDefs": [
-            { "orderable": false, "targets": 6 },
-            { "orderable": false, "targets": 7 }
-
-            ]
     });
+
+=======
+    $('#example').DataTable();
+>>>>>>> 573141103e29a9cb886448b9d92818ce19183bb6
 
     var windowHeigth = window.innerHeight - 150;
 
@@ -176,31 +151,44 @@ $(document).ready(function () {
 
         if (data != "ClearData") {
 
-            $('.groep').text(data[0].groep);
-            $('.mentor').text(data[0].mentor);
-            $('.studentnummer').text(data[0].studentnummer);
-            $('.studentnaam').text(data[0].roepnaam);
+
+            // Student
+            $('.etiketnaam').text(data[0].etiketnaam);
+            $('.roepnaam').text(data[0].roepnaam);
             $('.voorvoegsels').text(data[0].voorvoegsels);
             $('.naam').text(data[0].naam);
+            $('.studentnummer').text(data[0].studentnummer);
+            $('.geboortedatum').text(data[0].geboortedatum);
             $('.geslacht').text(data[0].geslacht);
-            $('.vooropleiding').text(data[0].vooropleiding);
-            $('.emailprive').text(data[0].emailprive);
-            $('.emailinstelling').text(data[0].emailinstelling);
-            $('.adrestype').text(data[0].adrestype);
-            $('.etiketnaam').text(data[0].etiketnaam);
-            $('.etiketregel1').text(data[0].etiketregel1);
-            $('.etiketregel2').text(data[0].etiketregel2);
-            $('.telefoonnummer').text(data[0].telefoonnummer);
-            $('.telefoonnummermobiel').text(data[0].telefoonnummermobiel);
-            $('.herinschrijving').text(data[0].herinschrijving);
+
+            //Opleiding
             $('.opleiding').text(data[0].opleiding);
+            $('.mentor').text(data[0].mentor);
+            $('.groep').text(data[0].groep);
+            $('.fase').text(data[0].fase);
             $('.datumvan').text(data[0].datumvan);
             $('.datumtot').text(data[0].datumtot);
             $('.aankomst_bij_isatcode').text(data[0].aankomst_bij_isatcode);
             $('.aanmeldingdatum').text(data[0].aanmeldingdatum);
             $('.datumdefinitief').text(data[0].datumdefinitief);
+
+
+            // Contact gegevens
+            
+            $('.etiketregel1').text(data[0].etiketregel1);
+            $('.etiketregel2').text(data[0].etiketregel2);
+            $('.emailinstelling').text(data[0].emailinstelling);
+            $('.emailprive').text(data[0].emailprive);
+            $('.telefoonnummer').text(data[0].telefoonnummer);
+            $('.telefoonnummermobiel').text(data[0].telefoonnummermobiel);
+
+
+            //Opleidinghistorie
+            $('.vooropleiding').text(data[0].herinschrijving);
+
         }
-        else {
+        else 
+        {
             $('.studentnaam').text("");
             $('.groep').text("");
             $('.mentor').text("");
@@ -227,8 +215,4 @@ $(document).ready(function () {
             $('.datumdefinitief').text("");
         }
     }
-
-
-
-
 });
