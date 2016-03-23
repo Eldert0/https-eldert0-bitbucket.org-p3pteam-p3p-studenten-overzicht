@@ -10,51 +10,139 @@
 }
 
 <div id="PageContent">
-      <div class="adres col-md-12">
-<h1 class="studentnaam"></h1>
-      </div>
-<hr>
-<div class="row" >
-   <div class="adres col-md-8">
-    <span class="etiketregel1 brspan"></span>
-        <span class="etiketregel2 brspan"></span>
- </div>
-   <div class="postcode col-md-8">
-</div>
+    <div id="StudentContent">
+            <div class="row">
+                <div class="AbsoluteHeight col-md-12">
+                    <h1 class="etiketnaam"></h1>
+                    <hr>
+                </div>
+                <div class="col-md-6 col-md-push-6">
+                    <img alt="StudentPicture" class="" src="~/images/thumb.png"></img>
+                </div>
+                <div class="col-md-6 col-md-pull-6">
+                    <div id="StudentNAW">
+                    <h3>Student:</h3>
+                    <p>
+                        Voornaam: <span class="roepnaam"></span><br>
+                        Tussenvoegsel: <span class="voorvoegsels"></span><br>
+                        Achternaam: <span class="naam"></span><br>
+                        Geboortedatum: <span class="geboortedatum"></span><br>
+                        Geslacht: <span class="geslacht"></span><br>                      
+                        Studentnummer: <span class="studentnummer"></span><br>
+                    </p>
+                    </div>
+                </div>
+            </div>
+            <hr>  
+            <div class="row">
+                <div class="col-md-6">
+                    <div id="StudentOpleiding">
+                        <h3>Opleiding:</h3>
+                       <table border="1">
+	                    <thead>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+	                    </thead>
+	                    <tbody>
+		                    <tr><td>  Opleiding: </td><td><span class="opleiding"></span></td></tr>
+		                    <tr><td> Slb'er: </td><td> <span class="mentor"></span> </td></tr>
+		                    <tr><td> Klas: </td><td> <span class="groep"></span> </td></tr>
+		                    <tr><td> Fase: </td><td>  <span class="fase"></span></td></tr>
+		                    <tr><td> Startdatum: </td><td> <span class="datumvan"></span> </td>             <td><b>&nbsp;tot&nbsp;</b></td>          <td> <span class="datumtot"></span></td></tr>
+		                    <tr><td> Isatcode: </td><td> <span class="aankomst_bij_isatcode"></span> </td></tr>
+		                    <tr><td> Aanmeldingsdatum: </td><td><span class="aanmeldingdatum"></span>  </td></tr>
+		                    <tr><td> Datum definitief: </td><td> <span class="datumdefinitief"></span> </td></tr>
 
-  <div class="blue col-md-4">
+	                    </tbody>
+
+                    </table>
+                    </div>
+                </div>
+                      <div class="col-md-6">
+                        <div id="StudentContactGegevens">
+                            <h3>Contactgegevens:</h3>
+                            <p>
+                                Straat + Huisnummer: <span class="etiketregel1"></span><br>                  
+                                Postcode + Woonplaats: <span class="etiketregel2"></span><br>
+                                Email school: <span class="emailinstelling"></span><br>
+                                Email Privé: <span class="emailprive"></span><br>
+                                Telefoonnummer: <span class="telefoonnummer"></span><br>
+                                Mobiel: <span class="telefoonnummermobiel"></span><br>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                      <div class="col-md-6">
+                        <div id="StudentVooropleiding">
+                            <h3>Opleidinghistorie:</h3>
+                            <p>
+                                Voorgaande opleiding:<span class="vooropleiding"></span><br>
+                            </p>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--    
+
     
-  </div>
-</div>
-
-</div>
+            Title:
+     [etiketnaam] [studentnummer]
 
 
 
-<!--
-    [groep]
-    [mentor]
-    [studentnummer]]
-    [roepnaam]
-    [voorvoegsels]
-    [naam]
-    [geslacht]
+Student informatie:
+    [roepnaam] [voorvoegsels] [naam]
     [geboortedatum]
-    [vooropleiding]
-    [emailprive] 
-    [emailinstelling] 
-    [adrestype]
-    [etiketnaam] 
-    [etiketregel1]
-    [etiketregel2]
-    [telefoonnummer]
-    [telefoonnummermobiel]
-    [herinschrijving]
+    [geslacht]
+    [studentnummer]
+
+Student Opleiding:
     [opleiding] 
+    [mentor]
+    [groep]
     [fase] 
-    [datumvan]
-    [datumtot]
-    [aankomst_bij_isatcode]
+    [datumvan][datumtot]
+    [aankomst_bij_isatcode] 
     [aanmeldingdatum] 
     [datumdefinitief]
+
+Student Historie:
+    [vooropleiding]
+
+
+Contact gegevens:
+
+    [etiketregel1]
+    [etiketregel2]
+    [emailinstelling]
+    [emailprive] 
+    [telefoonnummer]
+    [telefoonnummermobiel] 
+
 -->
+
+    
+    
+    
+  
+    
+    
+    
+     
+
+   
+
+    
+    
+    
+
+    
+    
+
