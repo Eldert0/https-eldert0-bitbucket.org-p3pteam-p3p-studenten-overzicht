@@ -33,26 +33,39 @@ $(document).ready(function () {
 
     $('#SearchResultContainer').css("height", windowHeigth);
     $('#StudentResultList').append('<div id="NoResults">Geen resultaten, gebruik het zoekveld om naar sudenten te zoeken.</div>');
-    $(".removeCertificate").click(function () {
+
+
+
+    $(".verwijderbutton").click(function () {
+
+        var element = $(this).closest("tr");
+        var UserTodelete = $(this).attr("data-id");
+
         var txt;
-        var r = confirm("Are you sure of deleting this certificate?");
-        if (r == true) {
-            var profileid = $(this).attr("data-profileid");
+        var r = confirm("Weet je zeker dat je deze gebruiker wilt verwijderen?");
 
-            $.ajax({
-                url: 'http://oliveira.frolich-it.nl/certificates/delete_cert',
-                type: 'POST',
-                data: ({ cert_id: profileid }),
-                dataType: 'json',
-                success: removeUser() // End of success function of ajax form
-            }); // End of ajax call
+        if (r == true) 
+        {
+             $.ajax({
+            url: '/admin/users/deleteuser.cshtml',
+            type: 'GET',
+            data: {
+            data: UserTodelete
+            },
+            dataType: 'json',
+            success: FadeRow(UserTodelete) // End of success function of ajax form
+            });
 
-            function removeUser() {
-                $(".removeCertificate[data-profileid='" + profileid + "']").closest("tr").fadeOut("slow");
-                $(this).remove();
+            function FadeRow(trID) 
+            {
+                element.fadeOut(500, function() {
+                    element.remove();
+                });
             }
         }
     });
+
+
     var level = "1";
 
     if (level == 2) {

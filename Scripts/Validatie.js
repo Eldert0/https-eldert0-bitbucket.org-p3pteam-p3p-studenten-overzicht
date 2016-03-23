@@ -17,7 +17,7 @@ $('#AddUserForm').bootstrapValidator({
                         message: 'Voornaam moet langer zijn dan 2 letters'
                     },
                     regexp: {
-                        regexp: /^[a-zA-Z]+$/,
+                        regexp: /[a-zA-Z]/,
                         message: 'Voornaam mag alleen alfabetische karakters bevatten'
                     }
                 }
