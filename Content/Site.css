@@ -82,17 +82,20 @@ ul#StudentResultList li{
    
 }
 .studentImage{
-    
+    float: right;
 }
 
 HOnestudentnaam{
     color: #808080;
 }
 #StudentContent{
-    width: 80%;
+    display: none;
+    width: 90%;
     margin: auto;
     color: #808080;
     font-weight: 400;
+    z-index: -200;
+    margin-bottom: 100px;
 }
 #StudentContent h3{
     font-weight: 300;
@@ -108,20 +111,32 @@ HOnestudentnaam{
     height: 100px;
 }
 #StudentVooropleiding{
-
+    height: 200px;
 }
 #StudentContactGegevens{
-
-    
 }
 #StudentOpleiding{
 
 }
+
 .value{
     text-indent: 20px;
 }
+.LowError{
+    color: #E29A9A;
+}
+.sidebar{
+    z-index: 200;
+}
+.clear{
+    clear: both;   
+}
 
-
+@media(max-width: 990px){
+   .studentImage{
+    float: none;
+}
+}
 @media(max-width:768px) {
     .navbar-top-links .dropdown-user{
         left: 0px!important;

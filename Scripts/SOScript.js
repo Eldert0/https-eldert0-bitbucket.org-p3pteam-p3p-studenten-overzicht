@@ -53,6 +53,10 @@ $(document).ready(function () {
             }
         }
     });
+
+
+
+
     var level = "1";
 
     if (level == 2) {
@@ -78,10 +82,17 @@ $(document).ready(function () {
         });
     }
 
+
+
+
+
+
     // Search onchage method Ajax
     $('#SearchBox').on('input', (function () {
         var fieldData = $(this).val();
-        if (!fieldData == "") {
+
+        if (fieldData.length >= 2) {
+
             $('#StudentResultList li').remove();
             $('#StudentResultList #NoResults').remove();
 
@@ -100,27 +111,47 @@ $(document).ready(function () {
                 success: function (data) {
                     var final = JSON.stringify(data);
 
-                    $.each(data, function (idx, obj) {
-                        $('#StudentResultList').append(
-                        '<li class="StudentItem" sId="' + obj.Uid + '">' +
-                        '<img class="ThumbStudentIMage" src="/Images/Thumb.png"></img>' +
-                        '<span class="StudentItemText">'
-                        + obj.Naam + " " + obj.Voorvoegsel + " " + obj.Achternaam +
-                        '</span></li>'
-                        );
-                    });
+                    if (data.length != 0) {
+                        $.each(data, function (idx, obj) {
+                            $('#StudentResultList').append(
+                                '<li class="StudentItem" sId="' + obj.Uid + '">' +
+                                '<img class="ThumbStudentIMage" src="/Images/Thumb.png"></img>' +
+                                '<span class="StudentItemText">'
+                                + obj.Naam + " " + obj.Voorvoegsel + " " + obj.Achternaam +
+                                '</span></li>'
+                            );
+                        });
+
+                    } else {
+
+                        $('#StudentResultList li').remove();
+                        $('#NoResults').remove();
+                        $('#StudentResultList').append('<div id="NoResults" class="LowError"></div>');
+                        $('#NoResults').text('Uw zoekopdracht heeft geen resultaten opgeleverd.');
+                    }
                 }
             });
         }
-        else {
+        else if (!fieldData == "" && fieldData.length < 2) {
+            $('#StudentResultList li').remove();
+            $('#NoResults').remove();
+            $('#StudentResultList').append('<div id="NoResults" class="LowError"></div>');
+            $('#NoResults').text('Vul een groter zoekwoord in...');
+        } else {
+            $('#StudentContent').addClass('fadeOut');
+            $('#StudentContent').css("display:", "none")
             RenderStudent("ClearData");
             $('#StudentResultList li').remove();
+            $('#NoResults').remove();
             $('#StudentResultList').append('<div id="NoResults">Geen resultaten, gebruik het zoekveld om naar sudenten te zoeken.</div>');
-            // Show message that there are no result and let them search
         }
     }));
 
+
     $('#StudentResultList').on('click', 'li', function () {
+
+        $('.sidebar-nav').addClass("collapse");
+        $('.sidebar-nav').removeClass("in");
         var student = $(this).attr("sId");
 
         $.ajax({
@@ -140,14 +171,20 @@ $(document).ready(function () {
         });
     });
 
-    function RenderStudent(data) {
 
-        console.log(data);
+
+
+
+
+    function RenderStudent(data) {
 
         if (data != "ClearData") {
 
+            $('#StudentContent').addClass('bounceInLeft');
 
-            // Student
+            // Display  the content of student
+            $('#StudentContent').css("display", "block");
+
             $('.etiketnaam').text(data[0].etiketnaam);
             $('.roepnaam').text(data[0].roepnaam);
             $('.voorvoegsels').text(data[0].voorvoegsels);
@@ -183,7 +220,9 @@ $(document).ready(function () {
             $('.vooropleiding').text(data[0].herinschrijving);
 
         }
-        else {
+        else
+        {
+            var first = false;
             $('.studentnaam').text("");
             $('.groep').text("");
             $('.mentor').text("");
@@ -210,4 +249,10 @@ $(document).ready(function () {
             $('.datumdefinitief').text("");
         }
     }
+
+
+    $('.AddImage').click(function () {
+        console.log("uploadImage");
+    });
+
 });

@@ -10,14 +10,22 @@
 }
 
 <div id="PageContent">
-    <div id="StudentContent">
+    <div id="StudentContent" class="animated">
             <div class="row">
                 <div class="AbsoluteHeight col-md-12">
                     <h1 class="etiketnaam"></h1>
                     <hr>
                 </div>
                 <div class="col-md-6 col-md-push-6">
-                    <img alt="StudentPicture" class="" src="~/images/thumb.png"></img>
+
+
+                  
+                    <button class="AddImage"><img alt="StudentPicture" class="studentImage" src="~/images/thumb.png"></img></button> 
+                    <input type="file" accept="image/*;capture=camera">
+                    <div class="clear"></div>
+
+
+
                 </div>
                 <div class="col-md-6 col-md-pull-6">
                     <div id="StudentNAW">
@@ -42,7 +50,8 @@
                         <h3>Opleiding:</h3>
                         <table> 
 	                        <tbody>
-		                        <tr><td>Opleiding: </td><td class="value"><span class="opleiding"></span></td></tr>
+		                        <tr>
+                                <td>Opleiding: </td><td class="value"><span class="opleiding"></span></td></tr>
 		                        <tr><td>Slb'er: </td><td class="value"><span class="mentor"></span> </td></tr>
 		                        <tr><td>Klas: </td><td class="value"><span class="groep"></span> </td></tr>
 		                        <tr><td>Fase: </td><td class="value"><span class="fase"></span></td></tr>
