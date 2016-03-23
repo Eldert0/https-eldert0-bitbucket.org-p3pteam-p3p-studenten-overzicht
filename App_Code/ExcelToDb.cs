@@ -21,7 +21,7 @@ class Student
     public string   voorvoegsels { get; set; }
     public string   naam   { get; set; }
     public string   geslacht { get; set; }
-    public DateTime   geboortedatum   { get; set; }
+    public string   geboortedatum   { get; set; }
     public string   vooropleiding { get; set; }
     public string   emailprive  { get; set; }
     public string   emailinstelling { get; set; }
@@ -54,6 +54,7 @@ public class ExcelToDb
         //
     }
 
+
   
 
     public void LoadeExcelToDb(string path)
@@ -77,87 +78,15 @@ public class ExcelToDb
         while (dReader.Read())
         {
             Student data = new Student();
-            
-            if(dReader["groep"] != null)
-            {
-                data.Groep = (string)dReader["groep"];
-            }
-            else
-            {
-                data.Groep = "-";
-            }
-            
-            if(dReader["mentor"] != null)
-            {
-                data.mentor = (string)dReader["mentor"];
-            }
-            else
-            {
-                data.mentor = "-";
-            }
 
-            if(dReader["studentnummer"] != null)
-            {
-                data.studentnummer = (string)dReader["studentnummer"];
-            }
-            else    
-            {
-                // hier moet nog wat gebeuren studentnummer moet altijd gevuld zijn!
-                data.studentnummer = "";
-            }
-
-            if(dReader["roepnaam"] != null)
-            {
-                data.roepnaam = (string)dReader["roepnaam"];
-            }
-            else    
-            {
-                data.roepnaam = "-";
-            }
-
-            if(dReader["voorvoegsels"] != null)
-            {
-                data.voorvoegsels = (string)dReader["voorvoegsels"];
-            }
-            else
-            {
-                data.voorvoegsels = "-";
-            }
-
-            if(dReader ["naam"] != null)
-            {
-                data.naam = (string)dReader["naam"];
-            }
-            else
-            {
-                data.naam = "-";
-            }
-
-            if(dReader ["geslacht"] != null)
-            {
-                data.geslacht = (string)dReader["geslacht"];
-            }
-            else
-            {
-                data.geslacht = "-";
-            }
-            
-            if(dReader["geboortedatum"] != null)
-            {
-                var t = new DateTime((long)dReader["geboortedatum"]).ToString("d");
-                //data.geboortedatum = new DateTime().ToString("d");
-            }
-            else
-            {
-                DateTime? value = null;
-                data.geboortedatum = value.GetValueOrDefault();
-            }
-
-            if(dReader["vooropleiding"] != null)
-            {
-                data.vooropleiding = (string)dReader["vooropleiding"];
-            }
-            
+            data.Groep = (string)dReader["groep"];
+            data.mentor = (string)dReader["mentor"];
+            data.studentnummer =Convert.ToString(dReader["studentnummer"]);
+            data.roepnaam = (string)dReader["roepnaam"];
+            data.voorvoegsels = (string)dReader["voorvoegsels"];
+            data.naam = (string)dReader["naam"];
+            data.geslacht = (string)dReader["geslacht"];
+            data.geboortedatum = Convert.ToString(dReader["geboortedatum"]);
             data.vooropleiding = (string)dReader["vooropleiding"];
             data.emailprive = (string)dReader["emailprive"];
             data.emailinstelling = (string)dReader["emailinstelling"];
