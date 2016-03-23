@@ -13,10 +13,14 @@
     else
     {
         // Redirect to login page
+        Response.Redirect("~/Home");
     }
     
     var db = Database.Open("database");
-    var query = "SELECT * FROM Students WHERE id = @0";
+
+
+
+    var query = "SELECT * FROM students LEFT JOIN StudentPhotos ON StudentPhotos.id=students.id WHERE students.id = @0";
 
     var result = db.Query(query, value);
 
@@ -49,7 +53,8 @@
         aanmeldingdatum = x.aanmeldingdatum,
         datumdefinitief = x.datumdefinitief,
         telefoonnummer = x.telefoonnummer,
-        aankomstBijIsatcode = x.aankomst_bij_isatcode
+        aankomstBijIsatcode = x.aankomst_bij_isatcode,
+        imageUrl = x.Url
         
                      
     }).ToArray();

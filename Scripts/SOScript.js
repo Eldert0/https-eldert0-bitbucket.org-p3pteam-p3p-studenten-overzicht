@@ -53,6 +53,10 @@ $(document).ready(function () {
             }
         }
     });
+
+
+
+
     var level = "1";
 
     if (level == 2) {
@@ -78,10 +82,24 @@ $(document).ready(function () {
         });
     }
 
+
+
+
+
+
     // Search onchage method Ajax
     $('#SearchBox').on('input', (function () {
+
+
+        // Remove search content placeholder
+        $('#preContent').css("display", "none");
+
+
+
         var fieldData = $(this).val();
-        if (!fieldData == "") {
+
+        if (fieldData.length >= 2) {
+
             $('#StudentResultList li').remove();
             $('#StudentResultList #NoResults').remove();
 
@@ -100,27 +118,52 @@ $(document).ready(function () {
                 success: function (data) {
                     var final = JSON.stringify(data);
 
-                    $.each(data, function (idx, obj) {
-                        $('#StudentResultList').append(
-                        '<li class="StudentItem" sId="' + obj.Uid + '">' +
-                        '<img class="ThumbStudentIMage" src="/Images/Thumb.png"></img>' +
-                        '<span class="StudentItemText">'
-                        + obj.Naam + " " + obj.Voorvoegsel + " " + obj.Achternaam +
-                        '</span></li>'
-                        );
-                    });
+                    if (data.length != 0) {
+                        $.each(data, function (idx, obj) {
+                            $('#StudentResultList').append(
+                                '<li class="StudentItem" sId="' + obj.Uid + '">' +
+                                '<img class="ThumbStudentIMage" src="/Images/Thumb.png"></img>' +
+                                '<span class="StudentItemText">'
+                                + obj.Naam + " " + obj.Voorvoegsel + " " + obj.Achternaam +
+                                '</span></li>'
+                            );
+                        });
+
+                    } else {
+
+                        $('#StudentResultList li').remove();
+                        $('#NoResults').remove();
+                        $('#StudentResultList').append('<div id="NoResults" class="LowError"></div>');
+                        $('#NoResults').text('Uw zoekopdracht heeft geen resultaten opgeleverd.');
+                    }
                 }
             });
         }
-        else {
+        else if (!fieldData == "" && fieldData.length < 2) {
+            $('#StudentResultList li').remove();
+            $('#NoResults').remove();
+            $('#StudentResultList').append('<div id="NoResults" class="LowError"></div>');
+            $('#NoResults').text('Vul een groter zoekwoord in...');
+        } else {
+            $('#StudentContent').addClass('fadeOut');
+            $('#preContent').css("display", "block");
+            $('#preContent').addClass('fadeIn');
+            $('#StudentContent').css("display:", "none")
             RenderStudent("ClearData");
             $('#StudentResultList li').remove();
+            $('#NoResults').remove();
             $('#StudentResultList').append('<div id="NoResults">Geen resultaten, gebruik het zoekveld om naar sudenten te zoeken.</div>');
-            // Show message that there are no result and let them search
         }
     }));
 
+
     $('#StudentResultList').on('click', 'li', function () {
+
+        $('.sidebar-nav').addClass("collapse");
+        $('.sidebar-nav').removeClass("in");
+        $('#StudentContent').removeClass('fadeOut');
+        $('#StudentContent').addClass('bounceInLeft');
+
         var student = $(this).attr("sId");
 
         $.ajax({
@@ -140,14 +183,51 @@ $(document).ready(function () {
         });
     });
 
+
+
+    // Foto stuff
+    //$(".NoImageYet").trigger("click");
+
+    //$('.NoImageYet').click(function (event) { console.log(event.target.id); });
+
+    $('.StudentImageHolder').on("click", "img.NoImageYet", function () {
+         $('input[type=file]').click();
+    
+
+        console.log("Hello!");
+
+        return false;
+
+    });
+
     function RenderStudent(data) {
-
         console.log(data);
-
         if (data != "ClearData") {
+            //http://blog.teamtreehouse.com/using-jquery-asynchronously-loading-image
+            //http://imagesloaded.desandro.com/
+
+            // Handle image buttons depending on the user having one.
+            if (data[0].imageUrl == null) {
+                $('.StudentImageHolder').empty();
+                $('.StudentImageHolder').append('<img id="NoImageID" alt="StudentPicture" class="NoImageYet studentImage animated shake" src="/Images/thumb.png"></img>');
+
+                console.log("Image is null");
+            } else {
+                $('.StudentImageHolder').empty();
+                $('.StudentImageHolder').append('<img alt="StudentPicture" class="studentImage" src="/Images/thumb.png"></img>');
+               
+
+                console.log("Image is there!");
+            }
 
 
-            // Student
+
+
+            $('#StudentContent').addClass('bounceInLeft');
+
+            // Display  the content of student
+            $('#StudentContent').css("display", "block");
+
             $('.etiketnaam').text(data[0].etiketnaam);
             $('.roepnaam').text(data[0].roepnaam);
             $('.voorvoegsels').text(data[0].voorvoegsels);
@@ -184,6 +264,7 @@ $(document).ready(function () {
 
         }
         else {
+            var first = false;
             $('.studentnaam').text("");
             $('.groep').text("");
             $('.mentor').text("");
@@ -210,4 +291,10 @@ $(document).ready(function () {
             $('.datumdefinitief').text("");
         }
     }
+
+
+    $('.AddImage').click(function () {
+        console.log("uploadImage");
+    });
+
 });
