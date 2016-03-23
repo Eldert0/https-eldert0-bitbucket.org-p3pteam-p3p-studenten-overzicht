@@ -17,20 +17,22 @@
 
     // Setup validation
     Validation.Add("voornaam", 
-        Validator.Required("Je moet een voornaam invullen"), 
+       Validator.Required("Veld mag niet leeg zijn"), 
        Validator.StringLength(20, 2, "Niet meer dan 20 karakters"));
     Validation.Add("achternaam", 
-        Validator.Required("Je moet een achternaam invullen"), 
+       Validator.Required("Veld mag niet leeg zijn"), 
        Validator.StringLength(20, 2, "Niet meer dan 20 karakters"));
     Validation.Add("geslacht", 
-       Validator.Required("je moet een geslacht invullen"));
+       Validator.Required("Veld mag niet leeg zijn"));
+    Validation.Add("roleSelect", 
+       Validator.Required("Veld mag niet leeg zijn"));
     Validation.Add("telefoonnummer", 
-        Validator.Required("je moet een telefoonnummer invullen"), 
-        Validator.StringLength(20, 0,"Niet meer dan 20 karakters")); 
+       Validator.Required("Veld mag niet leeg zijn"), 
+       Validator.StringLength(20, 0,"Niet meer dan 20 karakters")); 
     Validation.Add("email", 
-        Validator.Required("Je moet een email-adres invullen"),
-        Validator.Regex(@"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$", 
-        "Invalid format for an email address")); 
+       Validator.Required("Veld mag niet leeg zijn"),
+       Validator.Regex(@"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$", "Invalid format for an email address")); 
+         
         
 
    
@@ -55,10 +57,8 @@
             var user = db.QuerySingle("SELECT Email FROM UserProfile WHERE LOWER(Email) = LOWER(@0)", email);
             if (user == null) {
                 // Insert email into the profile table
-                db.Execute("INSERT INTO UserProfile (Email) VALUES (@0)", email);
-              
-               // Roles.AddUserToRole(email, role, voornaam, achternaam, telefoonnummer, geslacht);
-
+                db.Execute("INSERT INTO UserProfile (Email, voornaam, achternaam, telefoonnummer, geslacht ) VALUES (@0, @1, @2, @3, @4)", email, voornaam, achternaam, telefoonnummer, geslacht);
+                Roles.AddUserToRole(email, role);
                 // Create and associate a new entry in the membership database.
                 // If successful, continue processing the request
                 try {
@@ -75,10 +75,12 @@
                         );
                     }
 
-                    if (requireEmailConfirmation) {
+                    if (requireEmailConfirmation)
+                     {
                         // Thank the user for registering and let them know an email is on its way
                         Response.Redirect("~/Account/Thanks");
-                    } else {
+                    } 
+                    else {
                         // Navigate back to the homepage and exit
                         WebSecurity.Login(email, password);
 
@@ -100,52 +102,59 @@
 
 
 }
+<noscript>Your browser does not support JavaScript!</noscript>
 <div id="content">
     <div id="customForm">
     <div class="row">
          <form id="AddUserForm" method="POST" action="">
+
                 <div class="form-group"> 
-                <label for="voornaam">Voornaam</label>
+                <label for="achternaam">Voornaam</label>
                 <input type="text" name="voornaam" class="form-control" id="IdVoornaam" placeholder="Voer voornaam in" value="@voornaam" @Validation.For("voornaam")>
-               
+                <noscript>@Html.ValidationMessage("voornaam")</noscript>
                 </div>
 
                 <div class="form-group"> 
                 <label for="achternaam">Achternaam</label>
                 <input type="text" name="achternaam" class="form-control" id="IdAchternaam" placeholder="Voer achternaam in" value="@achternaam" @Validation.For("achternaam")>
-                
+                <noscript>@Html.ValidationMessage("achternaam")</noscript>
                 </div>
+
                 <div class="form-group">
                 <label for="geslacht">Geslacht</label>
                 <select name="geslacht" class="form-control">
-                <option selected="">Voer een geslacht in</option>
+                <option value=" " selected="selected">Voer een geslacht in</option>
                 <option value="1" selected=@(Request.Form["geslacht"] == "1") >Man</option>
                 <option value="2" selected=@(Request.Form["geslacht"] == "2")>Vrouw</option>
                 </select>
+                <noscript>@Html.ValidationMessage("geslacht")</noscript>
                 </div>
                 
                 <div class="form-group"> 
                 <label for="telefoonnummer">Telefoonnummer</label>
                 <input type="tel" name="telefoonnummer" class="form-control" id="IdTelefoonnummer" placeholder="Voer telefoonnummer in" value="@telefoonnummer" @Validation.For("telefoonnummer")>
+                <noscript>@Html.ValidationMessage("telefoonnummer")</noscript>
                 </div>
                 
 
                 <div class="form-group">
                 <label for="email">Email-adres</label>
                 <input type="email" name="email" class="form-control" id="IdEmail" placeholder="Voer Email-adres in" value="@email" @Validation.For("email")>
+                <noscript>@Html.ValidationMessage("email")</noscript>
                 </div>
 
                 <input name="__RequestVerificationToken" type="hidden" value=""/>  
                 <div class="form-group">
                 <label for="role">Rol van gebruiker</label>
                 <select name="roleSelect" class="form-control">
-                <option selected="selected">Voer een rol in</option>
+                <option value=" " selected="selected">Voer een rol in</option>
                 @foreach(var row in db.Query("SELECT * FROM webpages_Roles")) 
                  {
-                    <option value="@row.RoleId" selected=@(Request.Form["roleSelect"] == @row.RoleId.ToString())>@row.rolename</option>
+                    <option value="@row.rolename" selected=@(Request.Form["roleSelect"] == @row.RoleId.ToString())>@row.rolename</option>
                  }
                  db.Close();          
                 </select>
+                <noscript>@Html.ValidationMessage("roleSelect")</noscript>
                 </div>
                 <button type="submit" class="btn btn-default">Toevoegen</button>
              </form>
