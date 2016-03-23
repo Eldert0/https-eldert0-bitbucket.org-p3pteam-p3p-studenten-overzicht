@@ -1,12 +1,28 @@
-﻿@{
-    if (!Request.QueryString["student"].IsEmpty())
+﻿@{ 
+    var id = "";
+
+
+    if (!Request.QueryString["data"].IsEmpty() && User.IsInRole("Administrator"))
     {
+
+        id = Request.QueryString["data"];
         var db = Database.Open("database");
-        var students = db.Execute("DELETE FROM students WHERE id = @0", Request.QueryString["student"]); 
-         
-        
-         db.Close();         
+         if(db.QueryValue("SELECT count(*) FROM students WHERE id =@0",id) == 1) 
+       {
+          var studentverwijderen = db.Execute("DELETE FROM students WHERE id = @0", id); 
+          SELECT * FROM students LEFT JOIN StudentPhotos ON StudentPhotos.id=students.id WHERE students.id = @0
+      
+       
+        db.Close();
+      }
+   
+        else
+        {
+        Response.Redirect("~/admin/students/viewstudents");
+        }
+           
     }
+
     else
     {
         Response.Redirect("~/admin/students/viewstudents");
