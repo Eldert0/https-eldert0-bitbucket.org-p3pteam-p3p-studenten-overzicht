@@ -1,4 +1,6 @@
-﻿@{
+﻿@using System;
+@using System.Text;
+@{
         Layout = "~/_MainLayout.cshtml";
         Page.Title = "Gebruiker toevoegen";
 
@@ -13,7 +15,7 @@
     var telefoonnummer = "";
     var geslacht = "";
     Database db;
-
+     
 
     // Setup validation
    Validation.Add("voornaam", 
@@ -34,9 +36,6 @@
        Validator.Regex(@"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$", "Invalid format for an email address")); 
        
          
-        
-
-   
 
     // If this is a POST request, validate and process data
     if (IsPost) {
@@ -58,13 +57,28 @@
             var user = db.QuerySingle("SELECT Email FROM UserProfile WHERE LOWER(Email) = LOWER(@0)", email);
             if (user == null) {
                 // Insert email into the profile table
-                db.Execute("INSERT INTO UserProfile (Email, voornaam, achternaam, telefoonnummer, geslacht ) VALUES (@0, @1, @2, @3, @4)", email, voornaam, achternaam, telefoonnummer, geslacht);
+                var userQuery = db.Execute("INSERT INTO UserProfile (Email, voornaam, achternaam, telefoonnummer, geslacht ) VALUES (@0, @1, @2, @3, @4) ", email, voornaam, achternaam, telefoonnummer, geslacht);
+                
+                string pass ="";
+                //create random password
+                    string valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+                    StringBuilder res = new StringBuilder();
+                    Random rnd = new Random();
+                    int i = 0;
+                    while (i < 8)
+                    {
+                        res.Append(valid[rnd.Next(valid.Length)]);
+                        i++;
+                    }
+                    pass = res.ToString();
+               
                 Roles.AddUserToRole(email, role);
                 // Create and associate a new entry in the membership database.
                 // If successful, continue processing the request
+
                 try {
                     bool requireEmailConfirmation = !WebMail.SmtpServer.IsEmpty();
-                    var token = WebSecurity.CreateAccount(email, password, requireEmailConfirmation);
+                    var token = WebSecurity.CreateAccount(email, pass, requireEmailConfirmation);
                     if (requireEmailConfirmation) {
                         var hostUrl = Request.Url.GetComponents(UriComponents.SchemeAndServer, UriFormat.Unescaped);
                         var confirmationUrl = hostUrl + VirtualPathUtility.ToAbsolute("~/Account/Confirm?confirmationCode=" + HttpUtility.UrlEncode(token));
@@ -72,14 +86,14 @@
                         WebMail.Send(
                             to: email,
                             subject: "Please confirm your account",
-                            body: "Your confirmation code is: " + token + ". Visit <a href=\"" + confirmationUrl + "\">" + confirmationUrl + "</a> to activate your account."
+                            body: "Uw validatie code is: " + token + "<br /> Bezoek <a href=\"" + confirmationUrl + "\">" + confirmationUrl + "</a> uw account te activeren.<br /><br /> <b>Login</b><br /> Email: "+email+" <br /> Password: "+pass
                         );
                     }
 
                     if (requireEmailConfirmation)
                      {
                         // Thank the user for registering and let them know an email is on its way
-                        Response.Redirect("~/Account/Thanks");
+                       Response.Redirect("~/Admin/Users/ViewUsers");
                     } 
                     else {
                         // Navigate back to the homepage and exit
