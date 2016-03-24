@@ -84,9 +84,9 @@
 
                         WebMail.Send(
                             to: email,
-                            subject: "Please confirm your account",
-                            body: "Uw validatie code is: " + token + "<br /> Bezoek <a href=\"" + confirmationUrl + "\">" + confirmationUrl + "</a> uw account te activeren.<br /><br /> <b>Login</b><br /> Email: "+email+" <br /> Password: "+pass
-                        );
+                            subject: "Activeer uw account | Studentoverzicht",
+                            body: "<b>Uw login gegevens:</b><br /> Email: "+email+" <br /> Password: "+pass+"Bezoek <a href=\"" + confirmationUrl + "\">" + confirmationUrl + "</a> om uw account te activeren.<br /><br />"
+                        ); 
                     }
 
                     if (requireEmailConfirmation)
