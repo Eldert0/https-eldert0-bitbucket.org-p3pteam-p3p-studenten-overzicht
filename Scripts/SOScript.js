@@ -69,21 +69,21 @@ $(document).ready(function () {
     $(".verwijderstudentbutton").click(function () {
 
         var element = $(this).closest("tr");
-        var StudentTodelete = $(this).attr("data-id");
+        var StudentsTodelete = $(this).attr("data-id");
 
         var txt;
-        var r = confirm("Weet je zeker dat je deze gebruiker wilt verwijderen?");
+        var r = confirm("Weet je zeker dat je deze student wilt verwijderen?");
 
         if (r == true) 
         {
              $.ajax({
-            url: '/admin/student/deletestudent.cshtml',
+            url: '/admin/students/deletestudents.cshtml',
             type: 'GET',
             data: {
-            data: StudentTodelete
+            data: StudentsTodelete
             },
             dataType: 'json',
-            success: FadeRow(StudentTodelete) // End of success function of ajax form
+            success: FadeRow(StudentsTodelete) // End of success function of ajax form
             });
 
             function FadeRow(trID) 
