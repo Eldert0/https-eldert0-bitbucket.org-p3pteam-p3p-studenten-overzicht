@@ -1,17 +1,11 @@
 ﻿@using WebMatrix.WebData
 
-@* Remove this section if you are using bundling *@
-@section Scripts {
-    <script src="~/Scripts/jquery.validate.min.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-}
-
 @{
     WebSecurity.RequireAuthenticatedUser();
 
-    Layout = "~/_SiteLayout.cshtml";
+    Layout = "~/_MainLayout.cshtml";
     Page.Title = "Manage Account";
-
+    int curUserId = WebSecurity.CurrentUserId;
     var action = Request.Form["action"];
 
     bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.CurrentUserId);
@@ -32,6 +26,100 @@
          select new { Provider = account.Provider, ProviderDisplayName = clientData.DisplayName, UserId = account.ProviderUserId })
         .ToList();
     bool canRemoveLogin = externalLogins.Count > 1 || hasLocalAccount;
+
+    // Get / edit user data
+    int userExist = 0;
+    var id = "";
+ 
+       // Setup validation
+    Validation.Add("voornaam", 
+       Validator.Required("Veld mag niet leeg zijn"), 
+       Validator.StringLength(20, 2, "Voornaam moet langer zijn dan 2 karakters"));
+
+    Validation.Add("achternaam", 
+       Validator.Required("Veld mag niet leeg zijn"), 
+       Validator.StringLength(20, 2, "Niet meer dan 20 karakters"));
+
+    Validation.Add("geslacht", 
+       Validator.Required("Veld mag niet leeg zijn"));
+
+    Validation.Add("telefoonnummer", 
+       Validator.Required("Veld mag niet leeg zijn"), 
+       Validator.StringLength(20, 0,"Niet meer dan 20 karakters"));
+        
+    Validation.Add("email", 
+       Validator.Required("Veld mag niet leeg zijn"),
+       Validator.Regex(@"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$","Foutief Email-adres")); 
+        
+
+    //userdata variables
+    var voornaam = "";
+    var achternaam = "";
+    var telefoonnummer = "";
+    dynamic geslacht = 0;
+    var email = "";
+    dynamic rolophalen = null;
+    var roloud = "";
+    var db = Database.Open("database");
+    var rol = "";
+  
+ 
+     if (curUserId > 0)
+     {  
+        db = Database.Open("database");
+ 
+        var Query = "SELECT count(*) FROM UserProfile WHERE UserId = @0";
+        userExist = db.QueryValue(Query,curUserId);
+        
+         if(userExist == 1)
+         {
+            var DataQuery = "SELECT * FROM UserProfile WHERE UserId = @0";
+            var userData = db.QuerySingle(DataQuery,curUserId);
+            
+            voornaam = userData.voornaam;
+            achternaam = userData.achternaam;
+            telefoonnummer = userData.telefoonnummer;
+            geslacht = userData.geslacht;
+            email = userData.email;        
+         } 
+         
+         else 
+         {
+           Response.Redirect("~/Account/Manage");
+         }   
+     }
+
+     else
+     {
+      Response.Redirect("~/Account/Manage");
+     }
+
+     if(IsPost)
+      {  
+        if (action == "changeUserData") {
+             //opvragen van informatie
+          
+             voornaam = Request.Form["voornaam"];
+             achternaam = Request.Form["achternaam"];
+             telefoonnummer = Request.Form["telefoonnummer"];
+             geslacht = Request.Form["geslacht"];
+             email = Request.Form["email"];
+
+             // If all information is valid, create a new account
+             if(Validation.IsValid())
+             {
+                var updateCommand = "UPDATE UserProfile SET voornaam=@0, achternaam=@1, geslacht=@2, telefoonnummer=@3, email=@4 WHERE UserId=@5";
+                db.Execute(updateCommand, voornaam, achternaam, geslacht, telefoonnummer, email, curUserId);
+
+                Response.Redirect("~/Account/Manage");
+             } 
+             else 
+             {
+                
+                ModelState.AddFormError("Email address is already in use.");
+             }
+         }
+       }
 
     // Setup validation
     if (hasLocalAccount) {
@@ -117,13 +205,66 @@
 
 <p>You're logged in as <strong>@WebSecurity.CurrentUserName</strong>.</p>
 
-@if (hasLocalAccount) {
-    <h3>Change password</h3>
-} else {
-    <p>
-        You do not have a local password for this site. Add a local password so you can log in without an external login.
-    </p>
-}
+<fieldset>
+<legend>
+    <text>Mijn gegevens</text>
+</legend>
+</fieldset>
+  <div id="customForm">
+    <div class="row">
+ <form id="AddUserForm" method="POST" action="">
+
+                <div class="form-group"> 
+                <label for="achternaam">Voornaam</label>
+                <input type="text" name="voornaam" class="form-control" id="IdVoornaam" placeholder="Voer voornaam in" value="@voornaam" @Validation.For("voornaam")>
+                <noscript>@Html.ValidationMessage("voornaam")</noscript>
+                </div>
+
+                <div class="form-group"> 
+                <label for="achternaam">Achternaam</label>
+                <input type="text" name="achternaam" class="form-control" id="IdAchternaam" placeholder="Voer achternaam in" value="@achternaam" @Validation.For("achternaam")>
+                <noscript>@Html.ValidationMessage("achternaam")</noscript>
+                </div>
+                 
+             
+                <div class="form-group">    
+                <label for="geslacht">Geslacht</label>
+                <select name="geslacht" class="form-control">
+                    
+                     @if(geslacht.ToString() == "1")
+                     {
+                        <option value="1" selected="selected">Man</option>
+                        <option value="2">vrouw</option>
+                     }
+                     else
+                     {
+                         <option value="1">Man</option>
+                         <option value="2" selected="selected">vrouw</option>
+                     }
+           
+                </select>
+                <noscript>@Html.ValidationMessage("geslacht")</noscript>
+                </div>
+                
+                <div class="form-group"> 
+                <label for="telefoonnummer">Telefoonnummer</label>
+                <input type="tel" name="telefoonnummer" class="form-control" id="IdTelefoonnummer" placeholder="Voer telefoonnummer in" value="@telefoonnummer" @Validation.For("telefoonnummer")>
+                <noscript>@Html.ValidationMessage("telefoonnummer")</noscript>
+                </div>
+                
+
+                <div class="form-group">
+                <label for="email">Email-adres</label>
+                <input type="email" name="email" class="form-control" id="IdEmail" placeholder="Voer Email-adres in" value="@email" @Validation.For("email")>
+                <noscript>@Html.ValidationMessage("email")</noscript>
+                </div>
+
+                <input name="__RequestVerificationToken" type="hidden" value=""/>  
+                <button type="submit" name="action" value="changeUserData" class="btn btn-default">Gegevens Opslaan</button>
+             </form>
+        </div>
+      </div>
+
 
 <form method="post">
     @AntiForgery.GetHtml()
