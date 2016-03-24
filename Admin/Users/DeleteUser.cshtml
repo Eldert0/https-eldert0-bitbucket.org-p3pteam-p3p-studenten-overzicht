@@ -8,7 +8,6 @@
         var db = Database.Open("database");
         if(db.QueryValue("SELECT count(*) FROM UserProfile WHERE UserId =@0",id) == 1)
         {
-            var email = db.QueryValue("SELECT Email FROM UserProfile WHERE UserID=@0", id);
             var Useridverwijderen = db.Execute("DELETE FROM webpages_UsersInRoles WHERE UserId = @0", id);
             var membershipverwijderen = db.Execute("DELETE FROM webpages_Membership WHERE UserId=@0", id);
             var userverwijderen = db.Execute("DELETE FROM UserProfile WHERE UserId=@0", id);
