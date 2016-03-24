@@ -1,6 +1,3 @@
-- Fix add user login redirect
-- Set passwords
-- Email new user
 - Add student Single record into db
 - Do not show own delete button
 - Studenten overzicht (Knoppen maken (Next / Vorige) en edit -> Dan naar student pagina)
@@ -9,9 +6,8 @@
 - UploadImage
 - Delete all students
 - Fotos inladen van sibble zijn server
-- Account knop moet functionaliteit achter
-- Options butten weghalen
 - Admin dashboard vullen
 - Validate invoeren + fotos en eigen account
 - Telefoon op scherm krijgen via tooltje tijdens presentatie(Hierdoor kunnen we de upload laten zien.)
+- Stylen
 
