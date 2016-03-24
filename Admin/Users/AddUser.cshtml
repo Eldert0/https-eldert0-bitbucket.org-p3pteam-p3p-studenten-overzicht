@@ -18,14 +18,14 @@
      
 
     // Setup validation
-    Validation.Add("voornaam", 
-       Validator.Required("Veld mag niet leeg zijn"), 
-       Validator.StringLength(20, 2, "Niet meer dan 20 karakters"));
-    Validation.Add("achternaam", 
-       Validator.Required("Veld mag niet leeg zijn"), 
+   Validation.Add("voornaam", 
+     Validator.Required("Veld mag niet leeg zijn"), 
+      Validator.StringLength(20, 2, "Niet meer dan 20 karakters"));
+   Validation.Add("achternaam", 
+      Validator.Required("Veld mag niet leeg zijn"), 
        Validator.StringLength(20, 2, "Niet meer dan 20 karakters"));
     Validation.Add("geslacht", 
-       Validator.Required("Veld mag niet leeg zijn"));
+      Validator.Required("Veld mag niet leeg zijn"));
     Validation.Add("roleSelect", 
        Validator.Required("Veld mag niet leeg zijn"));
     Validation.Add("telefoonnummer", 
@@ -34,6 +34,7 @@
     Validation.Add("email", 
        Validator.Required("Veld mag niet leeg zijn"),
        Validator.Regex(@"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$", "Invalid format for an email address")); 
+       
          
 
     // If this is a POST request, validate and process data
