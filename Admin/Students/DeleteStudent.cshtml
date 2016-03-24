@@ -9,10 +9,9 @@
         var db = Database.Open("database");
          if(db.QueryValue("SELECT count(*) FROM students WHERE id =@0",id) == 1) 
        {
-          var studentverwijderen = db.Execute("DELETE FROM students WHERE id = @0", id); 
-          SELECT * FROM students LEFT JOIN StudentPhotos ON StudentPhotos.id=students.id WHERE students.id = @0
-      
-       
+           var x = db.Execute("DELETE FROM StudentPhotos WHERE id = @0", id);
+           var studentverwijderen = db.Execute("DELETE FROM students WHERE id = @0", id); 
+          //SELECT * FROM students LEFT JOIN StudentPhotos ON StudentPhotos.id=students.id WHERE students.id = @0
         db.Close();
       }
    

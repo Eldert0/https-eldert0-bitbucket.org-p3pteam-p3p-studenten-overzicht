@@ -61,6 +61,41 @@ $(document).ready(function () {
                 });
             }
         }
+
+
+
+    });
+
+    $(".verwijderstudentbutton").click(function () {
+
+        var element = $(this).closest("tr");
+        var StudentTodelete = $(this).attr("data-id");
+
+        var txt;
+        var r = confirm("Weet je zeker dat je deze gebruiker wilt verwijderen?");
+
+        if (r == true) 
+        {
+             $.ajax({
+            url: '/admin/student/deletestudent.cshtml',
+            type: 'GET',
+            data: {
+            data: StudentTodelete
+            },
+            dataType: 'json',
+            success: FadeRow(StudentTodelete) // End of success function of ajax form
+            });
+
+            function FadeRow(trID) 
+            {
+                element.fadeOut(500, function() {
+                    element.remove();
+                });
+            }
+        }
+
+
+
     });
 
     var level = "1";
