@@ -159,4 +159,22 @@ HOnestudentnaam{
     }
 }
 
-                               
+.clear{
+    clear: both;
+}
+
+/* SECTION DASHBOARD (ADMIN)*/
+#dashboardFirstPanel{
+    width: 40%;
+    margin-right: 10%;
+    float: left;
+    display: block;
+    min-width: 300px;
+}
+
+#dashboardSecondPanel{
+    width: 40%;
+    float: left;
+    display: block;
+}
+

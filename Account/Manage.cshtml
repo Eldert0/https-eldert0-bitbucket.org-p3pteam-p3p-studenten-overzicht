@@ -193,150 +193,122 @@
         }
     }
 }
-<hgroup class="title">
-    <h1>@Page.Title.</h1>
-</hgroup>
 
-@if (!successMessage.IsEmpty()) {
+ <div id="content">
+ <div id="customForm">
+ <div class="row">
+ <form id="AddUserForm" method="POST" action="">
+ 
+
+    @if (!successMessage.IsEmpty()) 
+    {
     <p class="message-success">
         @successMessage
     </p>
-}
-
-<p>You're logged in as <strong>@WebSecurity.CurrentUserName</strong>.</p>
-
-<fieldset>
-<legend>
-    <text>Mijn gegevens</text>
-</legend>
-</fieldset>
-  <div id="customForm">
-    <div class="row">
- <form id="AddUserForm" method="POST" action="">
-
-                <div class="form-group"> 
-                <label for="achternaam">Voornaam</label>
-                <input type="text" name="voornaam" class="form-control" id="IdVoornaam" placeholder="Voer voornaam in" value="@voornaam" @Validation.For("voornaam")>
-                <noscript>@Html.ValidationMessage("voornaam")</noscript>
-                </div>
-
-                <div class="form-group"> 
-                <label for="achternaam">Achternaam</label>
-                <input type="text" name="achternaam" class="form-control" id="IdAchternaam" placeholder="Voer achternaam in" value="@achternaam" @Validation.For("achternaam")>
-                <noscript>@Html.ValidationMessage("achternaam")</noscript>
-                </div>
-                 
-             
-                <div class="form-group">    
-                <label for="geslacht">Geslacht</label>
-                <select name="geslacht" class="form-control">
-                    
-                     @if(geslacht.ToString() == "1")
-                     {
-                        <option value="1" selected="selected">Man</option>
-                        <option value="2">vrouw</option>
-                     }
-                     else
-                     {
-                         <option value="1">Man</option>
-                         <option value="2" selected="selected">vrouw</option>
-                     }
-           
-                </select>
-                <noscript>@Html.ValidationMessage("geslacht")</noscript>
-                </div>
-                
-                <div class="form-group"> 
-                <label for="telefoonnummer">Telefoonnummer</label>
-                <input type="tel" name="telefoonnummer" class="form-control" id="IdTelefoonnummer" placeholder="Voer telefoonnummer in" value="@telefoonnummer" @Validation.For("telefoonnummer")>
-                <noscript>@Html.ValidationMessage("telefoonnummer")</noscript>
-                </div>
-                
-
-                <div class="form-group">
-                <label for="email">Email-adres</label>
-                <input type="email" name="email" class="form-control" id="IdEmail" placeholder="Voer Email-adres in" value="@email" @Validation.For("email")>
-                <noscript>@Html.ValidationMessage("email")</noscript>
-                </div>
-
-                <input name="__RequestVerificationToken" type="hidden" value=""/>  
-                <button type="submit" name="action" value="changeUserData" class="btn btn-default">Gegevens Opslaan</button>
-             </form>
-        </div>
-      </div>
-
-
-<form method="post">
-    @AntiForgery.GetHtml()
-    @Html.ValidationSummary(excludeFieldErrors: true)
-
-    <fieldset>
-        <legend>
-        @if (hasLocalAccount) {
-            <text>Change Password Form</text>
-        } else {
-            <text>Set Password Form</text>
-        }
-        </legend>
-        <ol>
-            @if (hasLocalAccount) {
-                <li class="current-password">
-                    <label for="currentPassword" @if (!ModelState.IsValidField("currentPassword")) {<text>class="error-label"</text>}>Current password</label>
-                    <input type="password" id="currentPassword" name="currentPassword" @Validation.For("currentPassword")/>
-                    @Html.ValidationMessage("currentPassword")
-                </li>
-            }
-            <li class="new-password">
-                <label for="newPassword" @if (!ModelState.IsValidField("newPassword")) {<text>class="error-label"</text>}>New password</label>
-                <input type="password" id="newPassword" name="newPassword" @Validation.For("newPassword")/>
-                @Html.ValidationMessage("newPassword")
-            </li>
-            <li class="confirm-password">
-                <label for="confirmPassword" @if (!ModelState.IsValidField("confirmPassword")) {<text>class="error-label"</text>}>Confirm new password</label>
-                <input type="password" id="confirmPassword" name="confirmPassword" @Validation.For("confirmPassword")/>
-                @Html.ValidationMessage("confirmPassword")
-            </li>
-        </ol>
-        @if (hasLocalAccount) {
-            <button type="submit" name="action" value="password">Change Password</button>
-            <p>
-                Click <a href="~/Account/ForgotPassword" title="Forgot password page">here</a> if you've forgotten your password.
-            </p>
-        } else {
-            <button type="submit" name="action" value="password">Set Password</button>
-        }
-    </fieldset>
-</form>
-
-<section id="externalLogins">
-    @if (externalLogins.Count > 0) {
-        <h3>Registered external logins</h3>
-        <table>
-            <tbody>
-            @foreach (var externalLogin in externalLogins) {
-                <tr>
-                    <td>@externalLogin.ProviderDisplayName</td>
-                    <td>
-                        @if (canRemoveLogin) {
-                            <form method="post">
-                                @AntiForgery.GetHtml()
-                                <fieldset>
-                                    <legend></legend>
-                                    <input type="hidden" name="provider" value="@externalLogin.Provider" />
-                                    <input type="hidden" name="userId" value="@externalLogin.UserId" />
-                                    <button type="submit" name="action" value="removeLogin" title="Remove this @externalLogin.ProviderDisplayName credential from your account">Remove</button>
-                                </fieldset>
-                            </form>
-                        } else {
-                            @: &nbsp;
-                        }
-                    </td>
-                </tr>
-            }
-            </tbody>
-        </table>
     }
 
-    <h3>Add an external login</h3>
-    @RenderPage("~/Account/_ExternalLoginsList.cshtml")
-</section>
+    <div class="form-group"> 
+    <label for="achternaam">Voornaam</label>
+    <input type="text" name="voornaam" class="form-control" id="IdVoornaam" placeholder="Voer voornaam in" value="@voornaam" @Validation.For("voornaam")>
+    <noscript>@Html.ValidationMessage("voornaam")</noscript>
+    </div>
+
+    <div class="form-group"> 
+    <label for="achternaam">Achternaam</label>
+    <input type="text" name="achternaam" class="form-control" id="IdAchternaam" placeholder="Voer achternaam in" value="@achternaam" @Validation.For("achternaam")>
+    <noscript>@Html.ValidationMessage("achternaam")</noscript>
+    </div>
+                 
+             
+    <div class="form-group">    
+    <label for="geslacht">Geslacht</label>
+    <select name="geslacht" class="form-control">
+                    
+            @if(geslacht.ToString() == "1")
+            {
+            <option value="1" selected="selected">Man</option>
+            <option value="2">vrouw</option>
+            }
+            else
+            {
+                <option value="1">Man</option>
+                <option value="2" selected="selected">vrouw</option>
+            }
+           
+    </select>
+    <noscript>@Html.ValidationMessage("geslacht")</noscript>
+    </div>
+                
+    <div class="form-group"> 
+    <label for="telefoonnummer">Telefoonnummer</label>
+    <input type="tel" name="telefoonnummer" class="form-control" id="IdTelefoonnummer" placeholder="Voer telefoonnummer in" value="@telefoonnummer" @Validation.For("telefoonnummer")>
+    <noscript>@Html.ValidationMessage("telefoonnummer")</noscript>
+    </div>
+                
+
+    <div class="form-group">
+    <label for="email">Email-adres</label>
+    <input type="email" name="email" class="form-control" id="IdEmail" placeholder="Voer Email-adres in" value="@email" @Validation.For("email")>
+    <noscript>@Html.ValidationMessage("email")</noscript>
+    </div>
+
+    <input name="__RequestVerificationToken" type="hidden" value=""/>  
+    <button type="submit" name="action" value="changeUserData" class="btn btn-default">Gegevens Opslaan</button>
+           
+
+
+    @AntiForgery.GetHtml()
+    @Html.ValidationSummary(excludeFieldErrors: true)
+            
+            <div class="col-lg-12">
+                  <h1 class="page-header">Wijzig wachtwoord</h1>
+            </div>
+                        
+            
+
+            @if (hasLocalAccount) {
+
+      
+                <div class="form-group">
+                    <label for="currentPassword" >Huidig wachtwoord</label>
+                    <input type="password" id="currentPassword"  class="form-control" name="currentPassword" @Validation.For("currentPassword")/>
+                    @Html.ValidationMessage("currentPassword")
+                </div>
+            
+            }
+            
+            
+                <div class="form-group">
+                    <label for="newPassword" >Nieuw wachtwoord</label>
+                    <input type="password" id="newPassword"  class="form-control" name="newPassword" @Validation.For("newPassword")/>
+                    @Html.ValidationMessage("newPassword")
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword" >Bevestig nieuw wachtwoord</label>
+                    <input type="password" id="confirmPassword"  class="form-control" name="confirmPassword" @Validation.For("confirmPassword")/>
+                    @Html.ValidationMessage("currentPassword")
+                </div>
+           
+   
+        
+        @if (hasLocalAccount) 
+        {
+            
+            
+            <button type="submit" name="action" value="password" class="btn btn-default">Change Password</button>
+           
+           
+            
+            
+        } 
+        else 
+        {
+            <button type="submit" name="action" value="password" class="btn btn-default">Set Password</button>
+        }
+    
+</form>
+ </div>
+    </div>
+</div>
+
