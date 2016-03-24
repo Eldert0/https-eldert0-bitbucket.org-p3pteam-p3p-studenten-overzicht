@@ -1,6 +1,6 @@
 (function($) {
     $.fn.bootstrapValidator.i18n.emailAddress = $.extend($.fn.bootstrapValidator.i18n.emailAddress || {}, {
-        'default': 'Please enter a valid email address'
+       
     });
 
     $.fn.bootstrapValidator.validators.emailAddress = {

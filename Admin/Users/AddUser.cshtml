@@ -6,7 +6,7 @@
 
 
 
-     // Initialize general page variables
+    // Initialize general page variables
     var email = "";
     var role = "";
     var password = "awnawndiawdin";
@@ -166,7 +166,7 @@
                  {
                     <option value="@row.rolename" selected=@(Request.Form["roleSelect"] == @row.RoleId.ToString())>@row.rolename</option>
                  }
-                 db.Close();          
+                @{db.Close();}         
                 </select>
                 <noscript>@Html.ValidationMessage("roleSelect")</noscript>
                 </div>
