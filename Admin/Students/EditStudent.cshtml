@@ -207,7 +207,7 @@
             db = Database.Open("database");
           
             var updateCommand = "UPDATE students SET roepnaam=@0, naam=@1, groep=@2, mentor=@3, studentnummer=@4, voorvoegsels=@5, geslacht=@6, geboortedatum=@7, vooropleiding=@8, emailprive=@9, emailinstelling=@10, adrestype=@11, etiketnaam=@12, etiketregel1=@13, etiketregel2=@14, telefoonnummer=@15, telefoonnummermobiel=@16, herinschrijving=@17, opleiding=@18, fase=@19, datumvan=@20, datumtot=@21, aankomst_bij_isatcode=@22, aanmeldingdatum=@23, datumdefinitief=@24 WHERE Id = @25";
-            db.Execute(updateCommand, roepnaam, naam, groep, mentor, studentnummer, voorvoegsels, geslacht, geboortedatum, vooropleiding, email, emailinstelling, adrestype, etiketnaam, etiketregel1, etiketregel2, telefoonnummer, telefoonnummermobiel, herinschrijving, opleiding, fase, datumvan, datumtot, aankomst_bij_isatcode, aanmeldingdatum, datumdefinitief, id);  
+            db.Execute(updateCommand, roepnaam, naam, groep, mentor, studentnummer, voorvoegsels, geslacht, geboortedatum, vooropleiding, emailprive, emailinstelling, adrestype, etiketnaam, etiketregel1, etiketregel2, telefoonnummer, telefoonnummermobiel, herinschrijving, opleiding, fase, datumvan, datumtot, aankomst_bij_isatcode, aanmeldingdatum, datumdefinitief, id);  
             Response.Redirect("~/admin/Students/ViewStudents");
         }
 
@@ -284,8 +284,9 @@
             
             <div class="form-group">
             <label for="geboortedatum">Geboortedatum</label>
-            <input type="text" name="geboortedatum" class="form-control" id="Idgeboortedatum" placeholder="Voer een geboortedatum in" value="@geboortedatum" @Validation.For("geboortedatum")>
+            <input type="date" name="geboortedatum" class="form-control" id="Idgeboortedatum" placeholder="Voer een geboortedatum in" value="@geboortedatum" @Validation.For("geboortedatum")>
             <noscript>@Html.ValidationMessage("geboortedatum")</noscript>
+             &nbsp;
           </div>
 
             <div class="form-group">
@@ -356,20 +357,23 @@
 
             <div class="form-group">
             <label for="aanmeldingdatum">Aanmeldingsdatum</label>
-            <input type="text" name="aanmeldingdatum" class="form-control" id="Idaanmeldingdatum" placeholder="Voer een aanmeldingsdatum in" value="@aanmeldingdatum" @Validation.For("aanmeldingdatum")>
+            <input type="date" name="aanmeldingdatum" class="form-control" id="Idaanmeldingdatum" placeholder="Voer een aanmeldingsdatum in" value="@aanmeldingdatum" @Validation.For("aanmeldingdatum")>
             <noscript>@Html.ValidationMessage("aanmeldingdatum")</noscript>
+             &nbsp;
           </div>
 
             <div class="form-group">
             <label for="aankomst_bij_isatcode">Aankomst bij isatcode</label>
-            <input type="text" name="aankomst_bij_isatcode" class="form-control" id="Idaankomst_bij_isatcode" placeholder="Voer aankomst bij isatcode in" value="@aankomst_bij_isatcode" @Validation.For("aankomst_bij_isatcode")>
+            <input type="date" name="aankomst_bij_isatcode" class="form-control" id="Idaankomst_bij_isatcode" placeholder="Voer aankomst bij isatcode in" value="@aankomst_bij_isatcode" @Validation.For("aankomst_bij_isatcode")>
             <noscript>@Html.ValidationMessage("aankomst_bij_isatcode")</noscript>
+             &nbsp;
           </div>
 
             <div class="form-group">
             <label for="datumdefinitief">Datumdefinitief</label>
-            <input type="text" name="datumdefinitief" class="form-control" id="Iddatumdefinitief" placeholder="Voer datumdefinitief in" value="@datumdefinitief" @Validation.For("datumdefinitief")>
+            <input type="date" name="datumdefinitief" class="form-control" id="Iddatumdefinitief" placeholder="Voer datumdefinitief in" value="@datumdefinitief" @Validation.For("datumdefinitief")>   
             <noscript>@Html.ValidationMessage("datumdefinitief")</noscript>
+             &nbsp;
           </div>
 
             <div class="form-group">
