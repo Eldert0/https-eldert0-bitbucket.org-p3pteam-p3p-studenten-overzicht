@@ -53,6 +53,14 @@ ul#StudentResultList li{
 .input-group{
         display: -webkit-box!important;
 }
+.nhlLogo{
+    opacity: 0.2;
+    position: absolute;
+    right: 0;
+    width: auto;
+    height: 25%;
+    bottom: 0;
+}
 
 .StudentItemText{
     margin-left: 20px;
@@ -63,8 +71,14 @@ ul#StudentResultList li{
     width: 50px;
     height: auto;
 }
+#NoImageID {
+  -vendor-animation-duration: 3s;
+  -vendor-animation-delay: 2s;
+  -vendor-animation-iteration-count: infinite;
+}
 
 #PageContent{
+    
    
 }
 .arrow{
@@ -163,6 +177,34 @@ HOnestudentnaam{
     clear: both;
 }
 
+.modal-dialog {
+  position:absolute;
+  top:50% !important;
+  transform: translate(0, -50%) !important;
+  -ms-transform: translate(0, -50%) !important;
+  -webkit-transform: translate(0, -50%) !important;
+  margin:auto 5%;
+  width:90%;
+  
+}
+.modal-content {
+  min-height:100%;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0; 
+}
+.modal-body {
+  right:0;
+  overflow-y:auto;
+}
+.modal-footer {
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+}
+
 /* SECTION DASHBOARD (ADMIN)*/
 #dashboardFirstPanel{
     width: 40%;
@@ -178,3 +220,56 @@ HOnestudentnaam{
     display: block;
 }
 
+
+.blue{
+    background-color: blue;
+}
+.red{
+    background-color: red;
+}
+.green{
+    background-color: green;
+}
+.btn-circle.btn-xl {
+    width: 200px;
+    height: 200px;
+    padding: 10px 16px;
+    border-radius: 147px;
+    font-size: 60px;
+    line-height: 1.33;
+}
+
+.modal-content {
+    -webkit-box-shadow: none;
+    box-shadow:none;
+}
+.modal-content {
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    -webkit-box-shadow: none; 
+    box-shadow: none;
+}
+.aqua{
+    background-color: aqua;
+}
+.orange{
+    background-color: darkorange;
+}
+.crim{
+    background-color: crimson;   
+}
+.padding{
+    padding: 50px;
+}
+.iconTextStyling{
+    font-size: 25px;
+    text-align: center;
+    vertical-align: text-top;
+}
+.glyphicon{
+    top: 25px;
+}
+
+.FileBasterd{
+    font-size:10px;
+}

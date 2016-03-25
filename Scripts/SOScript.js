@@ -124,10 +124,6 @@ $(document).ready(function () {
     }
 
 
-
-
-
-
     // Search onchage method Ajax
     $('#SearchBox').on('input', (function () {
 
@@ -227,30 +223,19 @@ $(document).ready(function () {
 
 
     // Foto stuff
-    //$(".NoImageYet").trigger("click");
-
-    //$('.NoImageYet').click(function (event) { console.log(event.target.id); });
-
-    $('.StudentImageHolder').on("click", "img.NoImageYet", function () {
-         $('input[type=file]').click();
-    
-
-        console.log("Hello!");
-
-        return false;
-
-    });
-
     function RenderStudent(data) {
         console.log(data);
         if (data != "ClearData") {
+
             //http://blog.teamtreehouse.com/using-jquery-asynchronously-loading-image
             //http://imagesloaded.desandro.com/
 
             // Handle image buttons depending on the user having one.
             if (data[0].imageUrl == null) {
                 $('.StudentImageHolder').empty();
-                $('.StudentImageHolder').append('<img id="NoImageID" alt="StudentPicture" class="NoImageYet studentImage animated shake" src="/Images/thumb.png"></img>');
+
+
+                $('.StudentImageHolder').append('<img id="NoImageID" alt="StudentPicture"  data-toggle="modal" data-target="#myModal" class="NoImageYet studentImage animated shake" src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAK-AAAAJDhkNGM4MGNkLTRhMDktNGZmMi1hN2ZmLTlkYWIzYzFkMzQ1Mg.jpg"></img>');
 
                 console.log("Image is null");
             } else {
