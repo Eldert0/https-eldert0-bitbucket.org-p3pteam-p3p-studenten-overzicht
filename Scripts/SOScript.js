@@ -31,7 +31,6 @@ $(document).ready(function () {
 
     var windowHeigth = window.innerHeight - 150;
 
-    $('#SearchResultContainer').css("height", windowHeigth);
     $('#StudentResultList').append('<div id="NoResults">Geen resultaten, gebruik het zoekveld om naar sudenten te zoeken.</div>');
 
      $(".verwijderbutton").click(function () {

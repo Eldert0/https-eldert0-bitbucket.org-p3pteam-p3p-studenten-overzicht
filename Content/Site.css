@@ -29,9 +29,8 @@ body{
     text-align: center;
 }
 
-#SearchResultContainer{
-   
-    height: 100%;
+#SearchResultContainer{  
+    height: 88vh;
     overflow-y: scroll;
     display: block;
 
