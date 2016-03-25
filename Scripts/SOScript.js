@@ -33,7 +33,7 @@ $(document).ready(function () {
 
     $('#StudentResultList').append('<div id="NoResults">Geen resultaten, gebruik het zoekveld om naar sudenten te zoeken.</div>');
 
-     $(".verwijderbutton").click(function () {
+    $(".verwijderbutton").click(function () {
 
         var element = $(this).closest("tr");
         var UserTodelete = $(this).attr("data-id");
@@ -41,21 +41,19 @@ $(document).ready(function () {
         var txt;
         var r = confirm("Weet je zeker dat je deze gebruiker wilt verwijderen?");
 
-        if (r == true) 
-        {
-             $.ajax({
-            url: '/admin/users/deleteuser.cshtml',
-            type: 'GET',
-            data: {
-            data: UserTodelete
-            },
-            dataType: 'json',
-            success: FadeRow(UserTodelete) // End of success function of ajax form
+        if (r == true) {
+            $.ajax({
+                url: '/admin/users/deleteuser.cshtml',
+                type: 'GET',
+                data: {
+                    data: UserTodelete
+                },
+                dataType: 'json',
+                success: FadeRow(UserTodelete) // End of success function of ajax form
             });
 
-            function FadeRow(trID) 
-            {
-                element.fadeOut(500, function() {
+            function FadeRow(trID) {
+                element.fadeOut(500, function () {
                     element.remove();
                 });
             }
@@ -73,21 +71,19 @@ $(document).ready(function () {
         var txt;
         var r = confirm("Weet je zeker dat je deze student wilt verwijderen?");
 
-        if (r == true) 
-        {
-             $.ajax({
-            url: '/admin/students/deletestudents.cshtml',
-            type: 'GET',
-            data: {
-            data: StudentsTodelete
-            },
-            dataType: 'json',
-            success: FadeRow(StudentsTodelete) // End of success function of ajax form
+        if (r == true) {
+            $.ajax({
+                url: '/admin/students/deletestudents.cshtml',
+                type: 'GET',
+                data: {
+                    data: StudentsTodelete
+                },
+                dataType: 'json',
+                success: FadeRow(StudentsTodelete) // End of success function of ajax form
             });
 
-            function FadeRow(trID) 
-            {
-                element.fadeOut(500, function() {
+            function FadeRow(trID) {
+                element.fadeOut(500, function () {
                     element.remove();
                 });
             }
@@ -225,7 +221,7 @@ $(document).ready(function () {
     function RenderStudent(data) {
         console.log(data);
         if (data != "ClearData") {
-
+              $('#StudentContent').css('display', 'block');
             //http://blog.teamtreehouse.com/using-jquery-asynchronously-loading-image
             //http://imagesloaded.desandro.com/
 
@@ -240,7 +236,7 @@ $(document).ready(function () {
             } else {
                 $('.StudentImageHolder').empty();
                 $('.StudentImageHolder').append('<img alt="StudentPicture" class="studentImage" src="/Images/thumb.png"></img>');
-               
+
 
                 console.log("Image is there!");
             }
@@ -289,6 +285,7 @@ $(document).ready(function () {
 
         }
         else {
+            $('#StudentContent').css('display', 'none');
             var first = false;
             $('.studentnaam').text("");
             $('.groep').text("");
