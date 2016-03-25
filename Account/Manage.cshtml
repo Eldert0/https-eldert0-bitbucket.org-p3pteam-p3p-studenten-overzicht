@@ -4,21 +4,11 @@
     WebSecurity.RequireAuthenticatedUser();
 
     Layout = "~/_MainLayout.cshtml";
-    Page.Title = "Manage Account";
+    Page.Title = "Account beheren";
     int curUserId = WebSecurity.CurrentUserId;
     var action = Request.Form["action"];
 
     bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.CurrentUserId);
-
-    string successMessage = "";
-    var message = Request.QueryString["message"];
-    if (message == "ChangedPassword") {
-        successMessage = "Your password has been changed.";
-    } else if (message == "SetPassword") {
-        successMessage = "Your password has been set.";
-    } else if (message == "RemovedLogin") {
-        successMessage = "The external login was removed.";
-    }
 
     var externalLogins =
         (from account in OAuthWebSecurity.GetAccountsFromUserName(WebSecurity.CurrentUserName)
@@ -30,6 +20,7 @@
     // Get / edit user data
     int userExist = 0;
     var id = "";
+    
  
        // Setup validation
     Validation.Add("voornaam", 
@@ -62,6 +53,7 @@
     var roloud = "";
     var db = Database.Open("database");
     var rol = "";
+    
   
  
      if (curUserId > 0)
@@ -105,7 +97,7 @@
              geslacht = Request.Form["geslacht"];
              email = Request.Form["email"];
 
-             // If all information is valid, create a new account
+             // If all information is valid, update account
              if(Validation.IsValid())
              {
                 var updateCommand = "UPDATE UserProfile SET voornaam=@0, achternaam=@1, geslacht=@2, telefoonnummer=@3, email=@4 WHERE UserId=@5";
@@ -122,90 +114,72 @@
        }
 
     // Setup validation
-    if (hasLocalAccount) {
-        Validation.RequireField("currentPassword", "The current password field is required.");
+    if (hasLocalAccount) 
+    {
+        Validation.RequireField("currentPassword", "Veld mag niet leeg zijn.");
         Validation.Add("currentPassword",
             Validator.StringLength(
                 maxLength: Int32.MaxValue,
                 minLength: 6,
-                errorMessage: "Current password must be at least 6 characters"));
+                errorMessage: "Huidig wachtwoord moet langer zijn dan 6 karakters"));
     }
-    Validation.RequireField("newPassword", "The new password field is required.");
+
+    
     Validation.Add("confirmPassword",
-        Validator.Required("The confirm new password field is required."),
-        Validator.EqualsTo("newPassword", "The new password and confirmation password do not match."));
+        Validator.Required("Veld mag niet leeg zijn."),
+        Validator.EqualsTo("newPassword", "Het nieuwe wachtwoord komt niet overeen met het bevestigde wachtwoord"));
+
+    Validation.RequireField("newPassword", "Veld mag niet leeg zijn.");
     Validation.Add("newPassword",
         Validator.StringLength(
             maxLength: Int32.MaxValue,
             minLength: 6,
-            errorMessage: "New password must be at least 6 characters"));
+            errorMessage: "Het nieuwe wachtwoord moet langer zijn dan 6 karakters"));
 
-    if (IsPost) {
-        AntiForgery.Validate();
-        if (action == "password") {
+    if (IsPost)
+     {
+       
+        
             // Handle local account password operations
             var currentPassword = Request.Form["currentPassword"];
             var newPassword = Request.Form["newPassword"];
             var confirmPassword = Request.Form["confirmPassword"];
 
-            if (Validation.IsValid()) {
-                if (hasLocalAccount) {
-                    if (WebSecurity.ChangePassword(WebSecurity.CurrentUserName, currentPassword, newPassword)) {
-                        Response.Redirect("~/Account/Manage?message=ChangedPassword");
-                        return;
-                    } else {
-                        ModelState.AddFormError("An error occurred when attempting to change the password. Please contact the site owner.");
-                    }
-                } else {
-                    bool requireEmailConfirmation = !WebMail.SmtpServer.IsEmpty();
-                    try {
-                        WebSecurity.CreateAccount(WebSecurity.CurrentUserName, newPassword, requireEmailConfirmation);
-                        Response.Redirect("~/Account/Manage?message=SetPassword");
-                        return;
-                    } catch (System.Web.Security.MembershipCreateUserException e) {
-                        ModelState.AddFormError(e.Message);
-                    }
+            if (Validation.IsValid()) 
+            {
+                if(newPassword != confirmPassword)
+                {
+                    Response.Redirect("~/Account/Manage?message=ChangedPasswordfailed");
+                    return;
                 }
-            } else {
-                ModelState.AddFormError("Password change was unsuccessful. Please correct the errors and try again.");
-            }
-        } else if (action == "removeLogin") {
-            // Remove external login
-            var provider = Request.Form["provider"];
-            var userId = Request.Form["userId"];
+                if (WebSecurity.ChangePassword(WebSecurity.CurrentUserName, currentPassword, newPassword)) 
+                {
+                        
+                    Response.Redirect("~/Account/Manage?message=PasswordChanged");
+                    return;
+                } 
+                else 
+                {   
+                    Response.Redirect("~/Account/Manage?message=ChangedPasswordfailed");
+                }
+            }                                            
+            else 
+            {
+                ModelState.AddFormError("godverdomme");
+                //Response.Redirect("~/Account/Manage?message=ChangedPasswordfailed");
 
-            message = null;
-            var ownerAccount = OAuthWebSecurity.GetUserName(provider, userId);
-            // Only remove the external login if it is owned by the currently logged in user and it is not the users last login credential
-            if (ownerAccount == WebSecurity.CurrentUserName && canRemoveLogin) {
-                OAuthWebSecurity.DeleteAccount(provider, userId);
-                message = "RemovedLogin";
             }
-            Response.Redirect(Href("~/Account/Manage", new { message }));
-            return;
-        } else {
-            // Assume this an external login request
-            string provider = Request.Form["provider"];
-            if (!provider.IsEmpty()) {
-                OAuthWebSecurity.RequestAuthentication(provider, Href("~/Account/RegisterService", new { returnUrl = Href("~/Account/Manage") }));
-                return;
-            }
-        }
+        
+        
     }
 }
 
  <div id="content">
- <div id="customForm">
  <div class="row">
  <form id="AddUserForm" method="POST" action="">
- 
 
-    @if (!successMessage.IsEmpty()) 
-    {
-    <p class="message-success">
-        @successMessage
-    </p>
-    }
+    <div class="col-lg-6">
+    <h2 class="page-header headerpaddingfix">Wijzig persoonsgegevens</h2>
 
     <div class="form-group"> 
     <label for="achternaam">Voornaam</label>
@@ -256,16 +230,28 @@
     <button type="submit" name="action" value="changeUserData" class="btn btn-default">Gegevens Opslaan</button>
            
 
-
+    </div>
     @AntiForgery.GetHtml()
-    @Html.ValidationSummary(excludeFieldErrors: true)
-            
-            <div class="col-lg-12">
-                  <h1 class="page-header">Wijzig wachtwoord</h1>
-            </div>
-                        
-            
 
+            <div class="col-lg-6">
+                  <h2 class="page-header headerpaddingfix">Wijzig wachtwoord</h2>
+                @{
+                    string successMessage = "";
+                    var message = Request.QueryString["message"];
+                    if(!message.IsEmpty())
+                   {
+                        if (message == "PasswordChanged")
+                        {
+                            <span class="passwordvalidationsucces">@Html.ValidationSummary(excludeFieldErrors: true)</span> 
+                        } 
+                        else if (message == "Passwordchangefailed") 
+                        {
+                            <span class="passwordvalidationerror">@Html.ValidationSummary(excludeFieldErrors: true)</span> 
+                        }
+                        
+                   }
+                   
+                }    
             @if (hasLocalAccount) {
 
       
@@ -287,28 +273,21 @@
                 <div class="form-group">
                     <label for="confirmPassword" >Bevestig nieuw wachtwoord</label>
                     <input type="password" id="confirmPassword"  class="form-control" name="confirmPassword" @Validation.For("confirmPassword")/>
-                    @Html.ValidationMessage("currentPassword")
+                    @Html.ValidationMessage("confirmPassword")
                 </div>
            
    
         
         @if (hasLocalAccount) 
         {
-            
-            
             <button type="submit" name="action" value="password" class="btn btn-default">Change Password</button>
-           
-           
-            
-            
         } 
         else 
         {
             <button type="submit" name="action" value="password" class="btn btn-default">Set Password</button>
         }
-    
+   </div>
 </form>
  </div>
-    </div>
 </div>
 

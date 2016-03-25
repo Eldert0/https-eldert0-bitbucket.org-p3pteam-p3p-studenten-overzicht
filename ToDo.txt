@@ -1,13 +1,17 @@
-- Add student Single record into db
+
 - Do not show own delete button
 - Studenten overzicht (Knoppen maken (Next / Vorige) en edit -> Dan naar student pagina)
 - Pagination buttons under the tables need to be styled 
 - Data inside table row for mobile view (https://datatables.net/examples/server_side/row_details.html)
 - UploadImage
 - Delete all students
-- Fotos inladen van sibble zijn server
 - Admin dashboard vullen
-- Validate invoeren + fotos en eigen account
+- Validate invoeren + fotos en eigen account (eigen gegevens in database zetten)
 - Telefoon op scherm krijgen via tooltje tijdens presentatie(Hierdoor kunnen we de upload laten zien.)
 - Stylen
+- password veranderen (account) frontend succes messages of natuurlijk error
+- Resize zoekbalk (verander als scherm kleiner word)
+- Delete Student (nieuw toegevoegde studenten willen nog niet weg)
+
+- WIE HAALT HET RARE PIJLTJE WEG!?!?!
 
