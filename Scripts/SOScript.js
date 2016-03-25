@@ -261,35 +261,6 @@ $(document).ready(function () {
 
 });
 
-function delUserFix(){
-     $(".verwijderstudentbutton").on('click', function () {
-        console.log('i"m here');
-        var element = $(this).closest("tr");
-        var StudentsTodelete = $(this).attr("data-id");
-        console.log('i"m here');
-        var txt;
-        var r = confirm("Weet je zeker dat je deze student wilt verwijderen?");
-        console.log('i"m here 2');
-
-        if (r == true) {
-            $.ajax({
-                url: '/admin/students/deletestudents.cshtml',
-                type: 'GET',
-                data: {
-                    data: StudentsTodelete
-                },
-                dataType: 'json',
-                success: FadeRow(StudentsTodelete) // End of success function of ajax form
-            });
-
-            function FadeRow(trID) {
-                element.fadeOut(500, function () {
-                    element.remove();
-                });
-            }
-        }   
-    });
-}
 $(document).on('click', '.verwijderstudentbutton', function(){
      console.log('i"m here');
         var element = $(this).closest("tr");

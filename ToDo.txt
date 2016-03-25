@@ -1,17 +1,28 @@
 
-
+=====To-Do===============
 - Studenten overzicht (Knoppen maken (Next / Vorige) en edit -> Dan naar student pagina)
 - Pagination buttons under the tables need to be styled 
 - Data inside table row for mobile view (https://datatables.net/examples/server_side/row_details.html) of dat ie mee schaalt (view student op telefoon etc)
 - UploadImage
 - Delete all students
-- Admin dashboard vullen
 - Validate invoeren + fotos en eigen account (eigen gegevens in database zetten)
+
+=====Styling shit=========
+
+- Admin dashboard vullen
+voor NHL facebook pagina:
+https://developers.facebook.com/docs/plugins/page-plugin
+nhl twitter pagina:
+zit al in de website maar moet gestyled worden etc..
 - Stylen
-- password veranderen (account) frontend succes messages of  error message
-- User aanmaken (bij bestaande user foutmelding geven)
 
 
 
-- Telefoon op scherm krijgen via tooltje tijdens presentatie(Hierdoor kunnen we de upload laten zien.)
+=====Werkt ongeveer=======
+- User aanmaken (bij bestaande user foutmelding geven) (is inprincipe gedaan mailadres kan niet 2x gebruikt worden)
 - Resize zoekbalk (verander als scherm kleiner word) (opgelost met extra scrollbar links) WERKT NOG NIET GOED!!
+- password veranderen (account) frontend succes messages of  error message
+
+
+=====Presentatie===========
+- manier vinden om telefoon op scherm te tonen
