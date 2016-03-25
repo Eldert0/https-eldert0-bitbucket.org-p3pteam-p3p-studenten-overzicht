@@ -34,7 +34,7 @@ $(document).ready(function () {
     $('#SearchResultContainer').css("height", windowHeigth);
     $('#StudentResultList').append('<div id="NoResults">Geen resultaten, gebruik het zoekveld om naar sudenten te zoeken.</div>');
 
-    $(".verwijderbutton").click(function () {
+     $(".verwijderbutton").click(function () {
 
         var element = $(this).closest("tr");
         var UserTodelete = $(this).attr("data-id");
@@ -42,19 +42,21 @@ $(document).ready(function () {
         var txt;
         var r = confirm("Weet je zeker dat je deze gebruiker wilt verwijderen?");
 
-        if (r == true) {
-            $.ajax({
-                url: '/admin/users/deleteuser.cshtml',
-                type: 'GET',
-                data: {
-                    data: UserTodelete
-                },
-                dataType: 'json',
-                success: FadeRow(UserTodelete) // End of success function of ajax form
+        if (r == true) 
+        {
+             $.ajax({
+            url: '/admin/users/deleteuser.cshtml',
+            type: 'GET',
+            data: {
+            data: UserTodelete
+            },
+            dataType: 'json',
+            success: FadeRow(UserTodelete) // End of success function of ajax form
             });
 
-            function FadeRow(trID) {
-                element.fadeOut(500, function () {
+            function FadeRow(trID) 
+            {
+                element.fadeOut(500, function() {
                     element.remove();
                 });
             }
@@ -72,31 +74,29 @@ $(document).ready(function () {
         var txt;
         var r = confirm("Weet je zeker dat je deze student wilt verwijderen?");
 
-        if (r == true) {
-            $.ajax({
-                url: '/admin/students/deletestudents.cshtml',
-                type: 'GET',
-                data: {
-                    data: StudentsTodelete
-                },
-                dataType: 'json',
-                success: FadeRow(StudentsTodelete) // End of success function of ajax form
+        if (r == true) 
+        {
+             $.ajax({
+            url: '/admin/students/deletestudents.cshtml',
+            type: 'GET',
+            data: {
+            data: StudentsTodelete
+            },
+            dataType: 'json',
+            success: FadeRow(StudentsTodelete) // End of success function of ajax form
             });
 
-            function FadeRow(trID) {
-                element.fadeOut(500, function () {
+            function FadeRow(trID) 
+            {
+                element.fadeOut(500, function() {
                     element.remove();
                 });
             }
         }
-    });
 
-    //password message
-   //$(".passwordvalidationerror").text("Wachtwoord wijzigen mislukt.");
-   //$(".passwordvalidationerror").css("color", "red");
-   //$(".passwordvalidationsucces").text("Wachtwoord succesvol gewijzigd.");
-   //$(".passwordvalidationsucces").css("color", "green");
-   //$(".passwordvalidationsucces").show().delay(5000).fadeOut();
+
+
+    });
 
     var level = "1";
 
@@ -122,6 +122,7 @@ $(document).ready(function () {
             "info": false
         });
     }
+
 
     // Search onchage method Ajax
     $('#SearchBox').on('input', (function () {
@@ -222,36 +223,25 @@ $(document).ready(function () {
 
 
     // Foto stuff
-    //$(".NoImageYet").trigger("click");
-
-    //$('.NoImageYet').click(function (event) { console.log(event.target.id); });
-
-    $('.StudentImageHolder').on("click", "img.NoImageYet", function () {
-        $('input[type=file]').click();
-
-
-        console.log("Hello!");
-
-        return false;
-
-    });
-
     function RenderStudent(data) {
         console.log(data);
         if (data != "ClearData") {
+
             //http://blog.teamtreehouse.com/using-jquery-asynchronously-loading-image
             //http://imagesloaded.desandro.com/
 
             // Handle image buttons depending on the user having one.
             if (data[0].imageUrl == null) {
                 $('.StudentImageHolder').empty();
-                $('.StudentImageHolder').append('<img id="NoImageID" alt="StudentPicture" class="NoImageYet studentImage animated shake" src="/Images/thumb.png"></img>');
+
+
+                $('.StudentImageHolder').append('<img id="NoImageID" alt="StudentPicture"  data-toggle="modal" data-target="#myModal" class="NoImageYet studentImage animated shake" src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAK-AAAAJDhkNGM4MGNkLTRhMDktNGZmMi1hN2ZmLTlkYWIzYzFkMzQ1Mg.jpg"></img>');
 
                 console.log("Image is null");
             } else {
                 $('.StudentImageHolder').empty();
                 $('.StudentImageHolder').append('<img alt="StudentPicture" class="studentImage" src="/Images/thumb.png"></img>');
-
+               
 
                 console.log("Image is there!");
             }

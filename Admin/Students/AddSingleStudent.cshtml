@@ -120,13 +120,7 @@
         Validator.StringLength(20, 2, "Niet meer dan 20 karakters"));
         
         
-   if (!Request.QueryString["student"].IsEmpty())
-    {
-    id = Request.QueryString["student"];
-    db = Database.Open("database");
- 
-    var Query = "SELECT count(*) FROM students WHERE id = @0";
-    userExist = db.QueryValue(Query,id);
+   
     
      if (IsPost) 
      {  
@@ -163,7 +157,7 @@
             db = Database.Open("database");
           
             var updateCommand = "UPDATE students SET roepnaam=@0, naam=@1, groep=@2, mentor=@3, studentnummer=@4, voorvoegsels=@5, geslacht=@6, geboortedatum=@7, vooropleiding=@8, emailprive=@9, emailinstelling=@10, adrestype=@11, etiketnaam=@12, etiketregel1=@13, etiketregel2=@14, telefoonnummer=@15, telefoonnummermobiel=@16, herinschrijving=@17, opleiding=@18, fase=@19, datumvan=@20, datumtot=@21, aankomst_bij_isatcode=@22, aanmeldingdatum=@23, datumdefinitief=@24 WHERE Id = @25";
-            db.Execute(updateCommand, roepnaam, naam, groep, mentor, studentnummer, voorvoegsels, geslacht, geboortedatum, vooropleiding, email, emailinstelling, adrestype, etiketnaam, etiketregel1, etiketregel2, telefoonnummer, telefoonnummermobiel, herinschrijving, opleiding, fase, datumvan, datumtot, aankomst_bij_isatcode, aanmeldingdatum, datumdefinitief, id);  
+            db.Execute(updateCommand, roepnaam, naam, groep, mentor, studentnummer, voorvoegsels, geslacht, geboortedatum, vooropleiding, emailprive, emailinstelling, adrestype, etiketnaam, etiketregel1, etiketregel2, telefoonnummer, telefoonnummermobiel, herinschrijving, opleiding, fase, datumvan, datumtot, aankomst_bij_isatcode, aanmeldingdatum, datumdefinitief, id);  
             Response.Redirect("~/admin/Students/ViewStudents");
         }
 
@@ -173,5 +167,184 @@
     ModelState.AddFormError("Email address is already in use.");
    }
   }
- }
+ 
 
+
+<noscript>Your browser does not support JavaScript!</noscript>
+<div id="content">
+    <div id="customForm">
+     <div class="row">    
+        <form id="AddForm" method="POST" action="">
+
+             <div class="form-group"> 
+             <label for="roepnaam">Roepnaam</label>
+             <input type="text" name="roepnaam" class="form-control" id="Idroepnaam" placeholder="Voer naam in" value="@roepnaam" @Validation.For("roepnaam")>
+             <noscript>@Html.ValidationMessage("roepnaam")</noscript>
+          </div>
+
+             <div class="form-group">
+             <label for="naam">Naam</label>
+             <input type="text" name="naam" class="form-control" id="Idnaam" placeholder="Voer naam in" value="@naam" @Validation.For("naam")>
+             <noscript>@Html.ValidationMessage("naam")</noscript>
+          </div>
+               
+             <div class="form-group">
+             <label for="voorvoegsels">Voorvoegsels</label>
+             <input type="text" name="voorvoegsels" class="form-control" id="Idvoorvoegsels" placeholder="Voer voorvoegsels in" value="@voorvoegsels" @Validation.For("voorvoegsels")>
+             <noscript>@Html.ValidationMessage("voorvoegsels")</noscript>
+          </div>
+
+             <div class="form-group">
+             <label for="etiketnaam">Initialen</label>
+             <input type="text" name="etiketnaam" class="form-control" id="Idetiketnaam" placeholder="Voer initialen in" value="@etiketnaam" @Validation.For("etiketnaam")>
+             <noscript>@Html.ValidationMessage("etiketnaam")</noscript>
+          </div>
+
+             <div class="form-group">    
+                <label for="geslacht">Geslacht</label>
+                <select name="geslacht" class="form-control">
+                    
+                     @if(geslacht.ToString() == "1")
+                     {
+                        <option value="1" selected="selected">Man</option>
+                        <option value="2">vrouw</option>
+                     }
+                     else
+                     {
+                         <option value="1">Man</option>
+                         <option value="2" selected="selected">vrouw</option>
+                     }
+           
+                </select>
+                <noscript>@Html.ValidationMessage("geslacht")</noscript>
+                </div>
+             
+             <div class="form-group">
+             <label for="groep">Groep</label>
+             <input type="text" name="groep" class="form-control" id="Idgroep" placeholder="Voer een groep in" value="@groep" @Validation.For("groep")>
+             <noscript>@Html.ValidationMessage("groep")</noscript>
+          </div>
+
+            <div class="form-group">
+            <label for="studentnummer">Studentnummer</label>
+            <input type="text" name="studentnummer" class="form-control" id="Idstudentnummer" placeholder="Voer een studentnummer in" value="@studentnummer" @Validation.For("studentnummer")>
+            <noscript>@Html.ValidationMessage("studentnummer")</noscript>
+          </div>
+            
+            <div class="form-group">
+            <label for="geboortedatum">Geboortedatum</label>
+            <input type="date" name="geboortedatum" class="form-control" id="Idgeboortedatum" placeholder="Voer een geboortedatum in" value="@geboortedatum" @Validation.For("geboortedatum")>
+            <noscript>@Html.ValidationMessage("geboortedatum")</noscript>
+             &nbsp;
+          </div>
+
+            <div class="form-group">
+            <label for="telefoonnummer">Telefoonnummer</label>
+            <input type="tel" name="telefoonnummer" class="form-control" id="telefoonnummer" placeholder="Voer een telefoonnummer in" value="@telefoonnummer" @Validation.For("telefoonnummer")>
+            <noscript>@Html.ValidationMessage("telefoonnummer")</noscript>
+          </div>
+            
+            <div class="form-group">
+            <label for="telefoonnummermobiel">Telefoonnummermobiel</label>
+            <input type="tel" name="telefoonnummermobiel" class="form-control" id="Idtelefoonnummermobiel" placeholder="Voer een telefoonnummermobiel in" value="@telefoonnummermobiel" @Validation.For("telefoonnummermobiel")>
+            <noscript>@Html.ValidationMessage("telefoonnummermobiel")</noscript>
+         </div>
+
+            <div class="form-group">
+            <label for="email">Prive e-mail</label>
+            <input type="email" name="email" class="form-control" id="Idemail" placeholder="Voer een prive e-mail in" value="@email" @Validation.For("email")>
+            <noscript>@Html.ValidationMessage("email")</noscript>
+         </div>
+
+            <div class="form-group">
+            <label for="emailinstelling">School e-mail</label>
+            <input type="email" name="emailinstelling" class="form-control" id="Idemailinstelling" placeholder="Voer een school e-mail in" value="@emailinstelling" @Validation.For("emailinstelling")>
+            <noscript>@Html.ValidationMessage("emailinstelling")</noscript>
+         </div>
+
+            <div class="form-group">
+            <label for="etiketregel1">Straatnaam en huisnummer</label>
+            <input type="text" name="etiketregel1" class="form-control" id="Idetiketregel1" placeholder="Voer een Straatnaam en huisnummer in" value="@etiketregel1" @Validation.For("etiketregel1")>
+            <noscript>@Html.ValidationMessage("etiketregel1")</noscript>
+         </div>
+
+            <div class="form-group">
+            <label for="etiketregel2">Postcode en woonplaats</label>
+            <input type="text" name="etiketregel2" class="form-control" id="Idetiketregel2" placeholder="Voer een postcode en woonplaats in" value="@etiketregel2" @Validation.For("etiketregel2")>
+            <noscript>@Html.ValidationMessage("etiketregel2")</noscript>
+         </div>
+
+            <div class="form-group">
+            <label for="adrestype">Adrestype</label>
+            <input type="text" name="adrestype" class="form-control" id="Idadrestype" placeholder="Voer een adrestype in" value="@adrestype" @Validation.For("adrestype")>
+            <noscript>@Html.ValidationMessage("adrestype")</noscript>
+         </div>
+
+            <div class="form-group">
+            <label for="mentor">Mentor</label>
+            <input type="text" name="mentor" class="form-control" id="Idmentor" placeholder="Voer een mentor in" value="@mentor" @Validation.For("mentor")>
+            <noscript>@Html.ValidationMessage("mentor")</noscript>
+          </div>
+
+            <div class="form-group">
+            <label for="vooropleiding">Vooropleiding</label>
+            <input type="text" name="vooropleiding" class="form-control" id="Idvooropleiding" placeholder="Voer een vooropleiding in" value="@vooropleiding" @Validation.For("vooropleiding")>
+            <noscript>@Html.ValidationMessage("vooropleiding")</noscript>
+          </div>
+
+            <div class="form-group">
+            <label for="opleiding">Opleiding</label>
+            <input type="text" name="opleiding" class="form-control" id="Idopleiding" placeholder="Voer een opleiding in" value="@opleiding" @Validation.For("opleiding")>
+            <noscript>@Html.ValidationMessage("opleiding")</noscript>
+          </div>
+
+            <div class="form-group">
+            <label for="herinschrijving">Herinschrijving</label>
+            <input type="text" name="herinschrijving" class="form-control" id="Idherinschrijving" placeholder="Voer een herinschrijving in als dit van toepassing is" value="@herinschrijving" @Validation.For("herinschrijving")>
+            <noscript>@Html.ValidationMessage("herinschrijving")</noscript>
+          </div>
+
+            <div class="form-group">
+            <label for="aanmeldingdatum">Aanmeldingsdatum</label>
+            <input type="date" name="aanmeldingdatum" class="form-control" id="Idaanmeldingdatum" placeholder="Voer een aanmeldingsdatum in" value="@aanmeldingdatum" @Validation.For("aanmeldingdatum")>
+            <noscript>@Html.ValidationMessage("aanmeldingdatum")</noscript>
+             &nbsp;
+          </div>
+
+            <div class="form-group">
+            <label for="aankomst_bij_isatcode">Aankomst bij isatcode</label>
+            <input type="date" name="aankomst_bij_isatcode" class="form-control" id="Idaankomst_bij_isatcode" placeholder="Voer aankomst bij isatcode in" value="@aankomst_bij_isatcode" @Validation.For("aankomst_bij_isatcode")>
+            <noscript>@Html.ValidationMessage("aankomst_bij_isatcode")</noscript>
+             &nbsp;
+          </div>
+
+            <div class="form-group">
+            <label for="datumdefinitief">Datumdefinitief</label>
+            <input type="date" name="datumdefinitief" class="form-control" id="Iddatumdefinitief" placeholder="Voer datumdefinitief in" value="@datumdefinitief" @Validation.For("datumdefinitief")>   
+            <noscript>@Html.ValidationMessage("datumdefinitief")</noscript>
+             &nbsp;
+          </div>
+
+            <div class="form-group">
+            <label for="datumvan">Datum van/tot</label>
+            <input type="date" name="datumvan" class="form-control" id="Iddatumvan" placeholder="Voer datumvan in" value="@datumvan" @Validation.For("datumvan")>             
+            <noscript>@Html.ValidationMessage("datumvan")</noscript>
+             &nbsp;tot&nbsp;
+            <label for="datumtot"></label>
+            <input type="date" name="datumtot" class="form-control" id="Iddatumtot" placeholder="Voer datumtot in" value="@datumtot" @Validation.For("datumtot")>             
+            <noscript>@Html.ValidationMessage("datumtot")</noscript>
+          </div>
+
+
+            <div class="form-group">
+            <label for="fase">Fase</label>
+            <input type="text" name="fase" class="form-control" id="Idfase" placeholder="Voer fase in" value="@fase" @Validation.For("fase")>
+            @{db.Close();}
+            <noscript>@Html.ValidationMessage("fase")</noscript>
+          </div>
+             
+             <button type="submit" class="btn btn-default">Submit</button>   
+      </form> 
+   </div>
+ </div>
+</div>
