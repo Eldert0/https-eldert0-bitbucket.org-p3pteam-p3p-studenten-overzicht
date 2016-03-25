@@ -19,20 +19,20 @@
 
     // Setup validation
    Validation.Add("voornaam", 
-     Validator.Required("Veld mag niet leeg zijn"), 
+     Validator.Required("Veld mag niet leeg zijn."), 
       Validator.StringLength(20, 2, "Niet meer dan 20 karakters"));
    Validation.Add("achternaam", 
-      Validator.Required("Veld mag niet leeg zijn"), 
+      Validator.Required("Veld mag niet leeg zijn."), 
        Validator.StringLength(20, 2, "Niet meer dan 20 karakters"));
     Validation.Add("geslacht", 
-      Validator.Required("Veld mag niet leeg zijn"));
+      Validator.Required("Veld mag niet leeg zijn."));
     Validation.Add("roleSelect", 
-       Validator.Required("Veld mag niet leeg zijn"));
+       Validator.Required("Veld mag niet leeg zijn."));
     Validation.Add("telefoonnummer", 
-       Validator.Required("Veld mag niet leeg zijn"), 
+       Validator.Required("Veld mag niet leeg zijn."), 
        Validator.StringLength(20, 0,"Niet meer dan 20 karakters")); 
     Validation.Add("email", 
-       Validator.Required("Veld mag niet leeg zijn"),
+       Validator.Required("Veld mag niet leeg zijn."),
        Validator.Regex(@"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$", "Invalid format for an email address")); 
        
          
@@ -154,7 +154,7 @@
 
                 <div class="form-group">
                 <label for="email">Email-adres</label>
-                <input type="email" name="email" class="form-control" id="IdEmail" placeholder="Voer Email-adres in" value="@email" @Validation.For("email")>
+                <input type="email" name="email" class="form-control" id="IdEmail" placeholder="Voer Email-adres in" value="@email" @Validation.For("email")>@Html.Raw(result)  @Html.ValidationSummary(true)
                 <noscript>@Html.ValidationMessage("email")</noscript>
                 </div>
 

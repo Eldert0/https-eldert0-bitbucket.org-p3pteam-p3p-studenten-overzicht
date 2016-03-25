@@ -15,13 +15,13 @@
     }
 
     // Setup validation
-    Validation.RequireField("email", "You must specify an email address.");
-    Validation.RequireField("password", "You must specify a password.");
+    Validation.RequireField("email", "Veld mag niet leeg zijn.");
+    Validation.RequireField("password", "Veld mag niet leeg zijn.");
     Validation.Add("password",
         Validator.StringLength(
             maxLength: Int32.MaxValue,
             minLength: 6,
-            errorMessage: "Password must be at least 6 characters"));
+            errorMessage: "Wachtwoord moet minstens 6 karakters zijn"));
 
     // If this is a POST request, validate and process data
     if (IsPost) {

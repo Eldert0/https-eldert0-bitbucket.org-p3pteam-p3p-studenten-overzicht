@@ -2,16 +2,15 @@
 - Do not show own delete button
 - Studenten overzicht (Knoppen maken (Next / Vorige) en edit -> Dan naar student pagina)
 - Pagination buttons under the tables need to be styled 
-- Data inside table row for mobile view (https://datatables.net/examples/server_side/row_details.html)
+- Data inside table row for mobile view (https://datatables.net/examples/server_side/row_details.html) of dat ie mee schaalt (view student op telefoon etc)
 - UploadImage
 - Delete all students
 - Admin dashboard vullen
 - Validate invoeren + fotos en eigen account (eigen gegevens in database zetten)
-- Telefoon op scherm krijgen via tooltje tijdens presentatie(Hierdoor kunnen we de upload laten zien.)
 - Stylen
-- password veranderen (account) frontend succes messages of natuurlijk error
+- password veranderen (account) frontend succes messages of  error message
 - Resize zoekbalk (verander als scherm kleiner word)
 - Delete Student (nieuw toegevoegde studenten willen nog niet weg)
+- User aanmaken (bij bestaande user foutmelding geven)
 
-- WIE HAALT HET RARE PIJLTJE WEG!?!?!
-
+- Telefoon op scherm krijgen via tooltje tijdens presentatie(Hierdoor kunnen we de upload laten zien.)

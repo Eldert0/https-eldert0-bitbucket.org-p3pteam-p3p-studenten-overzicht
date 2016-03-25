@@ -23,8 +23,8 @@ $(document).ready(function () {
 
         },
         "columnDefs": [
-            { "orderable": false, "targets": 5 },
-            { "orderable": false, "targets": 6 }
+            { "orderable": false, "targets": 6 },
+            { "orderable": false, "targets": 7 }
 
             ]
     });

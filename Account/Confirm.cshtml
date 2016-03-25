@@ -1,6 +1,6 @@
 ﻿@{
     Layout = "~/_LoginLayout.cshtml";
-    Page.Title = "Registration Confirmation Page";
+    Page.Title = "Activatie pagina";
 
     string message = "";
     var confirmationToken = Request["confirmationCode"];
@@ -8,17 +8,16 @@
     WebSecurity.Logout();
     if (!confirmationToken.IsEmpty()) {
         if (WebSecurity.ConfirmAccount(confirmationToken)) {
-            message = "Registratie gelukt! u wordt in 5 sec. doorgestuurd.";
+            message = "Activatie gelukt! u wordt binnen 5 sec. doorgestuurd.";
             Response.AddHeader("REFRESH","5;URL=Login");
         } else {
-            message = "Could not confirm your registration info.";
+            message = "Activatie mislukt neem contact op met de beheerder.";
         }
     }
 }
 
 <hgroup class="title">
-    <h1>@Page.Title.</h1>
-    <h2>Account activatie</h2>
+    <legend><h2>Account activatie</h2></legend>
 </hgroup>
 
 @if (!message.IsEmpty()) {
