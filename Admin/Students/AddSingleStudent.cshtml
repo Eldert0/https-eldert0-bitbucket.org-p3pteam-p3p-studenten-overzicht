@@ -152,13 +152,18 @@
         datumdefinitief         = Request.Form["datumdefinitief"];
         }
 
-         if (Validation.IsValid()) 
+        if (Validation.IsValid()) 
         {
+            var test = db.QueryValue("SELECT count (*) FROM students WHERE studentnummer = @0", studentnummer);
+            if (test == 0) {
+            
             db = Database.Open("database");
           
-            var updateCommand = "UPDATE students SET roepnaam=@0, naam=@1, groep=@2, mentor=@3, studentnummer=@4, voorvoegsels=@5, geslacht=@6, geboortedatum=@7, vooropleiding=@8, emailprive=@9, emailinstelling=@10, adrestype=@11, etiketnaam=@12, etiketregel1=@13, etiketregel2=@14, telefoonnummer=@15, telefoonnummermobiel=@16, herinschrijving=@17, opleiding=@18, fase=@19, datumvan=@20, datumtot=@21, aankomst_bij_isatcode=@22, aanmeldingdatum=@23, datumdefinitief=@24 WHERE Id = @25";
-            db.Execute(updateCommand, roepnaam, naam, groep, mentor, studentnummer, voorvoegsels, geslacht, geboortedatum, vooropleiding, emailprive, emailinstelling, adrestype, etiketnaam, etiketregel1, etiketregel2, telefoonnummer, telefoonnummermobiel, herinschrijving, opleiding, fase, datumvan, datumtot, aankomst_bij_isatcode, aanmeldingdatum, datumdefinitief, id);  
+            
+            db.Execute("INSERT INTO students (roepnaam, naam, groep, mentor, studentnummer, voorvoegsels, geslacht, geboortedatum, vooropleiding, emailprive, emailinstelling, adrestype, etiketnaam, etiketregel1, etiketregel2, telefoonnummer, telefoonnummermobiel, herinschrijving, opleiding, fase, datumvan, datumtot, aankomst_bij_isatcode, aanmeldingdatum, datumdefinitief) VALUES (@0, @1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11, @12, @13, @14, @15, @16, @17, @18, @19, @20, @21, @22, @23, @24)", roepnaam, naam, groep, mentor, studentnummer, voorvoegsels, geslacht, geboortedatum, vooropleiding, email, emailinstelling, adrestype, etiketnaam, etiketregel1, etiketregel2, telefoonnummer, telefoonnummermobiel, herinschrijving, opleiding, fase, datumvan, datumtot, aankomst_bij_isatcode, aanmeldingdatum, datumdefinitief);  
+                 
             Response.Redirect("~/admin/Students/ViewStudents");
+            }
         }
 
     else 
@@ -334,7 +339,6 @@
             <input type="date" name="datumtot" class="form-control" id="Iddatumtot" placeholder="Voer datumtot in" value="@datumtot" @Validation.For("datumtot")>             
             <noscript>@Html.ValidationMessage("datumtot")</noscript>
           </div>
-
 
             <div class="form-group">
             <label for="fase">Fase</label>

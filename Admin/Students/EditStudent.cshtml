@@ -207,7 +207,7 @@
             db = Database.Open("database");
           
             var updateCommand = "UPDATE students SET roepnaam=@0, naam=@1, groep=@2, mentor=@3, studentnummer=@4, voorvoegsels=@5, geslacht=@6, geboortedatum=@7, vooropleiding=@8, emailprive=@9, emailinstelling=@10, adrestype=@11, etiketnaam=@12, etiketregel1=@13, etiketregel2=@14, telefoonnummer=@15, telefoonnummermobiel=@16, herinschrijving=@17, opleiding=@18, fase=@19, datumvan=@20, datumtot=@21, aankomst_bij_isatcode=@22, aanmeldingdatum=@23, datumdefinitief=@24 WHERE Id = @25";
-            db.Execute(updateCommand, roepnaam, naam, groep, mentor, studentnummer, voorvoegsels, geslacht, geboortedatum, vooropleiding, emailprive, emailinstelling, adrestype, etiketnaam, etiketregel1, etiketregel2, telefoonnummer, telefoonnummermobiel, herinschrijving, opleiding, fase, datumvan, datumtot, aankomst_bij_isatcode, aanmeldingdatum, datumdefinitief, id);  
+                           db.Execute(updateCommand, roepnaam, naam, groep, mentor, studentnummer, voorvoegsels, geslacht, geboortedatum, vooropleiding, email, emailinstelling, adrestype, etiketnaam, etiketregel1, etiketregel2, telefoonnummer, telefoonnummermobiel, herinschrijving, opleiding, fase, datumvan, datumtot, aankomst_bij_isatcode, aanmeldingdatum, datumdefinitief, id);  
             Response.Redirect("~/admin/Students/ViewStudents");
         }
 
@@ -271,7 +271,7 @@
                 </div>
              
              <div class="form-group">
-             <label for="groep">Groep</label>
+             <label for="groep">Klas</label>
              <input type="text" name="groep" class="form-control" id="Idgroep" placeholder="Voer een groep in" value="@groep" @Validation.For("groep")>
              <noscript>@Html.ValidationMessage("groep")</noscript>
           </div>
@@ -349,11 +349,24 @@
             <noscript>@Html.ValidationMessage("opleiding")</noscript>
           </div>
 
-            <div class="form-group">
-            <label for="herinschrijving">Herinschrijving</label>
-            <input type="text" name="herinschrijving" class="form-control" id="Idherinschrijving" placeholder="Voer een herinschrijving in als dit van toepassing is" value="@herinschrijving" @Validation.For("herinschrijving")>
-            <noscript>@Html.ValidationMessage("herinschrijving")</noscript>
-          </div>
+            <div class="form-group">    
+                <label for="herinschrijving">Herinschrijving</label>
+                <select name="geslacht" class="form-control">
+                    
+                     @if(herinschrijving.ToString() == "0")
+                     {
+                        <option value="0" selected="selected">nee</option>
+                        <option value="1">ja</option>
+                     }
+                     else
+                     {
+                         <option value="0">nee</option>
+                         <option value="1" selected="selected">ja</option>
+                     }
+           
+                </select>
+                <noscript>@Html.ValidationMessage("herinschrijving")</noscript>
+                </div> 
 
             <div class="form-group">
             <label for="aanmeldingdatum">Aanmeldingsdatum</label>
