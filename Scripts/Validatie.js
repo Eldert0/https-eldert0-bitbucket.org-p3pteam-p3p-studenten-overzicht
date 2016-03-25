@@ -104,7 +104,7 @@ $('#AddForm').bootstrapValidator({
                     },
                     stringLength: {
                         min: 2,
-                        message: 'Roepnaam moet langer zijn dan 2 letters'
+                        message: 'Roepnaam moet langer zijn dan 1 letters'
                     },
                     regexp: {
                         regexp: /^[a-zA-Z]+$/,
@@ -119,8 +119,8 @@ $('#AddForm').bootstrapValidator({
                         message: 'Veld mag niet leeg zijn'
                     },
                     stringLength: {
-                        min: 2,
-                        message: 'Klas moet langer zijn dan 2 letters'
+                        max: 3,
+                        message: 'Klas kan niet langer dan 3 karakters'
                     },
                     regexp: {
                         regexp: /[0-9a-zA-Z. ]/,
@@ -151,8 +151,9 @@ $('#AddForm').bootstrapValidator({
                         message: 'Veld mag niet leeg zijn'
                     },
                     stringLength: {
+                        min: 2,
                         max: 20,
-                        message: 'Mentor moet langer zijn dan 2 letters'
+                        message: 'Mentor kan niet 1 karakter zijn'
                     },
                     regexp: {
                         regexp: /^[a-zA-Z. ]+$/,
@@ -164,7 +165,7 @@ $('#AddForm').bootstrapValidator({
             voorvoegsels: { 
                 validators: {
                   regexp: {
-                        regexp: /^[a-zA-Z]+$/,
+                        regexp: /^[a-zA-Z. ]+$/,
                         message: 'Voorvoegsels mogen alleen alfabetische karakters bevatten'
                     }
                 }
@@ -257,17 +258,14 @@ $('#AddForm').bootstrapValidator({
                 }
             },
 
-
-            
             vooropleiding: { 
                 validators: {
                     notEmpty: {
                         message: 'Veld mag niet leeg zijn'
                     },
                     stringLength: {
-      
                         max: 50,
-                        message: 'Vooropleiding kan niet langer zijn dan 50 karakters'
+                        message: 'Vooropleiding kan niet 1 karakter zijn'
                     },
                     regexp: {
                         regexp: /[0-9a-zA-Z. ]/,
@@ -275,26 +273,24 @@ $('#AddForm').bootstrapValidator({
                     }
                 }
             },
-
-           
-           opleiding: { 
+        
+            opleiding: { 
                 validators: {
                     notEmpty: {
                         message: 'Veld mag niet leeg zijn'
                     },
                     stringLength: {
                         min: 2,
-                        max: 30,
-                        message: 'Opleiding kan niet langer zijn dan 30 karakters'
+                        max: 50,
+                        message: 'Opleiding kan niet 1 karakter zijn'
                     },
                     regexp: {
-                        regexp: /^[a-zA-Z. ]+$/,
+                        regexp: /[0-9a-zA-Z. ]/,
                         message: 'Opleiding mag alleen alfabetische karakters bevatten'
                     }
                 }
             },
-
-            
+ 
             fase: { 
                 validators: {
                     notEmpty: {
@@ -303,7 +299,7 @@ $('#AddForm').bootstrapValidator({
                     stringLength: {
                         min: 2,
                         max: 50,
-                        message: 'fase kan niet langer zijn dan 50 karakters'
+                        message: 'fase kan niet 1 karakter zijn'
                     },
                     regexp: {
                         regexp: /[a-zA-Z. ]/,
@@ -311,8 +307,7 @@ $('#AddForm').bootstrapValidator({
                     }
                 }
             },
-
-           
+         
             adrestype: { 
                 validators: {
                     notEmpty: {
@@ -321,7 +316,7 @@ $('#AddForm').bootstrapValidator({
                     stringLength: {
                         min: 2,
                         max: 5,
-                        message: 'Adrestype kan niet langer zijn dan 5 karakters'
+                        message: 'Adrestype kan niet 1 karakters zijn'
                     },
                     regexp: {
                         regexp: /^[a-zA-Z]+$/,
@@ -329,8 +324,7 @@ $('#AddForm').bootstrapValidator({
                     }
                 }
             },
-
-            
+       
             etiketnaam: { 
                 validators: {
                     notEmpty: {
@@ -339,7 +333,7 @@ $('#AddForm').bootstrapValidator({
                     stringLength: {
                         min: 2,
                         max: 20,
-                        message: 'Initialen kan niet langer zijn dan 20 karakters'
+                        message: 'Initialen kan niet 1 letter zijn'
                     },
                     regexp: {
                         regexp: /^[a-zA-Z. ]+$/,
@@ -347,8 +341,7 @@ $('#AddForm').bootstrapValidator({
                     }
                 }
             },
-
-          
+       
             etiketregel1: { 
                 validators: {
                     notEmpty: {
@@ -357,7 +350,7 @@ $('#AddForm').bootstrapValidator({
                     stringLength: {
                         min: 2,
                         max: 30,
-                        message: 'Straatnaam en huisnummer kan niet langer zijn dan 30 karakters'
+                        message: 'Straatnaam en huisnummer moet langer zijn dan 1 karakter'
                     },
                     regexp: {
                         regexp: /[0-9a-zA-Z. ]/,
@@ -366,7 +359,6 @@ $('#AddForm').bootstrapValidator({
                 }
             },
 
-           
             etiketregel2: { 
                 validators: {
                     notEmpty: {
@@ -375,7 +367,7 @@ $('#AddForm').bootstrapValidator({
                     stringLength: {
                         min: 2,
                         max: 30,
-                        message: 'Postcode en woonplaats kan niet langer zijn dan 30 karakters'
+                        message: 'Postcode en woonplaats moet langer zijn dan 1 karakter'
                     },
                     regexp: {
                         regexp: /[0-9a-zA-Z. ]/,
@@ -383,25 +375,14 @@ $('#AddForm').bootstrapValidator({
                     }
                 }
             },
-
              
             herinschrijving: { 
                 validators: {
                     notEmpty: {
                         message: 'Veld mag niet leeg zijn'
-                    },
-                    stringLength: {
-                        min: 1,
-                        max: 30,
-                        message: 'Herinschrijving kan niet langer zijn dan 30 karakters'
-                    },
-                    regexp: {
-                        regexp: /^[0-2]/,
-                        message: 'Herinschrijving mag alleen cijfers bevatten'
+                    }         
                     }
-                }
-            },
-
+                },
            
             datumvan: { 
                 validators: {
@@ -419,8 +400,7 @@ $('#AddForm').bootstrapValidator({
                     }
                 }
             },
-
-           
+         
             datumtot: { 
                 validators: {
                     notEmpty: {
@@ -437,8 +417,7 @@ $('#AddForm').bootstrapValidator({
                     }
                 }
             },
-
-            
+         
             aanmeldingsdatum: { 
                 validators: {
                     notEmpty: {
@@ -446,7 +425,7 @@ $('#AddForm').bootstrapValidator({
                     },
                         stringLength: {
                         min: 1,
-                        max: 30,
+                        max: 8,
                         message: 'Datumtot kan niet langer zijn dan 30 karakters'
                     },
                     regexp: {
@@ -455,7 +434,6 @@ $('#AddForm').bootstrapValidator({
                     }
                 }
             },
-
            
             aankomst_bij_isatcode: { 
                 validators: {
@@ -468,8 +446,7 @@ $('#AddForm').bootstrapValidator({
                     }
                 }
             },
-
-           
+          
             datumdefinitief: { 
                 validators: {
                     notEmpty: {
