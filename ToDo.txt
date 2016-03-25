@@ -1,5 +1,3 @@
-
-- Do not show own delete button
 - Studenten overzicht (Knoppen maken (Next / Vorige) en edit -> Dan naar student pagina)
 - Pagination buttons under the tables need to be styled 
 - Data inside table row for mobile view (https://datatables.net/examples/server_side/row_details.html)
