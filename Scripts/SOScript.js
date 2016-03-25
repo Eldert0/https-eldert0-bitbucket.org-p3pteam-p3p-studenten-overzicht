@@ -28,70 +28,10 @@ $(document).ready(function () {
 
             ]
     });
-
+   // delUserFix();
     var windowHeigth = window.innerHeight - 150;
 
     $('#StudentResultList').append('<div id="NoResults">Geen resultaten, gebruik het zoekveld om naar sudenten te zoeken.</div>');
-
-    $(".verwijderbutton").click(function () {
-
-        var element = $(this).closest("tr");
-        var UserTodelete = $(this).attr("data-id");
-
-        var txt;
-        var r = confirm("Weet je zeker dat je deze gebruiker wilt verwijderen?");
-
-        if (r == true) {
-            $.ajax({
-                url: '/admin/users/deleteuser.cshtml',
-                type: 'GET',
-                data: {
-                    data: UserTodelete
-                },
-                dataType: 'json',
-                success: FadeRow(UserTodelete) // End of success function of ajax form
-            });
-
-            function FadeRow(trID) {
-                element.fadeOut(500, function () {
-                    element.remove();
-                });
-            }
-        }
-
-
-
-    });
-
-    $(".verwijderstudentbutton").click(function () {
-
-        var element = $(this).closest("tr");
-        var StudentsTodelete = $(this).attr("data-id");
-
-        var txt;
-        var r = confirm("Weet je zeker dat je deze student wilt verwijderen?");
-
-        if (r == true) {
-            $.ajax({
-                url: '/admin/students/deletestudents.cshtml',
-                type: 'GET',
-                data: {
-                    data: StudentsTodelete
-                },
-                dataType: 'json',
-                success: FadeRow(StudentsTodelete) // End of success function of ajax form
-            });
-
-            function FadeRow(trID) {
-                element.fadeOut(500, function () {
-                    element.remove();
-                });
-            }
-        }
-
-
-
-    });
 
     var level = "1";
 
@@ -221,7 +161,7 @@ $(document).ready(function () {
     function RenderStudent(data) {
         console.log(data);
         if (data != "ClearData") {
-              $('#StudentContent').css('display', 'block');
+            $('#StudentContent').css('display', 'block');
             //http://blog.teamtreehouse.com/using-jquery-asynchronously-loading-image
             //http://imagesloaded.desandro.com/
 
@@ -319,4 +259,86 @@ $(document).ready(function () {
         console.log("uploadImage");
     });
 
+});
+
+function delUserFix(){
+     $(".verwijderstudentbutton").on('click', function () {
+        console.log('i"m here');
+        var element = $(this).closest("tr");
+        var StudentsTodelete = $(this).attr("data-id");
+        console.log('i"m here');
+        var txt;
+        var r = confirm("Weet je zeker dat je deze student wilt verwijderen?");
+        console.log('i"m here 2');
+
+        if (r == true) {
+            $.ajax({
+                url: '/admin/students/deletestudents.cshtml',
+                type: 'GET',
+                data: {
+                    data: StudentsTodelete
+                },
+                dataType: 'json',
+                success: FadeRow(StudentsTodelete) // End of success function of ajax form
+            });
+
+            function FadeRow(trID) {
+                element.fadeOut(500, function () {
+                    element.remove();
+                });
+            }
+        }   
+    });
+}
+$(document).on('click', '.verwijderstudentbutton', function(){
+     console.log('i"m here');
+        var element = $(this).closest("tr");
+        var StudentsTodelete = $(this).attr("data-id");
+        console.log('i"m here');
+        var txt;
+        var r = confirm("Weet je zeker dat je deze student wilt verwijderen?");
+        console.log('i"m here 2');
+
+        if (r == true) {
+            $.ajax({
+                url: '/admin/students/deletestudents.cshtml',
+                type: 'GET',
+                data: {
+                    data: StudentsTodelete
+                },
+                dataType: 'json',
+                success: FadeRow(StudentsTodelete) // End of success function of ajax form
+            });
+
+            function FadeRow(trID) {
+                element.fadeOut(500, function () {
+                    element.remove();
+                });
+            }
+        }  
+});
+$(document).on('click', '.verwijderbutton', function () {
+    var element = $(this).closest("tr");
+    var UserTodelete = $(this).attr("data-id");
+
+    var txt;
+    var r = confirm("Weet je zeker dat je deze gebruiker wilt verwijderen?");
+
+    if (r == true) {
+        $.ajax({
+            url: '/admin/users/deleteuser.cshtml',
+            type: 'GET',
+            data: {
+                data: UserTodelete
+            },
+            dataType: 'json',
+            success: FadeRow(UserTodelete) // End of success function of ajax form
+        });
+
+        function FadeRow(trID) {
+            element.fadeOut(500, function () {
+                element.remove();
+            });
+        }
+    }
 });
