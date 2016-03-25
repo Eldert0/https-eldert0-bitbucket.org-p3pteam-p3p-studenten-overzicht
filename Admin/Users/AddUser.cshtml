@@ -15,24 +15,24 @@
     var telefoonnummer = "";
     var geslacht = "";
     Database db;
-     
+    var result = "";
 
     // Setup validation
    Validation.Add("voornaam", 
-     Validator.Required("Veld mag niet leeg zijn."), 
+     Validator.Required("Veld mag niet leeg zijn"), 
       Validator.StringLength(20, 2, "Niet meer dan 20 karakters"));
    Validation.Add("achternaam", 
-      Validator.Required("Veld mag niet leeg zijn."), 
+      Validator.Required("Veld mag niet leeg zijn"), 
        Validator.StringLength(20, 2, "Niet meer dan 20 karakters"));
     Validation.Add("geslacht", 
-      Validator.Required("Veld mag niet leeg zijn."));
+      Validator.Required("Veld mag niet leeg zijn"));
     Validation.Add("roleSelect", 
-       Validator.Required("Veld mag niet leeg zijn."));
+       Validator.Required("Veld mag niet leeg zijn"));
     Validation.Add("telefoonnummer", 
-       Validator.Required("Veld mag niet leeg zijn."), 
+       Validator.Required("Veld mag niet leeg zijn"), 
        Validator.StringLength(20, 0,"Niet meer dan 20 karakters")); 
     Validation.Add("email", 
-       Validator.Required("Veld mag niet leeg zijn."),
+       Validator.Required("Veld mag niet leeg zijn"),
        Validator.Regex(@"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$", "Invalid format for an email address")); 
        
          
@@ -109,6 +109,8 @@
                 ModelState.AddFormError("Email address is already in use.");
             }
         }
+        var errorMessageEmail = "";
+
     }
 
   db = Database.Open("database");
@@ -121,9 +123,9 @@
 <div id="content">
     <div id="customForm">
     <div class="row">
+       
          <form id="AddUserForm" method="POST" action="">
-
-                <div class="form-group"> 
+               <div class="form-group"> 
                 <label for="achternaam">Voornaam</label>
                 <input type="text" name="voornaam" class="form-control" id="IdVoornaam" placeholder="Voer voornaam in" value="@voornaam" @Validation.For("voornaam")>
                 <noscript>@Html.ValidationMessage("voornaam")</noscript>
@@ -153,9 +155,9 @@
                 
 
                 <div class="form-group">
-                <label for="email">Email-adres</label>
-                <input type="email" name="email" class="form-control" id="IdEmail" placeholder="Voer Email-adres in" value="@email" @Validation.For("email")>@Html.Raw(result)  @Html.ValidationSummary(true)
-                <noscript>@Html.ValidationMessage("email")</noscript>
+                <label for="email">Email-adres</label> 
+                <input type="email" name="email" class="form-control" id="IdEmail" placeholder="Voer Email-adres in" value="@email" @Validation.For("email")> @Html.Raw(result)  @Html.ValidationSummary(true)
+                <noscript></noscript></noscript>
                 </div>
 
                 <input name="__RequestVerificationToken" type="hidden" value=""/>  

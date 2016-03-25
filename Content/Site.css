@@ -35,9 +35,14 @@ ul {
     text-align: center;
 }
 
+.container-fluid-homepage{
+    height: 90vh !important;
+    overflow-y: scroll !important;
+}
+
 #SearchResultContainer{
-   
-    height: 100%;
+    height: 87vh;
+    /*height: 88vh;*/
     overflow-y: scroll;
     display: block;
 
@@ -62,7 +67,7 @@ ul#StudentResultList li{
 .nhlLogo{
     opacity: 0.2;
     position: absolute;
-    right: 0;
+    right: 60px;
     width: auto;
     height: 25%;
     bottom: 0;
@@ -170,11 +175,21 @@ HOnestudentnaam{
 @media(max-width: 990px){
    .studentImage{
     float: none;
-}
+    
+    }
+
+    .container-fluid-homepage{
+        height:100% !important;
+        overflow-y: auto !important;
+    }
 }
 @media(max-width:768px) {
     .navbar-top-links .dropdown-user{
         left: 0px!important;
+    }
+     .container-fluid-homepage{
+        height:100% !important;
+        overflow-y: auto !important;
     }
 }
 
@@ -277,4 +292,24 @@ HOnestudentnaam{
 
 .FileBasterd{
     font-size:10px;
+}
+
+/*SCROLLBAR*/   
+.blueScrollBar::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+}
+
+.blueScrollBar::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: #F5F5F5;
+}
+
+.blueScrollBar::-webkit-scrollbar-thumb
+{
+	background-color: #337ab7;
+	
+
 }

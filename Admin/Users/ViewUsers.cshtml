@@ -2,7 +2,7 @@
         Layout = "~/_MainLayout.cshtml";
         Page.Title = "Gebruikers";
         var db = Database.Open("database");
-        var users = db.Query("SELECT * FROM UserProfile");
+        var users = db.Query("SELECT * FROM UserProfile WHERE email != @0", User.Identity.Name);
         var userrole = db.QuerySingle("SELECT RoleId FROM webpages_UsersInRoles");
 }
 
@@ -15,8 +15,9 @@
                 <th>Telefoonnummer</th>
                 <th>Email-Adres</th>
                 <th>Rol</th>
-                <th></th>
-                <th></th>
+                <th>Edit</th>
+                <th>Delete</th>
+               
             </tr>
         </thead>
         <tbody>
