@@ -21,6 +21,7 @@
         var etiketnaam  = "";
         var etiketregel1 = "";
         var etiketregel2 = "";
+        var land = ""; 
         var telefoonnummer = "";
         var telefoonnummermobiel = "";
         var herinschrijving = "";
@@ -92,6 +93,10 @@
         Validator.Required("Je moet een postcode en woonplaats invullen"), 
         Validator.StringLength(20, 2, "Niet meer dan 20 karakters")); 
 
+        Validation.Add("land",
+        Validator.Required("Je moet een land invullen"),
+        Validator.StringLength(20, 2, "Niet meer dan 20 karakters"));
+
         Validation.Add("telefoonnummermobiel", 
         Validator.Required("Je moet een mobiele telefoonnummer invullen"), 
         Validator.StringLength(20, 2, "Niet meer dan 20 karakters"));
@@ -150,6 +155,7 @@
     etiketnaam                  = userData.etiketnaam;
     etiketregel1                = userData.etiketregel1;
     etiketregel2                = userData.etiketregel2;
+    land                        = userData.land;
     telefoonnummer              = userData.telefoonnummer;
     telefoonnummermobiel        = userData.telefoonnummermobiel;
     herinschrijving             = userData.herinschrijving;
@@ -190,6 +196,7 @@
         etiketnaam              = Request.Form["etiketnaam"];
         etiketregel1            = Request.Form["etiketregel1"];
         etiketregel2            = Request.Form["etiketregel2"];
+        land                    = Request.Form["land"];
         telefoonnummer          = Request.Form["telefoonnummer"];
         telefoonnummermobiel    = Request.Form["telefoonnummermobiel"];
         herinschrijving         = Request.Form["herinschrijving"];
@@ -206,8 +213,8 @@
         {
             db = Database.Open("database");
           
-            var updateCommand = "UPDATE students SET roepnaam=@0, naam=@1, groep=@2, mentor=@3, studentnummer=@4, voorvoegsels=@5, geslacht=@6, geboortedatum=@7, vooropleiding=@8, emailprive=@9, emailinstelling=@10, adrestype=@11, etiketnaam=@12, etiketregel1=@13, etiketregel2=@14, telefoonnummer=@15, telefoonnummermobiel=@16, herinschrijving=@17, opleiding=@18, fase=@19, datumvan=@20, datumtot=@21, aankomst_bij_isatcode=@22, aanmeldingdatum=@23, datumdefinitief=@24 WHERE Id = @25";
-                           db.Execute(updateCommand, roepnaam, naam, groep, mentor, studentnummer, voorvoegsels, geslacht, geboortedatum, vooropleiding, email, emailinstelling, adrestype, etiketnaam, etiketregel1, etiketregel2, telefoonnummer, telefoonnummermobiel, herinschrijving, opleiding, fase, datumvan, datumtot, aankomst_bij_isatcode, aanmeldingdatum, datumdefinitief, id);  
+            var updateCommand = "UPDATE students SET roepnaam=@0, naam=@1, groep=@2, mentor=@3, studentnummer=@4, voorvoegsels=@5, geslacht=@6, geboortedatum=@7, vooropleiding=@8, emailprive=@9, emailinstelling=@10, adrestype=@11, etiketnaam=@12, etiketregel1=@13, etiketregel2=@14, land=@15, telefoonnummer=@16, telefoonnummermobiel=@17, herinschrijving=@18, opleiding=@19, fase=@20, datumvan=@21, datumtot=@22, aankomst_bij_isatcode=@23, aanmeldingdatum=@24, datumdefinitief=@25 WHERE Id = @26";
+                           db.Execute(updateCommand, roepnaam, naam, groep, mentor, studentnummer, voorvoegsels, geslacht, geboortedatum, vooropleiding, email, emailinstelling, adrestype, etiketnaam, etiketregel1, etiketregel2, telefoonnummer, land, telefoonnummermobiel, herinschrijving, opleiding, fase, datumvan, datumtot, aankomst_bij_isatcode, aanmeldingdatum, datumdefinitief, id);  
             Response.Redirect("~/admin/Students/ViewStudents");
         }
 
@@ -326,6 +333,12 @@
          </div>
 
             <div class="form-group">
+            <label for="land">Land</label>
+            <input type="text" name="land" class="form-control" id="Idland" placeholder="Voer een land in" value="@land" @Validation.For("land")>
+            <noscript>@Html.ValidationMessage("land")</noscript>
+         </div>
+
+            <div class="form-group">
             <label for="adrestype">Adrestype</label>
             <input type="text" name="adrestype" class="form-control" id="Idadrestype" placeholder="Voer een adrestype in" value="@adrestype" @Validation.For("adrestype")>
             <noscript>@Html.ValidationMessage("adrestype")</noscript>
@@ -390,7 +403,7 @@
           </div>
 
             <div class="form-group">
-            <label for="datumvan">Datum van/tot</label>
+            <label for="datumvan">Opleidingsduur van/tot</label>
             <input type="date" name="datumvan" class="form-control" id="Iddatumvan" placeholder="Voer datumvan in" value="@datumvan" @Validation.For("datumvan")>             
             <noscript>@Html.ValidationMessage("datumvan")</noscript>
              &nbsp;tot&nbsp;
