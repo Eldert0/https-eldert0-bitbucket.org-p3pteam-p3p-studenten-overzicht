@@ -1,0 +1,63 @@
+﻿@{  
+    if(!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Account/Login");
+    }
+
+    WebImage photoBig = null;
+    WebImage photoThumb = null;
+
+    var newFileName = "";
+    var imagePath = "";
+    var imageThumbPath = "";
+
+    int StudentID = -1;
+
+
+    if(IsPost){
+
+        StudentID = Convert.ToInt32(Request.Form["id"]);
+        if(StudentID > 0) {
+            
+            photoBig = WebImage.GetImageFromRequest();
+            photoThumb = photoBig.Clone();
+
+
+
+            // Go to db and find the matching id then get student number
+            var db = Database.Open("database");
+
+            var studentNumber = db.QueryValue("SELECT studentnummer FROM students WHERE id=@0", StudentID);
+
+            var Exists = db.QueryValue("SELECT COUNT(*) FROM StudentPhotos WHERE studentnummer=@0", studentNumber);
+
+
+                       
+            imageThumbPath = @"/Upload/Photos/Thumbnails/" + studentNumber + "-thumb"+Path.GetExtension(photoBig.FileName);
+            imagePath = @"Upload/Photos/StudentPhotos/" + studentNumber+Path.GetExtension(photoBig.FileName);
+
+            // Set studentnumber in StudentPhotosTable to get the Url Later
+
+            if(true)
+            {
+                db.Execute("INSERT INTO StudentPhotos (imageUrl, thumbUrl, studentnummer) VALUES (@0, @1, @2)",imagePath, imageThumbPath, studentNumber);
+            }
+
+ 
+
+            if(photoBig != null){
+                {
+                    newFileName = Guid.NewGuid().ToString() + "_" +Path.GetFileName(photoBig.FileName);
+                    photoBig.Save(@"~/" + imagePath);
+                }
+
+                {    
+                    photoThumb.Resize(width: 50, height: 50, preserveAspectRatio: true, preventEnlarge: true);
+                    photoThumb.Save(@"~/" + imageThumbPath);    
+
+                }
+            }
+        }
+        
+    }
+}

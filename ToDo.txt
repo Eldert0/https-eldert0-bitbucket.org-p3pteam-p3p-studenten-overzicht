@@ -1,28 +1,26 @@
 
 =====To-Do===============
 - Studenten overzicht (Knoppen maken (Next / Vorige) en edit -> Dan naar student pagina)
+- Gebruiker de foto laten editen.
+- Webcam upload
 - Pagination buttons under the tables need to be styled 
 - Data inside table row for mobile view (https://datatables.net/examples/server_side/row_details.html) of dat ie mee schaalt (view student op telefoon etc)
-- UploadImage
+
 - Delete all students
 - Validate invoeren + fotos en eigen account (eigen gegevens in database zetten)
 
 =====Styling shit=========
 
-- Admin dashboard vullen
-voor NHL facebook pagina:
-https://developers.facebook.com/docs/plugins/page-plugin
-nhl twitter pagina:
-zit al in de website maar moet gestyled worden etc..
-- Stylen
-
+- Admin dashboard Stylen
+- Upload progress bar stylen
 
 
 =====Werkt ongeveer=======
 - User aanmaken (bij bestaande user foutmelding geven) (is inprincipe gedaan mailadres kan niet 2x gebruikt worden)
-- Resize zoekbalk (verander als scherm kleiner word) (opgelost met extra scrollbar links) WERKT NOG NIET GOED!!
+
 - password veranderen (account) frontend succes messages of  error message
 
 
 =====Presentatie===========
 - manier vinden om telefoon op scherm te tonen
+- Website live krijgen
