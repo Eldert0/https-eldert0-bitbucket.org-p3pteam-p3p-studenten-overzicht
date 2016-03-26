@@ -10,8 +10,6 @@
 }
  <img alt="LogoNHL" src="/Images/LogoNHL.png" class="nhlLogo"></img>
 <div id="PageContent" class="container-fluid-homepage blueScrollBar">   
-   
-
     <!-- Pre content before searching-->
     <div id="preContent" class="">
         <img alt="arrow" class="arrow animated bounceInRight" src="~/Images/arrow.png"></img>
@@ -19,6 +17,14 @@
     </div>
 
     <div id="StudentContent" class="animated">
+        <div class="row">
+            <div class="col-md-6">
+                <button class="NextStudent center-block btn btn-default btn-xl">Volgende</button>
+            </div>
+            <div class="col-md-6">
+                <button class="PrevStudent center-block btn btn-default btn-xl">Vorige</button>
+            </div>
+        </div>
   <div class="row">
                 <div class="AbsoluteHeight col-md-12">
                     <h1 class="etiketnaam"></h1>
@@ -102,6 +108,14 @@
         </div>
     </div>
 
+
+<!-- hidden input field -->
+<div class="hiddenfile">
+  <input type="file" class="" id="upload-input" accept="image/*;capture=camera">
+
+  <!--<input id="upload-input" multiple="multiple" name="uploadFiles" type="file">-->
+</div>
+
       <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
@@ -109,19 +123,25 @@
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-body">
-
-              <div class="row">  
-                    <div class="padding col-md-4">
-                    <button type="button" class="aqua center-block btn btn-default btn-circle btn-xl"><i class="glyphicon fa fa-camera"><br><span class="iconTextStyling">Mobile</span></i></button>
-                    </div>
-                    <div class="padding col-md-4">
-                      <button type="button" class="orange center-block btn btn-default btn-circle btn-xl"><i class="glyphicon fa fa-video-camera"><br><span class="iconTextStyling">Webcam</span></i></button>
-                    </div>
-
-                    <div class="padding col-md-4">       
-                        <button type="button" class="crim center-block btn btn-default btn-circle btn-xl"><i class="glyphicon fa fa-file"><br> <span class="iconTextStyling ">File</span></i></button>
-                    </div>
+          
+        </div>
+              <div class="UploadSourceChoice row">  
+                
                </div>
+            <div class="CloseSourceChoice row">  
+                
+               </div>
+            <div data-bind="foreach: uploads">
+            <div class="uploadimage-upload uploadimage-uploadcompleted" data-bind="css: { 'uploadimage-uploadcompleted': uploadCompleted() }">
+                <div class="uploadimage-fileinfo">
+                    <strong data-bind="text: fileName"></strong>
+                    <span data-bind="text: fileSizeFormated"></span>
+                    <span class="uploadimage-progresspct" data-bind="visible: uploadProgress() < 100" style="display: none;"><span data-bind="text: uploadSpeedFormatted()"></span></span>
+                </div>
+                <div class="uploadimage-progress">
+                    <div class="uploadimage-progressbar" style="width: 100%;" data-bind="style: { width: uploadProgress() + '%' }"></div>
+                </div>
+            </div>
           </div>
       </div>    
     </div>

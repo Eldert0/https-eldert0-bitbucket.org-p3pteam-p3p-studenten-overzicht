@@ -171,33 +171,43 @@ HOnestudentnaam{
 .clear{
     clear: both;   
 }
-
-/*Pagination*/
-
-.dataTables_paginate 
-
-.paginate_button {
-   
+.closeOverlay{
+    height:150px!important;
+    width: 150px!important;
+    padding: 35px 52px!important;
+    background-color: #359BB9!important
     
-    color: #fff;
-    cursor: default;
-    border-color: #337ab7;
-    padding: 6px 12px;
-    margin-left: -1px;
-    line-height: 1.42857143;
-    color: #337ab7;
-    text-decoration: none;
-    list-style-type: none;
-    border: 1px solid #ddd;  
-    
-     
 }
 
+.hiddenfile {
+ width: 0px;
+ height: 0px;
+ overflow: hidden;
+}
+
+
+.closeOverlay:hover{
+    background-color: white!important;
+}
+@media(max-width: 570px){
+ .preTitle{
+    font-size:1.6em;
+    }
+}
+@media(max-width: 790px){
+  .arrow{
+    display:none;
+    }
+}
 @media(max-width: 990px){
    .studentImage{
     float: none;
     
+    
     }
+.nhlLogo{
+    display:none;
+}
 
     .container-fluid-homepage{
         height:100% !important;
@@ -278,6 +288,7 @@ HOnestudentnaam{
     border-radius: 147px;
     font-size: 60px;
     line-height: 1.33;
+    border: none;
 }
 
 .modal-content {
@@ -364,4 +375,31 @@ HOnestudentnaam{
 iframe[id^='twitter-widget-']{ 
     width:100% !important;
     
+}
+
+.navbar-static-top{
+    background-color: #313030;
+}
+.navbar-brand{
+    color: rgb(50, 115, 170)!important;
+}
+/* Upload image dialog */
+.uploadimage-dragndrop { border: 2px dashed #DDD; margin: 20px 0; padding: 50px 20px; text-align: center; color: #DDD; }
+.uploadimage-text { font-size: 32px; margin-bottom: 20px; }
+.uploadimage-input { margin: 20px 0; }
+.uploadimage-upload { background: #EEE; margin: 4px 0; }
+.uploadimage-uploadcompleted { background: #d1f4ac; }
+.uploadimage-fileinfo { padding: 5px; font-size: 11px; position: relative; }
+.uploadimage-progresspct { position: absolute; top: 5px; right: 5px; }
+.uploadimage-progress { background: #999; }
+.uploadimage-progressbar { background: maroon; height: 2px; }
+.uploadimage-totalprogress { background: #999; }
+.uploadimage-totalprogressbar { background: #107EC2; height: 6px; }
+
+.description { margin: 40px 0; }
+.NextStudent{
+    float: right;
+}
+.PrevStudent{
+    float: left;
 }
