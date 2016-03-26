@@ -28,7 +28,8 @@ $(document).ready(function () {
 
             ]
     });
-   // delUserFix();
+
+
     var windowHeigth = window.innerHeight - 150;
 
     $('#StudentResultList').append('<div id="NoResults">Geen resultaten, gebruik het zoekveld om naar sudenten te zoeken.</div>');
@@ -168,15 +169,16 @@ $(document).ready(function () {
             // Handle image buttons depending on the user having one.
             if (data[0].imageUrl == null) {
                 $('.StudentImageHolder').empty();
+                  $('.StudentImageHolder').append('<img id="NoImageID" alt="StudentPicture"  data-toggle="modal" data-target="#myModal" class="NoImageYet studentImage animated shake" src="/Images/thumb.png"></img>');
 
-
-                $('.StudentImageHolder').append('<img id="NoImageID" alt="StudentPicture"  data-toggle="modal" data-target="#myModal" class="NoImageYet studentImage animated shake" src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAK-AAAAJDhkNGM4MGNkLTRhMDktNGZmMi1hN2ZmLTlkYWIzYzFkMzQ1Mg.jpg"></img>');
-
+                
+            
                 console.log("Image is null");
             } else {
                 $('.StudentImageHolder').empty();
-                $('.StudentImageHolder').append('<img alt="StudentPicture" class="studentImage" src="/Images/thumb.png"></img>');
-
+                  
+                
+                $('.StudentImageHolder').append('<img alt="StudentPicture" class="studentImage" src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAK-AAAAJDhkNGM4MGNkLTRhMDktNGZmMi1hN2ZmLTlkYWIzYzFkMzQ1Mg.jpg"></img>');
 
                 console.log("Image is there!");
             }
@@ -253,12 +255,6 @@ $(document).ready(function () {
             $('.datumdefinitief').text("");
         }
     }
-
-
-    $('.AddImage').click(function () {
-        console.log("uploadImage");
-    });
-
 });
 
 $(document).on('click', '.verwijderstudentbutton', function(){
@@ -313,3 +309,48 @@ $(document).on('click', '.verwijderbutton', function () {
         }
     }
 });
+
+// -----------------------------------------------------------------------------------------------------------------     Fix left sidebar height onresize event
+$(window).resize(function () {
+    windowHeigth = window.innerHeight - 150;
+    $('#SearchResultContainer').css("height", windowHeigth);
+});
+
+
+
+// -------------------------------------------------------------------------------------------------------------------- Foto handler code
+var device;
+
+
+
+
+// $(document).on('click', '.AddImage', function () {
+//        console.log("uploadImage");
+//});
+
+// Se what for device is on the page.
+if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+    device = "Mobile";
+    console.log("Mobile");
+}else if(!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+    device = "Desktop";
+    console.log("Windows");
+}else{
+    device = "Onbekend"
+    console.log("Device Onbekend..");
+}
+
+
+// Add content to the overlay depending on the type of device the user is using
+
+if(device == "Desktop")
+{
+    $('.UploadSourceChoice').append('<div class="padding col-sd-6"><button type="button" class="orange center-block btn btn-default btn-circle btn-xl"><i class="glyphicon fa fa-video-camera"><br><span class="iconTextStyling">Webcam</span></i></button></div><div class="padding col-sd-6"><button type="button" class="crim center-block btn btn-default btn-circle btn-xl"><i class="glyphicon fa fa-file"><br> <span class="iconTextStyling ">File</span></i></button></div>');
+}
+else if(device == "Mobile")
+{
+    $('.UploadSourceChoice').append('<div class="padding col-sd-12"><button type="button" class="aqua center-block btn btn-default btn-circle btn-xl"><i class="glyphicon fa fa-camera"><br><span class="iconTextStyling">Mobile</span></i></button></div>');
+}else
+{
+    console.log("No device found no content set in overlay....");
+}
