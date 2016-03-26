@@ -24,3 +24,8 @@
 =====Presentatie===========
 - manier vinden om telefoon op scherm te tonen
 - Website live krijgen
+
+===== Etc ===========
+Kolomnamen bij het op de importeer pagina
+Betere beschrijving wat er voor nodig is om een excel sheet in te kunnen laden.
+Overschrijven van data in de student tabel ipv verwijderen Oude moeten wel verwijdert worden net zo als de koppeling naar de foto.

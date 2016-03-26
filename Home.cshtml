@@ -17,6 +17,14 @@
     </div>
 
     <div id="StudentContent" class="animated">
+        <div class="row">
+            <div class="col-md-6">
+                <button class="NextStudent center-block btn btn-default btn-xl">Volgende</button>
+            </div>
+            <div class="col-md-6">
+                <button class="PrevStudent center-block btn btn-default btn-xl">Vorige</button>
+            </div>
+        </div>
   <div class="row">
                 <div class="AbsoluteHeight col-md-12">
                     <h1 class="etiketnaam"></h1>
@@ -126,8 +134,8 @@
             <div data-bind="foreach: uploads">
             <div class="uploadimage-upload uploadimage-uploadcompleted" data-bind="css: { 'uploadimage-uploadcompleted': uploadCompleted() }">
                 <div class="uploadimage-fileinfo">
-                    <strong data-bind="text: fileName">adafruit-adxl335-breakout - kopie.png</strong>
-                    <span data-bind="text: fileSizeFormated">194.5 kB</span>
+                    <strong data-bind="text: fileName"></strong>
+                    <span data-bind="text: fileSizeFormated"></span>
                     <span class="uploadimage-progresspct" data-bind="visible: uploadProgress() < 100" style="display: none;"><span data-bind="text: uploadSpeedFormatted()"></span></span>
                 </div>
                 <div class="uploadimage-progress">

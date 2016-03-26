@@ -1,6 +1,8 @@
 // Variabelen
-var IDCurrentStudentShown = "-1";
+var IDCurrentStudentShown = 0;
 var manager;
+var CurrentStudentListId = [];
+var idx;
 
 // Initialize Materialize
  $('.materialboxed').materialbox();
@@ -95,9 +97,10 @@ var manager;
                  dataType: 'json',
                  success: function (data) {
                      var final = JSON.stringify(data);
-
+                     CurrentStudentListId = [];
                      if (data.length != 0) {
                          $.each(data, function (idx, obj) {
+                             CurrentStudentListId.push(obj.Uid);
 
                              if (obj.ImageUrl == null) {
                                  img = '<img class="ThumbStudentIMage" src="/Images/thumb.png"></img>';
@@ -145,15 +148,17 @@ var manager;
 
      $('#StudentResultList').on('click', 'li', function () {
 
-         
-
          $('.sidebar-nav').addClass("collapse");
          $('.sidebar-nav').removeClass("in");
          $('#StudentContent').removeClass('fadeOut');
          $('#StudentContent').addClass('bounceInLeft');
 
          var student = $(this).attr("sId");
+         idx = jQuery.inArray(IDCurrentStudentShown, CurrentStudentListId );
+         RetrieveStudentData(student);
+     });
 
+     function RetrieveStudentData(student) {
          $.ajax({
              url: '/Data/GetStudentData.cshtml',
              data: {
@@ -169,8 +174,7 @@ var manager;
                  RenderStudent(data)
              }
          });
-     });
-
+     }
 
 
      // Foto stuff
@@ -178,7 +182,7 @@ var manager;
 
          IDCurrentStudentShown = data[0].Uid;
 
-         
+
 
          if (data != "ClearData") {
              $('#StudentContent').css('display', 'block');
@@ -227,7 +231,7 @@ var manager;
              $('.telefoonnummermobiel').text(data[0].telefoonnummermobiel);
 
              //Opleidinghistorie
-             $('.vooropleiding').text(data[0].herinschrijving);
+             $('.vooropleiding').text(data[0].vooropleiding);
 
          }
          else {
@@ -357,7 +361,7 @@ var manager;
 
      $(document).on('click', '.UploadFileOrMakePicture', function () {
          console.log("Clicked on file upload button");
-          manager.data = { id: IDCurrentStudentShown }
+         manager.data = { id: IDCurrentStudentShown }
          $('#upload-input').trigger('click');
      });
 
@@ -397,8 +401,6 @@ var manager;
                      key: 'File',
 
                      // Get current id
-                     //var IDCurrentStudentShownVal =  ;
-
                      // Additional data submitted with file (optional)
                      data: { id: IDCurrentStudentShown },
 
@@ -410,23 +412,18 @@ var manager;
                      // It receives one argument, add callbacks 
                      // by passing events map object: file.on({ ... })
                      onFileAdded: function (file) {
-
-                        
-
                          var fileModel = new models.FileViewModel(file);
                          uploadsModel.uploads.push(fileModel);
 
                          file.on({
                              // Called after received response from the server
                              onCompleted: function (response) {
-                                 console.log("File uploaded");
                                  fileModel.uploadCompleted(true);
                              },
 
                              // Called during upload progress, first parameter
                              // is decimal value from 0 to 100.
                              onProgress: function (progress, fileSize, uploadedBytes) {
-                                 console.log("Uploading");
                                  fileModel.uploadProgress(parseInt(progress, 10));
                              }
                          });
@@ -435,6 +432,39 @@ var manager;
 
                  models.applyBindings(uploadsModel, context);
              }
-        });
-    });
+         });
+     });
+
+     // ------------------------------ Next Prev Edit control -----------------------------------------
+
+
+
+     $(document).on('click', '.PrevStudent', function () {
+
+
+         if (idx != 0) {
+             RetrieveStudentData(CurrentStudentListId[idx = idx - 1])
+             console.log("Prev Student " + idx);
+         } else {
+             idx = CurrentStudentListId.length;
+         }
+
+      
+
+
+     });
+
+     $(document).on('click', '.NextStudent', function () {
+
+         if (idx != CurrentStudentListId.length) {
+             RetrieveStudentData(CurrentStudentListId[idx = idx + 1])
+             console.log("Next Student " + idx);
+         } else {
+             RetrieveStudentData(CurrentStudentListId[0])
+             idx = 0;
+         }
+     });
+
+
+
  });

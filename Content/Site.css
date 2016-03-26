@@ -189,12 +189,25 @@ HOnestudentnaam{
 .closeOverlay:hover{
     background-color: white!important;
 }
-
+@media(max-width: 570px){
+ .preTitle{
+    font-size:1.6em;
+    }
+}
+@media(max-width: 790px){
+  .arrow{
+    display:none;
+    }
+}
 @media(max-width: 990px){
    .studentImage{
     float: none;
     
+    
     }
+.nhlLogo{
+    display:none;
+}
 
     .container-fluid-homepage{
         height:100% !important;
@@ -364,6 +377,12 @@ iframe[id^='twitter-widget-']{
     
 }
 
+.navbar-static-top{
+    background-color: #313030;
+}
+.navbar-brand{
+    color: rgb(50, 115, 170)!important;
+}
 /* Upload image dialog */
 .uploadimage-dragndrop { border: 2px dashed #DDD; margin: 20px 0; padding: 50px 20px; text-align: center; color: #DDD; }
 .uploadimage-text { font-size: 32px; margin-bottom: 20px; }
@@ -378,3 +397,9 @@ iframe[id^='twitter-widget-']{
 .uploadimage-totalprogressbar { background: #107EC2; height: 6px; }
 
 .description { margin: 40px 0; }
+.NextStudent{
+    float: right;
+}
+.PrevStudent{
+    float: left;
+}
