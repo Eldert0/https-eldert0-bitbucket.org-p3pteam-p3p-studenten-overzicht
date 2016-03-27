@@ -14,6 +14,17 @@
     {
         // Redirect to login page
     }
+
+    string[] addresses = Request.Form["searchQueryValue"];
+    Json.Write(addresses, Response.Output);
+    
+    foreach (string address in addresses)
+    {
+        
+    }
+
+
+    
     
     var db = Database.Open("database");
     var query = "SELECT students.id, students.roepnaam, students.naam, students.voorvoegsels, students.studentnummer, StudentPhotos.id, StudentPhotos.imageUrl, StudentPhotos.studentnummer, StudentPhotos.thumbUrl FROM students LEFT JOIN StudentPhotos ON StudentPhotos.id=students.id WHERE groep LIKE @0 OR mentor LIKE @0 OR students.studentnummer LIKE @0 OR roepnaam LIKE @0 OR voorvoegsels LIKE @0 OR naam LIKE @0 OR geslacht LIKE @0 OR geboortedatum LIKE @0 OR vooropleiding LIKE @0 OR emailprive LIKE @0 OR emailinstelling LIKE @0 OR adrestype LIKE @0 OR etiketnaam LIKE @0 OR etiketregel1 LIKE @0 OR etiketregel2 LIKE @0 OR land LIKE @0 OR telefoonlandnummer LIKE @0 OR telefoonnummermobiel LIKE @0 OR herinschrijving LIKE @0 OR opleiding LIKE @0 OR fase LIKE @0 OR datumvan LIKE @0 OR datumtot LIKE @0 OR aanmeldingdatum LIKE @0 OR datumdefinitief LIKE @0 OR telefoonnummer LIKE @0 OR aankomst_bij_isatcode LIKE @0";

@@ -1,8 +1,9 @@
 // Variabelen
-var IDCurrentStudentShown = 0;
+var IDCurrentStudentShown;
 var manager;
 var CurrentStudentListId = [];
-var idx;
+var idx = 0;
+var ListOfWords = [];
 
 // Initialize Materialize
  $('.materialboxed').materialbox();
@@ -75,9 +76,14 @@ var idx;
          // Remove search content placeholder
          $('#preContent').css("display", "none");
 
-
          var img;
+         
          var fieldData = $(this).val();
+          ListOfWords = [];
+
+
+
+         ListOfWords = fieldData.split(' ');
 
          if (fieldData.length >= 2) {
 
@@ -88,7 +94,7 @@ var idx;
                  url: '/Data/GetData.cshtml',
 
                  data: {
-                     searchQueryValue: fieldData
+                     searchQueryValue: ListOfWords
                  },
                  type: 'POST',
                  error: function () {
@@ -154,7 +160,7 @@ var idx;
          $('#StudentContent').addClass('bounceInLeft');
 
          var student = $(this).attr("sId");
-         idx = jQuery.inArray(IDCurrentStudentShown, CurrentStudentListId );
+         idx = jQuery.inArray(IDCurrentStudentShown, CurrentStudentListId);
          RetrieveStudentData(student);
      });
 
@@ -276,7 +282,7 @@ var idx;
 
          if (r == true) {
              $.ajax({
-                 url: '/admin/students/deletestudents.cshtml',
+                 url: '/admin/students/deletestudent.cshtml',
                  type: 'GET',
                  data: {
                      data: StudentsTodelete
@@ -324,8 +330,6 @@ var idx;
          $('#SearchResultContainer').css("height", windowHeigth);
      });
 
-
-
      // -------------------------------------------------------------------------------------------------------------------- Foto handler code
      var device;
      // Se what for device is on the page.
@@ -339,7 +343,6 @@ var idx;
          device = "Onbekend"
          console.log("Device Onbekend..");
      }
-
 
      // Add content to the overlay depending on the type of device the user is using
 
@@ -355,7 +358,6 @@ var idx;
          console.log("No device found no content set in overlay....");
      }
 
-
      // Trigger hidden file input onclick
      //UseWebcam
 
@@ -367,7 +369,6 @@ var idx;
 
 
      // Using live upload library
-
      /*global require, alert*/
      /*jslint browser:true*/
 
@@ -429,7 +430,6 @@ var idx;
                          });
                      }
                  });
-
                  models.applyBindings(uploadsModel, context);
              }
          });
@@ -440,31 +440,24 @@ var idx;
 
 
      $(document).on('click', '.PrevStudent', function () {
-
-
          if (idx != 0) {
+
              RetrieveStudentData(CurrentStudentListId[idx = idx - 1])
              console.log("Prev Student " + idx);
          } else {
              idx = CurrentStudentListId.length;
          }
-
-      
-
-
      });
 
      $(document).on('click', '.NextStudent', function () {
 
-         if (idx != CurrentStudentListId.length) {
+         if (idx <= CurrentStudentListId.length) {
              RetrieveStudentData(CurrentStudentListId[idx = idx + 1])
              console.log("Next Student " + idx);
          } else {
-             RetrieveStudentData(CurrentStudentListId[0])
+             RetrieveStudentData(CurrentStudentListId[CurrentStudentListId.length])
+             console.log("Next Student " + idx);
              idx = 0;
          }
      });
-
-
-
  });
