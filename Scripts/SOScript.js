@@ -5,6 +5,8 @@ var CurrentStudentListId = [];
 var idx = 0;
 var ListOfWords = [];
 var student;
+var imgUrl = "";
+var cropperHeader;
 
 // Initialize Materialize
  $('.materialboxed').materialbox();
@@ -461,7 +463,7 @@ var student;
                                  // Show the image to the user and let them edit their photo 400 * 400
                                  $('#myModal').modal('hide');
                                   $('#ImageEditModel').modal({ show: true });
-                                 //EditFotoRegion();
+                                 EditFotoRegion();
 
 
                              },
@@ -516,42 +518,26 @@ var student;
     $('#ImageEditModel').modal({ show: true });
 
 
-
     $.ajax({
-        url: '/getStudentImagePath.cshtml',
+        url: '/Admin/Students/GetStudentPath.cshtml',
         type: 'POST',
         data: {
             data: student
         },
         dataType: 'json',
         success: function (data) {
+            imgUrl = data;
 
-            console.log(data);
+            var cropperOptions = {
+			
+            cropUrl:'SaveImage.cshtml',
+            modal:false,
+            customUploadButtonId:'UploadPicture',
+            loadPicture:'/'+imgUrl
+            //Upload/Photos/StudentPhotos/114006.jpeg
+		}	
 
-            //var source = "~/Upload/Photos/StudentPhotos/"+;
-            $('#imgCropHolder').append('<img id="NoImageID" alt="StudentPicture"  data-toggle="modal" data-target="#myModal" class="NoImageYet studentImage animated shake" src="'+data+'"></img>');
-
-
-        } // End of success function of ajax form
-    });
-
-
-
-    $.ajax({
-        url: '/getStudentImagePath.cshtml',
-        type: 'POST',
-        data: {
-            data: student
-        },
-        dataType: 'json',
-        success: function (data) {
-
-            console.log(data);
-
-            //var source = "~/Upload/Photos/StudentPhotos/"+;
-            $('#imgCropHolder').append('<img id="NoImageID" alt="StudentPicture"  data-toggle="modal" data-target="#myModal" class="NoImageYet studentImage animated shake" src="'+data+'"></img>');
-
-
+            cropperHeader = new Croppic('imgCropHolder', cropperOptions);
         } // End of success function of ajax form
     });
     
@@ -559,18 +545,6 @@ var student;
      
     console.log("Second model should have been appeard....");
     // Let the user control the img area
-
-  $('#imgCropHolder').imgAreaSelect({
-        handles: true,
-        maxHeight:400,
-        maxWidth:400,
-        x1: 120, 
-        y1: 90, 
-        x2: 280,
-        y2: 210,
-        onSelectEnd: Done
-
-    });
    
 
     // Onclick listener to save the img
@@ -579,45 +553,12 @@ var student;
 
  }
 
- function Done(img, selection)
- {
-   
-
-  
- }
-
  $(document).on('click', '.ReplacePicture', function () {
 
      $('#myModal').modal({ show: true });
       
      });
 
+     
 
-     var cropperOptions = {
-			//uploadUrl:'~/SaveImage.cshtml'
-            //cropUrl:'SaveImage.cshtml'
-            modal:true,
-            customUploadButtonId:'UploadPicture'
-		}	
-
-     var cropperHeader = new Croppic('imgCropHolder', cropperOptions);
-/*
- var croppicContainerPreloadOptions = {
-				
-                uploadUrl:'img_save_to_file.php',
-				cropUrl:'img_crop_to_file.php',
-				loadPicture:'assets/img/night.jpg',
-				enableMousescroll:true,
-				loaderHtml:'<div class="loader bubblingG"><span id="bubblingG_1"></span><span id="bubblingG_2"></span><span id="bubblingG_3"></span></div> ',
-				onBeforeImgUpload: function(){ console.log('onBeforeImgUpload') },
-				onAfterImgUpload: function(){ console.log('onAfterImgUpload') },
-				onImgDrag: function(){ console.log('onImgDrag') },
-				onImgZoom: function(){ console.log('onImgZoom') },
-				onBeforeImgCrop: function(){ console.log('onBeforeImgCrop') },
-				onAfterImgCrop:function(){ console.log('onAfterImgCrop') },
-				onReset:function(){ console.log('onReset') },
-				onError:function(errormessage){ console.log('onError:'+errormessage) }
-		}
-		var cropContainerPreload = new Croppic('cropContainerPreload', croppicContainerPreloadOptions);    
-
-        */
+     

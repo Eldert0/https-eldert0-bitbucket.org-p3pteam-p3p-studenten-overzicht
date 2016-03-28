@@ -466,7 +466,6 @@ iframe[id^='twitter-widget-']{
     
 }
 #imgCropHolder{
-     background-color: blue;
      width: 400px;
      height: 400px;
      margin: auto;   

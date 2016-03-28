@@ -6,10 +6,10 @@ using System.Web.Script.Serialization;
 
 public class Data
 {
-	public string Status;
-    public string Url;
-    public int Width;
-    public int Height;
+	public string status;
+    public string url;
+    public int width;
+    public int height;
 }
 
 
@@ -23,10 +23,10 @@ public class Data
 
     public PhotoInfo(Data data)
     {
-        StatusVal  = data.Status;
-        UrlVal = "~/"+data.Url;
-        WidthVal = data.Width;
-        HeightVal = data.Height;
+        StatusVal  = data.status;
+        UrlVal = data.url;
+        WidthVal = data.width;
+        HeightVal = data.height;
     }
 
 
@@ -35,10 +35,10 @@ public class Data
 
         var obj = new Data
         {
-            Status = StatusVal,
-            Url = UrlVal,
-            Width = WidthVal,
-            Height = HeightVal
+            status = StatusVal,
+            url = UrlVal,
+            width = WidthVal,
+            height = HeightVal
             
         };
 
