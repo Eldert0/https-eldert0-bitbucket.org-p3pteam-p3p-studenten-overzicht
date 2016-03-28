@@ -68,87 +68,96 @@ var ListOfWords = [];
          });
      }
 
+     // define typewatch
+     var typewatch = (function () {
+         var timer = 0;
+         return function (callback, ms) {
+             clearTimeout(timer);
+             timer = setTimeout(callback, ms);
+         };
+     })();
 
      // Search onchage method Ajax
      $('#SearchBox').on('input', (function () {
+         // delay of 500ms so if user types only one request will submit
+         typewatch(function () {
+             // Remove search content placeholder
+             $('#preContent').css("display", "none");
+
+             var img;
+
+             var fieldData = $('#SearchBox').val();
+             ListOfWords = [];
 
 
-         // Remove search content placeholder
-         $('#preContent').css("display", "none");
 
-         var img;
+             ListOfWords = fieldData.split(' ');
 
-         var fieldData = $(this).val();
-         ListOfWords = [];
+             if (fieldData.length >= 2) {
 
+                 $('#StudentResultList li').remove();
+                 $('#StudentResultList #NoResults').remove();
 
+                 $.ajax({
+                     url: '/Data/GetData.cshtml',
 
-         ListOfWords = fieldData.split(' ');
+                     data: {
+                         searchQueryValue: ListOfWords
+                     },
+                     type: 'POST',
+                     error: function () {
 
-         if (fieldData.length >= 2) {
+                     },
+                     dataType: 'json',
+                     success: function (data) {
+                         var final = JSON.stringify(data);
+                         CurrentStudentListId = [];
+                         if (data.length != 0) {
+                             $.each(data, function (idx, obj) {
+                                 CurrentStudentListId.push(obj.Uid);
 
-             $('#StudentResultList li').remove();
-             $('#StudentResultList #NoResults').remove();
-
-             $.ajax({
-                 url: '/Data/GetData.cshtml',
-
-                 data: {
-                     searchQueryValue: ListOfWords
-                 },
-                 type: 'POST',
-                 error: function () {
-
-                 },
-                 dataType: 'json',
-                 success: function (data) {
-                     var final = JSON.stringify(data);
-                     CurrentStudentListId = [];
-                     if (data.length != 0) {
-                         $.each(data, function (idx, obj) {
-                             CurrentStudentListId.push(obj.Uid);
-
-                             if (obj.ImageUrl == null) {
-                                 img = '<img class="ThumbStudentIMage" src="/Images/thumb.png"></img>';
-                             }
-                             else {
-                                 img = '<img class="ThumbStudentIMage" src="' + obj.ImageUrl + '"></img>';
-                             }
+                                 if (obj.ImageUrl == null) {
+                                     img = '<img class="ThumbStudentIMage" src="/Images/thumb.png"></img>';
+                                 }
+                                 else {
+                                     img = '<img class="ThumbStudentIMage" src="' + obj.ImageUrl + '"></img>';
+                                 }
 
 
-                             $('#StudentResultList').append(
+                                 $('#StudentResultList').append(
                                 '<li class="StudentItem" sId="' + obj.Uid + '">' + img +
                                 '<span class="StudentItemText">'
                                 + obj.Naam + " " + obj.Voorvoegsel + " " + obj.Achternaam +
                                 '</span></li>'
                             );
-                         });
+                             });
 
-                     } else {
+                         } else {
 
-                         $('#StudentResultList li').remove();
-                         $('#NoResults').remove();
-                         $('#StudentResultList').append('<div id="NoResults" class="LowError"></div>');
-                         $('#NoResults').text('Uw zoekopdracht heeft geen resultaten opgeleverd.');
+                             $('#StudentResultList li').remove();
+                             $('#NoResults').remove();
+                             $('#StudentResultList').append('<div id="NoResults" class="LowError"></div>');
+                             $('#NoResults').text('Uw zoekopdracht heeft geen resultaten opgeleverd.');
+                         }
                      }
-                 }
-             });
-         }
-         else if (!fieldData == "" && fieldData.length < 2) {
-             $('#StudentResultList li').remove();
-             $('#NoResults').remove();
-             $('#StudentResultList').append('<div id="NoResults" class="LowError"></div>');
-             $('#NoResults').text('Vul een groter zoekwoord in...');
-         } else {
-             $('#StudentContent').addClass('fadeOut');
-             $('#preContent').css("display", "block");
-             $('#preContent').addClass('fadeIn');
-             $('#StudentContent').css("display:", "none")
-             RenderStudent("ClearData");
-             $('#StudentResultList li').remove();
-             $('#NoResults').remove();
-             $('#StudentResultList').append('<div id="NoResults">Geen resultaten, gebruik het zoekveld om naar sudenten te zoeken.</div>');
-         }
+                 });
+             }
+             else if (!fieldData == "" && fieldData.length < 2) {
+                 $('#StudentResultList li').remove();
+                 $('#NoResults').remove();
+                 $('#StudentResultList').append('<div id="NoResults" class="LowError"></div>');
+                 $('#NoResults').text('Vul een groter zoekwoord in...');
+             } else {
+                 $('#StudentContent').addClass('fadeOut');
+                 $('#preContent').css("display", "block");
+                 $('#preContent').addClass('fadeIn');
+                 $('#StudentContent').css("display:", "none")
+                 RenderStudent("ClearData");
+                 $('#StudentResultList li').remove();
+                 $('#NoResults').remove();
+                 $('#StudentResultList').append('<div id="NoResults">Geen resultaten, gebruik het zoekveld om naar sudenten te zoeken.</div>');
+             }
+         }, 500);
      }));
 
 
@@ -325,8 +334,8 @@ var ListOfWords = [];
      });
 
      //delete all students
-      $(document).on('click', '.VerwijderAlles', function () {
-       
+     $(document).on('click', '.VerwijderAlles', function () {
+
          var r = confirm("Weet je zeker dat je deze gebruiker wilt verwijderen?");
          if (r == true) {
              $.ajax({
@@ -336,8 +345,8 @@ var ListOfWords = [];
                      data: 1
                  },
                  dataType: 'json',
-                 success: function(){} // End of success function of ajax form
-             });  
+                 success: function () { } // End of success function of ajax form
+             });
          }
      });
 
