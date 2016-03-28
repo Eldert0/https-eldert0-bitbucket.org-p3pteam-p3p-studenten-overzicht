@@ -79,24 +79,24 @@ public class ExcelToDb
         {
             Student data = new Student();
 
-            data.Groep = (string)dReader["groep"];
-            data.mentor = (string)dReader["mentor"];
+            data.Groep = Convert.ToString(dReader["groep"]);
+            data.mentor = Convert.ToString(dReader["mentor"]);
             data.studentnummer =Convert.ToString(dReader["studentnummer"]);
-            data.roepnaam = (string)dReader["roepnaam"];
-            data.voorvoegsels = (string)dReader["voorvoegsels"];
-            data.naam = (string)dReader["naam"];
-            data.geslacht = (string)dReader["geslacht"];
+            data.roepnaam = Convert.ToString(dReader["roepnaam"]);
+            data.voorvoegsels = Convert.ToString(dReader["voorvoegsels"]);
+            data.naam = Convert.ToString(dReader["naam"]);
+            data.geslacht = Convert.ToString(dReader["geslacht"]);
             data.geboortedatum = Convert.ToString(dReader["geboortedatum"]);
-            data.vooropleiding = (string)dReader["vooropleiding"];
-            data.emailprive = (string)dReader["emailprive"];
-            data.emailinstelling = (string)dReader["emailinstelling"];
-            data.adrestype = (string)dReader["adrestype"];
-            data.etiketnaam = (string)dReader["etiketnaam"];
-            data.etiketregel1 = (string)dReader["etiketregel1"];
-            data.etiketregel2 = (string)dReader["etiketregel2"];
+            data.vooropleiding = Convert.ToString(dReader["vooropleiding"]);
+            data.emailprive = Convert.ToString(dReader["emailprive"]);
+            data.emailinstelling = Convert.ToString(dReader["emailinstelling"]);
+            data.adrestype = Convert.ToString(dReader["adrestype"]);
+            data.etiketnaam = Convert.ToString(dReader["etiketnaam"]);
+            data.etiketregel1 = Convert.ToString(dReader["etiketregel1"]);
+            data.etiketregel2 = Convert.ToString(dReader["etiketregel2"]);
             if (dReader["land"] != null)
             {
-                data.land = (string)dReader["land"];
+                data.land = Convert.ToString(dReader["land"]);
             }
             else
             {
@@ -127,8 +127,11 @@ public class ExcelToDb
 
         foreach(Student s in StudentList)
         {
-            var query = "INSERT INTO Students (groep, mentor, studentnummer, roepnaam, voorvoegsels, naam, geslacht, geboortedatum, vooropleiding, emailprive, emailinstelling, adrestype, etiketnaam, etiketregel1, etiketregel2, land, telefoonlandnummer, telefoonnummermobiel, herinschrijving, opleiding, fase, datumvan, datumtot, aanmeldingdatum, datumdefinitief, telefoonnummer, aankomst_bij_isatcode) VALUES(@0, @1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11, @12, @13, @14, @15, @16, @17, @18, @19, @20, @21, @22, @23, @24, @25, @26)";
-            db.Execute(query, s.Groep, s.mentor, s.studentnummer, s.roepnaam, s.voorvoegsels, s.naam, s.geslacht, s.geboortedatum, s.vooropleiding, s.emailprive, s.emailinstelling, s.adrestype, s.etiketnaam, s.etiketregel1, s.etiketregel2, s.land, s.telefoonlandnummer, s.telefoonnummermobiel, s.herinschrijving, s.opleiding, s.fase, s.datumvan, s.datumtot, s.aanmeldingdatum, s.datumdefinitief, s.telefoonnummer, s.aankomstBijIsatcode);
+             if(s.Groep.ToString() != "")
+            {
+                var query = "INSERT INTO Students (groep, mentor, studentnummer, roepnaam, voorvoegsels, naam, geslacht, geboortedatum, vooropleiding, emailprive, emailinstelling, adrestype, etiketnaam, etiketregel1, etiketregel2, land, telefoonlandnummer, telefoonnummermobiel, herinschrijving, opleiding, fase, datumvan, datumtot, aanmeldingdatum, datumdefinitief, telefoonnummer, aankomst_bij_isatcode) VALUES(@0, @1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11, @12, @13, @14, @15, @16, @17, @18, @19, @20, @21, @22, @23, @24, @25, @26)";
+                db.Execute(query, s.Groep, s.mentor, s.studentnummer, s.roepnaam, s.voorvoegsels, s.naam, s.geslacht, s.geboortedatum, s.vooropleiding, s.emailprive, s.emailinstelling, s.adrestype, s.etiketnaam, s.etiketregel1, s.etiketregel2, s.land, s.telefoonlandnummer, s.telefoonnummermobiel, s.herinschrijving, s.opleiding, s.fase, s.datumvan, s.datumtot, s.aanmeldingdatum, s.datumdefinitief, s.telefoonnummer, s.aankomstBijIsatcode);
+            }
         } 
             
         db.Close();

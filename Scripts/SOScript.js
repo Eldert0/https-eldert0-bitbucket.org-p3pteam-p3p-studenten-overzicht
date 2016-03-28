@@ -264,19 +264,41 @@ var idx;
          }
      }
 
+$(document).on('click', '.VerwijderAlles', function () {
 
-     $(document).on('click', '.verwijderstudentbutton', function () {
-         console.log('i"m here');
-         var element = $(this).closest("tr");
-         var StudentsTodelete = $(this).attr("data-id");
-         console.log('i"m here');
          var txt;
          var r = confirm("Weet je zeker dat je deze student wilt verwijderen?");
-         console.log('i"m here 2');
+         
 
          if (r == true) {
              $.ajax({
-                 url: '/admin/students/deletestudents.cshtml',
+                 url: '/admin/students/DeleteAllStudents.cshtml',
+                 type: 'GET',
+                 data: {
+                     data: 1
+                 },
+                 dataType: 'json',
+                 success: FadeRow() // End of success function of ajax form
+             });
+
+             function FadeRow() {
+
+             }
+         }
+     });
+
+     $(document).on('click', '.verwijderstudentbutton', function () {
+        
+         var element = $(this).closest("tr");
+         var StudentsTodelete = $(this).attr("data-id");
+         
+         var txt;
+         var r = confirm("Weet je zeker dat je deze student wilt verwijderen?");
+         
+
+         if (r == true) {
+             $.ajax({
+                 url: '/admin/students/DeleteStudent.cshtml',
                  type: 'GET',
                  data: {
                      data: StudentsTodelete

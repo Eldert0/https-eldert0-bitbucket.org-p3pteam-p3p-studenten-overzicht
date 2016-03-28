@@ -10,7 +10,7 @@
             
         var file = Request.Files["Excelfile"];
         var filename = Path.GetFileName(file.FileName); 
-        var filePath = Server.MapPath("~/Content/Upload/");
+        var filePath = Server.MapPath("~/Upload");
         file.SaveAs(filePath + filename);
 
         t.LoadeExcelToDb(filePath + filename);

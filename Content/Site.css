@@ -270,6 +270,23 @@ HOnestudentnaam{
     float: left;
     display: block;
 }
+/*Pagination*/
+.paginate_button {
+   
+    
+    color: #fff;
+    cursor: default;
+    border-color: #337ab7;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #337ab7;
+    text-decoration: none;
+    list-style-type: none;
+    border: 1px solid #ddd;  
+    
+     
+}
 
 
 .blue{
