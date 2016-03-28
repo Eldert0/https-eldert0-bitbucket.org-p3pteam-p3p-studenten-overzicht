@@ -25,27 +25,34 @@
   <input type="submit" id="Submit" name="Submit" value="Submit"/>  
 </form>
 -->
+
 <div id="content">
  <div id="customForm">
  <div class="row">
     Gebruiker moet het volgende op zijn computer hebben wil de import slagen!:<br>
     Microsoft Access Database Engine (Microsoft.ACE.OLEDB.12.0 provider) is niet geregistreerd<br>
     <p>
-    <a href="https://www.microsoft.com/en-us/download/confirmation.aspx?id=13255">Download</a> Microsoft Access Database Engine (Microsoft.ACE.OLEDB.12.0 provider)
-    </p>
+    <a href="https://www.microsoft.com/en-us/download/details.aspx?id=13255">Download</a> Microsoft Access Database Engine (Microsoft.ACE.OLEDB.12.0 provider)
+    </p>     
+     <p>
+         Dit is een voorbeeld excelbestand. Het bestand dat u wilt invoegen moet dezelfde kolomnamen hebben.<br>
+         <a href="~/upload/voorbeeldexcelbestand.xlsx"><button>Download voorbeeld excel bestand</button></a>
+     </p>
+     <br>
     <div id="customForm">
         <form action="" enctype="multipart/form-data" method="post">
           <div class="form-group">
-            <label for="exampleInputFile">File input</label>
+            <label for="exampleInputFile">Bestand toevoegen</label>
             <input type="file" name="Excelfile" accept=".xlsx">
-            <p class="help-block">Example block-level help text here.</p>
+           
           </div>
-         <button type="submit" class="btn btn-default">Submit</button>  
+         <button type="submit" class="btn btn-default">Toevoegen</button>  
         </form>       
     </div> 
 </div>
      </div>
     </div>
+ <p>Als u maar een enkele student wilt invoegen:</p>
 <a href="~/admin/students/AddSingleStudent"><button type="button" class="tablebutton btn btn-primary btn-default">Voeg enkele student toe</button></a>
 
  

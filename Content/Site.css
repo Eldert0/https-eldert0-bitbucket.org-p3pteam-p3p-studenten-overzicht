@@ -427,3 +427,58 @@ iframe[id^='twitter-widget-']{
 .PrevStudent{
     float: left;
 }
+
+.VerwijderAlles{
+    position: relative;
+    background-color: #B8B8B8;
+    border: none;
+    font-size: 28px;
+    color: #FFFFFF;
+    padding: 10px;
+    text-align: center;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    text-decoration: none;
+    overflow: hidden;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+.VerwijderAlles:after{
+     content: "";
+    background: #0872DF;
+    display: block;
+    position: absolute;
+    padding-top: 300%;
+    padding-left: 350%;
+    margin-left: -20px!important;
+    margin-top: -120%;
+    opacity: 0;
+    transition: all 0.8s
+}
+.VerwijderAlles:active:after {
+    padding: 0;
+    margin: 0;
+    opacity: 1;
+    transition: 0s
+}
+.menuNoTop{
+    top: 0px !important;
+}
+
+.StudentPicture{
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    margin-bottom: 50px;
+    
+}
+#imgCropHolder{
+     width: 400px;
+     height: 400px;
+     margin: auto;   
+     position:relative; /* or fixed or absolute */
+}
+.ReplacePicture{
+    display: block;
+    background-color: rgba(234, 234, 234, 0.2);
+}

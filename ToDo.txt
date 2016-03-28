@@ -3,8 +3,7 @@
 - Studenten overzicht (Knoppen maken (Next / Vorige) en edit -> Dan naar student pagina)
 - Gebruiker de foto laten editen.
 - Webcam upload
-- Pagination buttons under the tables need to be styled 
-- Data inside table row for mobile view (https://datatables.net/examples/server_side/row_details.html) of dat ie mee schaalt (view student op telefoon etc)
+- Data inside table row for mobile view (https://datatables.net/examples/server_side/row_details.html) of dat ie mee schaalt (view student op telefoon etc) (desktop only)
 
 - Delete all students
 - Validate invoeren + fotos en eigen account (eigen gegevens in database zetten)

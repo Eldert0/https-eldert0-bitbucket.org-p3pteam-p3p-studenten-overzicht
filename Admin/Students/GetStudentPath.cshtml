@@ -1,0 +1,25 @@
+﻿@{
+    
+        
+        if(IsPost){
+            
+            var id = Request.Form["data"];
+
+            var db = Database.Open("database");
+
+            var studentnummer = db.QueryValue("SELECT studentnummer FROM Students WHERE id=@0", id);
+
+            var result = db.QueryValue("SELECT imageUrl FROM StudentPhotos WHERE studentnummer=@0", studentnummer);
+
+            db.Close();
+
+            Json.Write(result, Response.Output);
+            Response.ContentType = "application/json";
+
+        }else{
+            Response.Redirect("~/Home");
+        }
+
+
+}
+

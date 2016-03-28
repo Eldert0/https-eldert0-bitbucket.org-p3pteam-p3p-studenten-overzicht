@@ -1,8 +1,12 @@
-﻿@{  
+﻿
+@{  
+
     if(!WebSecurity.IsAuthenticated)
     {
         Response.Redirect("~/Account/Login");
     }
+
+
 
     WebImage photoBig = null;
     WebImage photoThumb = null;
@@ -10,6 +14,8 @@
     var newFileName = "";
     var imagePath = "";
     var imageThumbPath = "";
+    var width = 0;
+    var height = 0;
 
     int StudentID = -1;
 
@@ -31,16 +37,41 @@
 
             var Exists = db.QueryValue("SELECT COUNT(*) FROM StudentPhotos WHERE studentnummer=@0", studentNumber);
 
+          
 
                        
             imageThumbPath = @"/Upload/Photos/Thumbnails/" + studentNumber + "-thumb"+Path.GetExtension(photoBig.FileName);
             imagePath = @"Upload/Photos/StudentPhotos/" + studentNumber+Path.GetExtension(photoBig.FileName);
 
-            // Set studentnumber in StudentPhotosTable to get the Url Later
+            string p = Server.MapPath("/Upload/Photos/StudentPhotos/"); 
+            string[] f = Directory.GetFiles(p); 
+ 
+            for (int i = 0; i < f.Length - 1; i++) { 
+                if (Path.GetFileNameWithoutExtension(f[i]) == Path.GetFileNameWithoutExtension(f[i + 1])) { 
+                    File.Delete(f[i]);
+                    Response.Write(f[i]);
+                } 
+            }
 
-            if(true)
+            string c = Server.MapPath("/Upload/Photos/Thumbnails/"); 
+            string[] e = Directory.GetFiles(c); 
+ 
+            for (int i = 0; i < e.Length - 1; i++) { 
+                if (Path.GetFileNameWithoutExtension(e[i]) == Path.GetFileNameWithoutExtension(e[i + 1])) { 
+                    File.Delete(e[i]);
+                    Response.Write(e[i]);
+                }
+            }
+
+            // Set studentnumber in StudentPhotosTable to get the Url Later
+            if(Exists < 1)
             {
-                db.Execute("INSERT INTO StudentPhotos (imageUrl, thumbUrl, studentnummer) VALUES (@0, @1, @2)",imagePath, imageThumbPath, studentNumber);
+                db.Execute("INSERT INTO StudentPhotos(Uid, imageUrl, thumbUrl, studentnummer) VALUES (@0, @1, @2, @3)", StudentID, imagePath, imageThumbPath, studentNumber);
+            
+            }else{
+
+                //Update query on studentnumber
+                db.Execute("UPDATE StudentPhotos SET imageUrl=@0, thumbUrl=@1 WHERE studentnummer=@2", imagePath, imageThumbPath, studentNumber);
             }
 
  
@@ -48,6 +79,9 @@
             if(photoBig != null){
                 {
                     newFileName = Guid.NewGuid().ToString() + "_" +Path.GetFileName(photoBig.FileName);
+                    width = photoBig.Width;
+                    height = photoBig.Height;
+
                     photoBig.Save(@"~/" + imagePath);
                 }
 
@@ -57,6 +91,25 @@
 
                 }
             }
+
+            
+
+            Data data = new Data();
+            data.height = height;
+            data.width = width;
+            data.status = "success";
+            data.url = imagePath.ToString();
+
+
+            PhotoInfo photo = new PhotoInfo(data);
+
+            var JsonFinal = Json.Decode(photo.ReturnJson());
+
+           
+            Json.Write(JsonFinal, Response.Output);
+           
+            data = null;
+            photo = null;
         }
         
     }
