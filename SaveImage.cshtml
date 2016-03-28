@@ -1,8 +1,12 @@
-﻿@{  
+﻿
+@{  
+
     if(!WebSecurity.IsAuthenticated)
     {
         Response.Redirect("~/Account/Login");
     }
+
+
 
     WebImage photoBig = null;
     WebImage photoThumb = null;
@@ -10,6 +14,8 @@
     var newFileName = "";
     var imagePath = "";
     var imageThumbPath = "";
+    var width = 0;
+    var height = 0;
 
     int StudentID = -1;
 
@@ -40,10 +46,11 @@
 
             if(Exists < 1)
             {
-
                 db.Execute("INSERT INTO StudentPhotos(Uid, imageUrl, thumbUrl, studentnummer) VALUES (@0, @1, @2, @3)", StudentID, imagePath, imageThumbPath, studentNumber);
             }else{
+
                 //Update query on studentnumber
+
             }
 
  
@@ -51,6 +58,9 @@
             if(photoBig != null){
                 {
                     newFileName = Guid.NewGuid().ToString() + "_" +Path.GetFileName(photoBig.FileName);
+                    width = photoBig.Width;
+                    height = photoBig.Height;
+
                     photoBig.Save(@"~/" + imagePath);
                 }
 
@@ -60,6 +70,23 @@
 
                 }
             }
+
+            
+
+            Data data = new Data();
+            data.Height = height;
+            data.Width = width;
+            data.Status = "succes";
+            data.Url = imagePath.ToString();
+
+
+            PhotoInfo photo = new PhotoInfo(data);
+
+            var JsonFinal = Json.Decode(photo.ReturnJson());
+
+           
+            Json.Write(JsonFinal, Response.Output);
+           
         }
         
     }

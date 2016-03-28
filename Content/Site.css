@@ -457,3 +457,22 @@ iframe[id^='twitter-widget-']{
 .menuNoTop{
     top: 0px !important;
 }
+
+.StudentPicture{
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    margin-bottom: 50px;
+    
+}
+#imgCropHolder{
+     background-color: blue;
+     width: 400px;
+     height: 400px;
+     margin: auto;   
+     position:relative; /* or fixed or absolute */
+}
+.ReplacePicture{
+    display: block;
+    background-color: rgba(234, 234, 234, 0.2);
+}

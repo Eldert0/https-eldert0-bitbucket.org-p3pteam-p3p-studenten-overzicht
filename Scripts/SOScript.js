@@ -4,6 +4,7 @@ var manager;
 var CurrentStudentListId = [];
 var idx = 0;
 var ListOfWords = [];
+var student;
 
 // Initialize Materialize
  $('.materialboxed').materialbox();
@@ -89,8 +90,6 @@ var ListOfWords = [];
              var fieldData = $('#SearchBox').val();
              ListOfWords = [];
 
-
-
              ListOfWords = fieldData.split(' ');
 
              if (fieldData.length >= 2) {
@@ -102,7 +101,7 @@ var ListOfWords = [];
                      url: '/Data/GetData.cshtml',
 
                      data: {
-                         searchQueryValue: ListOfWords
+                         searchQueryValue: fieldData
                      },
                      type: 'POST',
                      error: function () {
@@ -113,6 +112,10 @@ var ListOfWords = [];
                          var final = JSON.stringify(data);
                          CurrentStudentListId = [];
                          if (data.length != 0) {
+
+                             $('#StudentResultList li').remove();
+                             $('#NoResults').remove();
+
                              $.each(data, function (idx, obj) {
                                  CurrentStudentListId.push(obj.Uid);
 
@@ -132,6 +135,8 @@ var ListOfWords = [];
                             );
                              });
 
+
+
                          } else {
 
                              $('#StudentResultList li').remove();
@@ -142,12 +147,15 @@ var ListOfWords = [];
                      }
                  });
              }
+
              else if (!fieldData == "" && fieldData.length < 2) {
+                 console.log("Called");
                  $('#StudentResultList li').remove();
                  $('#NoResults').remove();
                  $('#StudentResultList').append('<div id="NoResults" class="LowError"></div>');
                  $('#NoResults').text('Vul een groter zoekwoord in...');
              } else {
+                 console.log("Called second");
                  $('#StudentContent').addClass('fadeOut');
                  $('#preContent').css("display", "block");
                  $('#preContent').addClass('fadeIn');
@@ -157,7 +165,7 @@ var ListOfWords = [];
                  $('#NoResults').remove();
                  $('#StudentResultList').append('<div id="NoResults">Geen resultaten, gebruik het zoekveld om naar sudenten te zoeken.</div>');
              }
-         }, 500);
+         }, 200);
      }));
 
 
@@ -168,12 +176,13 @@ var ListOfWords = [];
          $('#StudentContent').removeClass('fadeOut');
          $('#StudentContent').addClass('bounceInLeft');
 
-         var student = $(this).attr("sId");
+         student = $(this).attr("sId");
          idx = jQuery.inArray(IDCurrentStudentShown, CurrentStudentListId);
          RetrieveStudentData(student);
      });
 
      function RetrieveStudentData(student) {
+
          $.ajax({
              url: '/Data/GetStudentData.cshtml',
              data: {
@@ -197,8 +206,6 @@ var ListOfWords = [];
          console.log(data);
          IDCurrentStudentShown = data[0].Uid;
 
-
-
          if (data != "ClearData") {
              $('#StudentContent').css('display', 'block');
 
@@ -208,8 +215,11 @@ var ListOfWords = [];
                  $('.StudentImageHolder').append('<img id="NoImageID" alt="StudentPicture"  data-toggle="modal" data-target="#myModal" class="NoImageYet studentImage animated shake" src="/Images/thumb.png"></img>');
              } else {
                  $('.StudentImageHolder').empty();
-                 $('.StudentImageHolder').append('<img alt="StudentPicture" class="materialboxed"  src="' + data[0].imageUrl + '"></img>');
+                 $('.StudentImageHolder').append('<img alt="StudentPicture" class="materialboxed"  src="' + data[0].imageUrl + '"></img><button class="ReplacePicture btn">Vervang foto</button>');
              }
+
+
+             
 
              $('#StudentContent').addClass('bounceInLeft');
 
@@ -375,12 +385,12 @@ var ListOfWords = [];
 
      if (device == "Desktop") {
          $('.UploadSourceChoice').append('<div class="padding col-md-6"><button type="button" class="UseWebcam orange center-block btn btn-default btn-circle btn-xl"><i class="glyphicon fa fa-video-camera"><br><span class="iconTextStyling">Webcam</span></i></button></div><div class="padding col-md-6"><button type="button" class="UploadFileOrMakePicture crim center-block btn btn-default btn-circle btn-xl"><i class="glyphicon fa fa-file"><br> <span class="iconTextStyling ">File</span></i></button></div>');
-         $('.CloseSourceChoice').append('<div class="padding col-md-4"></div><div class="padding col-md-4"><button type="button" data-dismiss="modal" class="closeOverlay blueB center-block btn btn-default btn-circle btn-xl"><i class="fa fa-times"></i><br><span class="iconTextStyling "></span></i></button></div><div class="padding col-md-4"></div>');
+         $('.CloseSourceChoice').append('<div class="padding col-md-4"></div><div class="padding col-md-4"><button type="button" id="UploadPicture" data-dismiss="modal" class="closeOverlay blueB center-block btn btn-default btn-circle btn-xl"><i class="fa fa-times"></i><br><span class="iconTextStyling "></span></i></button></div><div class="padding col-md-4"></div>');
 
      }
      else if (device == "Mobile") {
          $('.UploadSourceChoice').append('<div class="padding col-sd-12"><button type="button" class="UploadFileOrMakePicture aqua center-block btn btn-default btn-circle btn-xl"><i class="glyphicon fa fa-camera"><br><span class="iconTextStyling">Foto</span></i></button></div>');
-         $('.CloseSourceChoice').append('<div class="padding col-sd-4"></div><div class="padding col-md-4"><button type="button" data-dismiss="modal" class="closeOverlay blueB center-block btn btn-default btn-circle btn-xl"><i class="fa fa-times"></i><br><span class="iconTextStyling "></span></i></button></div><div class="padding col-md-4"></div>');
+         $('.CloseSourceChoice').append('<div class="padding col-sd-4"></div><div class="padding col-md-4"><button type="button" id="UploadPicture" data-dismiss="modal" class="closeOverlay blueB center-block btn btn-default btn-circle btn-xl"><i class="fa fa-times"></i><br><span class="iconTextStyling "></span></i></button></div><div class="padding col-md-4"></div>');
      } else {
          console.log("No device found no content set in overlay....");
      }
@@ -447,6 +457,13 @@ var ListOfWords = [];
                              // Called after received response from the server
                              onCompleted: function (response) {
                                  fileModel.uploadCompleted(true);
+
+                                 // Show the image to the user and let them edit their photo 400 * 400
+                                 $('#myModal').modal('hide');
+                                  $('#ImageEditModel').modal({ show: true });
+                                 //EditFotoRegion();
+
+
                              },
 
                              // Called during upload progress, first parameter
@@ -488,3 +505,119 @@ var ListOfWords = [];
          }
      });
  });
+
+
+
+ function EditFotoRegion()
+ {
+
+     console.log('UserDI: '+ student);
+    // Add new contentpanel with uploaded img
+    $('#ImageEditModel').modal({ show: true });
+
+
+
+    $.ajax({
+        url: '/getStudentImagePath.cshtml',
+        type: 'POST',
+        data: {
+            data: student
+        },
+        dataType: 'json',
+        success: function (data) {
+
+            console.log(data);
+
+            //var source = "~/Upload/Photos/StudentPhotos/"+;
+            $('#imgCropHolder').append('<img id="NoImageID" alt="StudentPicture"  data-toggle="modal" data-target="#myModal" class="NoImageYet studentImage animated shake" src="'+data+'"></img>');
+
+
+        } // End of success function of ajax form
+    });
+
+
+
+    $.ajax({
+        url: '/getStudentImagePath.cshtml',
+        type: 'POST',
+        data: {
+            data: student
+        },
+        dataType: 'json',
+        success: function (data) {
+
+            console.log(data);
+
+            //var source = "~/Upload/Photos/StudentPhotos/"+;
+            $('#imgCropHolder').append('<img id="NoImageID" alt="StudentPicture"  data-toggle="modal" data-target="#myModal" class="NoImageYet studentImage animated shake" src="'+data+'"></img>');
+
+
+        } // End of success function of ajax form
+    });
+    
+
+     
+    console.log("Second model should have been appeard....");
+    // Let the user control the img area
+
+  $('#imgCropHolder').imgAreaSelect({
+        handles: true,
+        maxHeight:400,
+        maxWidth:400,
+        x1: 120, 
+        y1: 90, 
+        x2: 280,
+        y2: 210,
+        onSelectEnd: Done
+
+    });
+   
+
+    // Onclick listener to save the img
+
+    // Delete the image that we are not gonne use.
+
+ }
+
+ function Done(img, selection)
+ {
+   
+
+  
+ }
+
+ $(document).on('click', '.ReplacePicture', function () {
+
+     $('#myModal').modal({ show: true });
+      
+     });
+
+
+     var cropperOptions = {
+			//uploadUrl:'~/SaveImage.cshtml'
+            //cropUrl:'SaveImage.cshtml'
+            modal:true,
+            customUploadButtonId:'UploadPicture'
+		}	
+
+     var cropperHeader = new Croppic('imgCropHolder', cropperOptions);
+/*
+ var croppicContainerPreloadOptions = {
+				
+                uploadUrl:'img_save_to_file.php',
+				cropUrl:'img_crop_to_file.php',
+				loadPicture:'assets/img/night.jpg',
+				enableMousescroll:true,
+				loaderHtml:'<div class="loader bubblingG"><span id="bubblingG_1"></span><span id="bubblingG_2"></span><span id="bubblingG_3"></span></div> ',
+				onBeforeImgUpload: function(){ console.log('onBeforeImgUpload') },
+				onAfterImgUpload: function(){ console.log('onAfterImgUpload') },
+				onImgDrag: function(){ console.log('onImgDrag') },
+				onImgZoom: function(){ console.log('onImgZoom') },
+				onBeforeImgCrop: function(){ console.log('onBeforeImgCrop') },
+				onAfterImgCrop:function(){ console.log('onAfterImgCrop') },
+				onReset:function(){ console.log('onReset') },
+				onError:function(errormessage){ console.log('onError:'+errormessage) }
+		}
+		var cropContainerPreload = new Croppic('cropContainerPreload', croppicContainerPreloadOptions);    
+
+        */
