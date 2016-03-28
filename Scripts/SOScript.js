@@ -32,9 +32,8 @@ var ListOfWords = [];
 
          },
          "columnDefs": [
-            { "orderable": false, "targets": 5 },
-            { "orderable": false, "targets": 6 }
-
+            { "orderable": false, "targets": 6 },
+            { "orderable": false, "targets": 7 }
             ]
      });
 
@@ -58,7 +57,7 @@ var ListOfWords = [];
      } else {
          $('#table_id').dataTable({
              "columnDefs": [
-            { "orderable": false, "targets": 7 },
+           
             { "orderable": false, "targets": 8 },
             { "orderable": false, "targets": 9 }
 
@@ -221,11 +220,11 @@ var ListOfWords = [];
              $('.groep').text(data[0].groep);
              $('.fase').text(data[0].fase);
 
-             $('.datumvan').text(data[0].datumvan);
-             $('.datumtot').text(data[0].datumtot);
-             $('.aankomst_bij_isatcode').text(data[0].aankomstBijIsatcode);
-             $('.aanmeldingdatum').text(data[0].aanmeldingdatum);
-             $('.datumdefinitief').text(data[0].datumdefinitief);
+             $('.datumvan').date(data[0].datumvan);
+             $('.datumtot').date(data[0].datumtot);
+             $('.aankomst_bij_isatcode').date(data[0].aankomstBijIsatcode);
+             $('.aanmeldingdatum').date(data[0].aanmeldingdatum);
+             $('.datumdefinitief').date(data[0].datumdefinitief);
 
 
              // Contact gegevens

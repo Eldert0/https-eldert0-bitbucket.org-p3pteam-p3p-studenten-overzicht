@@ -288,6 +288,13 @@ HOnestudentnaam{
      
 }
 
+.VerwijderAlles{
+    float: right;
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+}
+
 
 .blue{
     background-color: blue;
