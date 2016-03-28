@@ -38,9 +38,12 @@
 
             // Set studentnumber in StudentPhotosTable to get the Url Later
 
-            if(true)
+            if(Exists < 1)
             {
-                db.Execute("INSERT INTO StudentPhotos (imageUrl, thumbUrl, studentnummer) VALUES (@0, @1, @2)",imagePath, imageThumbPath, studentNumber);
+
+                db.Execute("INSERT INTO StudentPhotos(Uid, imageUrl, thumbUrl, studentnummer) VALUES (@0, @1, @2, @3)", StudentID, imagePath, imageThumbPath, studentNumber);
+            }else{
+                //Update query on studentnumber
             }
 
  
