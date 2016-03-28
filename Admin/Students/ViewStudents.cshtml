@@ -3,8 +3,11 @@
     Page.Title = "Studenten";
     var db = Database.Open ("database");
     var students = db.Query ("SELECT * FROM students");
+    
 }
+<button class="VerwijderAlles">Drop table</button>
 <table id="ViewStudentTable" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+
         <thead>
             <tr>	
                 <th>Voornaam</th>

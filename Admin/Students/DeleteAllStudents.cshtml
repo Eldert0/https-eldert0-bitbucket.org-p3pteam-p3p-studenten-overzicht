@@ -1,0 +1,7 @@
+﻿@{
+    var db = Database.Open ("database");
+    var verwijderfotos = db.Execute("DELETE FROM StudentPhotos");
+    var DeleteAll = db.Execute("DELETE FROM students");
+    db.Close();
+}
+
