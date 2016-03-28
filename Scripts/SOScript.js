@@ -324,6 +324,24 @@ var ListOfWords = [];
          }
      });
 
+     //delete all students
+      $(document).on('click', '.VerwijderAlles', function () {
+       
+         var r = confirm("Weet je zeker dat je deze gebruiker wilt verwijderen?");
+         if (r == true) {
+             $.ajax({
+                 url: '/admin/Students/DeleteAllStudents.cshtml',
+                 type: 'GET',
+                 data: {
+                     data: 1
+                 },
+                 dataType: 'json',
+                 success: function(){} // End of success function of ajax form
+             });  
+         }
+     });
+
+
      // -----------------------------------------------------------------------------------------------------------------     Fix left sidebar height onresize event
      $(window).resize(function () {
          windowHeigth = window.innerHeight - 150;
