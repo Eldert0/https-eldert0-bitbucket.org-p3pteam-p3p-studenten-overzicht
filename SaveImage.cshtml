@@ -43,25 +43,7 @@
             imageThumbPath = @"/Upload/Photos/Thumbnails/" + studentNumber + "-thumb"+Path.GetExtension(photoBig.FileName);
             imagePath = @"Upload/Photos/StudentPhotos/" + studentNumber+Path.GetExtension(photoBig.FileName);
 
-            string p = Server.MapPath("/Upload/Photos/StudentPhotos/"); 
-            string[] f = Directory.GetFiles(p); 
- 
-            for (int i = 0; i < f.Length - 1; i++) { 
-                if (Path.GetFileNameWithoutExtension(f[i]) == Path.GetFileNameWithoutExtension(f[i + 1])) { 
-                    File.Delete(f[i]);
-                    Response.Write(f[i]);
-                } 
-            }
-
-            string c = Server.MapPath("/Upload/Photos/Thumbnails/"); 
-            string[] e = Directory.GetFiles(c); 
- 
-            for (int i = 0; i < e.Length - 1; i++) { 
-                if (Path.GetFileNameWithoutExtension(e[i]) == Path.GetFileNameWithoutExtension(e[i + 1])) { 
-                    File.Delete(e[i]);
-                    Response.Write(e[i]);
-                }
-            }
+           
 
             // Set studentnumber in StudentPhotosTable to get the Url Later
             if(Exists < 1)
