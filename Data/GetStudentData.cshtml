@@ -20,7 +20,7 @@
 
 
 
-    var query = "SELECT * FROM students LEFT JOIN StudentPhotos ON StudentPhotos.id=students.id WHERE students.id = @0";
+    var query = "SELECT * FROM students LEFT JOIN StudentPhotos ON StudentPhotos.Uid=students.id WHERE students.id = @0";
 
     var result = db.Query(query, value);
 

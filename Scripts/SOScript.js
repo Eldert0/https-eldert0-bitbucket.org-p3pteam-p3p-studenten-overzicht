@@ -4,6 +4,9 @@ var manager;
 var CurrentStudentListId = [];
 var idx = 0;
 var ListOfWords = [];
+var student;
+var imgUrl = "";
+var cropperHeader;
 
 // Initialize Materialize
  $('.materialboxed').materialbox();
@@ -68,87 +71,103 @@ var ListOfWords = [];
          });
      }
 
+     // define typewatch
+     var typewatch = (function () {
+         var timer = 0;
+         return function (callback, ms) {
+             clearTimeout(timer);
+             timer = setTimeout(callback, ms);
+         };
+     })();
 
      // Search onchage method Ajax
      $('#SearchBox').on('input', (function () {
+         // delay of 500ms so if user types only one request will submit
+         typewatch(function () {
+             // Remove search content placeholder
+             $('#preContent').css("display", "none");
+
+             var img;
+
+             var fieldData = $('#SearchBox').val();
+             ListOfWords = [];
+
+             ListOfWords = fieldData.split(' ');
+
+             if (fieldData.length >= 2) {
+
+                 $('#StudentResultList li').remove();
+                 $('#StudentResultList #NoResults').remove();
+
+                 $.ajax({
+                     url: '/Data/GetData.cshtml',
+
+                     data: {
+                         searchQueryValue: fieldData
+                     },
+                     type: 'POST',
+                     error: function () {
+
+                     },
+                     dataType: 'json',
+                     success: function (data) {
+                         var final = JSON.stringify(data);
+                         CurrentStudentListId = [];
+                         if (data.length != 0) {
+
+                             $('#StudentResultList li').remove();
+                             $('#NoResults').remove();
+
+                             $.each(data, function (idx, obj) {
+                                 CurrentStudentListId.push(obj.Uid);
+
+                                 if (obj.ImageUrl == null) {
+                                     img = '<img class="ThumbStudentIMage" src="/Images/thumb.png"></img>';
+                                 }
+                                 else {
+                                     img = '<img class="ThumbStudentIMage" src="' + obj.ImageUrl + '"></img>';
+                                 }
 
 
-         // Remove search content placeholder
-         $('#preContent').css("display", "none");
-
-         var img;
-
-         var fieldData = $(this).val();
-         ListOfWords = [];
-
-
-
-         ListOfWords = fieldData.split(' ');
-
-         if (fieldData.length >= 2) {
-
-             $('#StudentResultList li').remove();
-             $('#StudentResultList #NoResults').remove();
-
-             $.ajax({
-                 url: '/Data/GetData.cshtml',
-
-                 data: {
-                     searchQueryValue: ListOfWords
-                 },
-                 type: 'POST',
-                 error: function () {
-
-                 },
-                 dataType: 'json',
-                 success: function (data) {
-                     var final = JSON.stringify(data);
-                     CurrentStudentListId = [];
-                     if (data.length != 0) {
-                         $.each(data, function (idx, obj) {
-                             CurrentStudentListId.push(obj.Uid);
-
-                             if (obj.ImageUrl == null) {
-                                 img = '<img class="ThumbStudentIMage" src="/Images/thumb.png"></img>';
-                             }
-                             else {
-                                 img = '<img class="ThumbStudentIMage" src="' + obj.ImageUrl + '"></img>';
-                             }
-
-
-                             $('#StudentResultList').append(
+                                 $('#StudentResultList').append(
                                 '<li class="StudentItem" sId="' + obj.Uid + '">' + img +
                                 '<span class="StudentItemText">'
                                 + obj.Naam + " " + obj.Voorvoegsel + " " + obj.Achternaam +
                                 '</span></li>'
                             );
-                         });
+                             });
 
-                     } else {
 
-                         $('#StudentResultList li').remove();
-                         $('#NoResults').remove();
-                         $('#StudentResultList').append('<div id="NoResults" class="LowError"></div>');
-                         $('#NoResults').text('Uw zoekopdracht heeft geen resultaten opgeleverd.');
+
+                         } else {
+
+                             $('#StudentResultList li').remove();
+                             $('#NoResults').remove();
+                             $('#StudentResultList').append('<div id="NoResults" class="LowError"></div>');
+                             $('#NoResults').text('Uw zoekopdracht heeft geen resultaten opgeleverd.');
+                         }
                      }
-                 }
-             });
-         }
-         else if (!fieldData == "" && fieldData.length < 2) {
-             $('#StudentResultList li').remove();
-             $('#NoResults').remove();
-             $('#StudentResultList').append('<div id="NoResults" class="LowError"></div>');
-             $('#NoResults').text('Vul een groter zoekwoord in...');
-         } else {
-             $('#StudentContent').addClass('fadeOut');
-             $('#preContent').css("display", "block");
-             $('#preContent').addClass('fadeIn');
-             $('#StudentContent').css("display:", "none")
-             RenderStudent("ClearData");
-             $('#StudentResultList li').remove();
-             $('#NoResults').remove();
-             $('#StudentResultList').append('<div id="NoResults">Geen resultaten, gebruik het zoekveld om naar sudenten te zoeken.</div>');
-         }
+                 });
+             }
+
+             else if (!fieldData == "" && fieldData.length < 2) {
+                 console.log("Called");
+                 $('#StudentResultList li').remove();
+                 $('#NoResults').remove();
+                 $('#StudentResultList').append('<div id="NoResults" class="LowError"></div>');
+                 $('#NoResults').text('Vul een groter zoekwoord in...');
+             } else {
+                 console.log("Called second");
+                 $('#StudentContent').addClass('fadeOut');
+                 $('#preContent').css("display", "block");
+                 $('#preContent').addClass('fadeIn');
+                 $('#StudentContent').css("display:", "none")
+                 RenderStudent("ClearData");
+                 $('#StudentResultList li').remove();
+                 $('#NoResults').remove();
+                 $('#StudentResultList').append('<div id="NoResults">Geen resultaten, gebruik het zoekveld om naar sudenten te zoeken.</div>');
+             }
+         }, 200);
      }));
 
 
@@ -159,12 +178,13 @@ var ListOfWords = [];
          $('#StudentContent').removeClass('fadeOut');
          $('#StudentContent').addClass('bounceInLeft');
 
-         var student = $(this).attr("sId");
+         student = $(this).attr("sId");
          idx = jQuery.inArray(IDCurrentStudentShown, CurrentStudentListId);
          RetrieveStudentData(student);
      });
 
      function RetrieveStudentData(student) {
+
          $.ajax({
              url: '/Data/GetStudentData.cshtml',
              data: {
@@ -188,8 +208,6 @@ var ListOfWords = [];
          console.log(data);
          IDCurrentStudentShown = data[0].Uid;
 
-
-
          if (data != "ClearData") {
              $('#StudentContent').css('display', 'block');
 
@@ -199,8 +217,11 @@ var ListOfWords = [];
                  $('.StudentImageHolder').append('<img id="NoImageID" alt="StudentPicture"  data-toggle="modal" data-target="#myModal" class="NoImageYet studentImage animated shake" src="/Images/thumb.png"></img>');
              } else {
                  $('.StudentImageHolder').empty();
-                 $('.StudentImageHolder').append('<img alt="StudentPicture" class="materialboxed"  src="' + data[0].imageUrl + '"></img>');
+                 $('.StudentImageHolder').append('<img alt="StudentPicture" class="materialboxed"  src="' + data[0].imageUrl + '"></img><button class="ReplacePicture btn">Vervang foto</button>');
              }
+
+
+             
 
              $('#StudentContent').addClass('bounceInLeft');
 
@@ -325,8 +346,8 @@ var ListOfWords = [];
      });
 
      //delete all students
-      $(document).on('click', '.VerwijderAlles', function () {
-       
+     $(document).on('click', '.VerwijderAlles', function () {
+
          var r = confirm("Weet je zeker dat je deze gebruiker wilt verwijderen?");
          if (r == true) {
              $.ajax({
@@ -336,8 +357,8 @@ var ListOfWords = [];
                      data: 1
                  },
                  dataType: 'json',
-                 success: function(){} // End of success function of ajax form
-             });  
+                 success: function () { } // End of success function of ajax form
+             });
          }
      });
 
@@ -366,12 +387,12 @@ var ListOfWords = [];
 
      if (device == "Desktop") {
          $('.UploadSourceChoice').append('<div class="padding col-md-6"><button type="button" class="UseWebcam orange center-block btn btn-default btn-circle btn-xl"><i class="glyphicon fa fa-video-camera"><br><span class="iconTextStyling">Webcam</span></i></button></div><div class="padding col-md-6"><button type="button" class="UploadFileOrMakePicture crim center-block btn btn-default btn-circle btn-xl"><i class="glyphicon fa fa-file"><br> <span class="iconTextStyling ">File</span></i></button></div>');
-         $('.CloseSourceChoice').append('<div class="padding col-md-4"></div><div class="padding col-md-4"><button type="button" data-dismiss="modal" class="closeOverlay blueB center-block btn btn-default btn-circle btn-xl"><i class="fa fa-times"></i><br><span class="iconTextStyling "></span></i></button></div><div class="padding col-md-4"></div>');
+         $('.CloseSourceChoice').append('<div class="padding col-md-4"></div><div class="padding col-md-4"><button type="button" id="UploadPicture" data-dismiss="modal" class="closeOverlay blueB center-block btn btn-default btn-circle btn-xl"><i class="fa fa-times"></i><br><span class="iconTextStyling "></span></i></button></div><div class="padding col-md-4"></div>');
 
      }
      else if (device == "Mobile") {
          $('.UploadSourceChoice').append('<div class="padding col-sd-12"><button type="button" class="UploadFileOrMakePicture aqua center-block btn btn-default btn-circle btn-xl"><i class="glyphicon fa fa-camera"><br><span class="iconTextStyling">Foto</span></i></button></div>');
-         $('.CloseSourceChoice').append('<div class="padding col-sd-4"></div><div class="padding col-md-4"><button type="button" data-dismiss="modal" class="closeOverlay blueB center-block btn btn-default btn-circle btn-xl"><i class="fa fa-times"></i><br><span class="iconTextStyling "></span></i></button></div><div class="padding col-md-4"></div>');
+         $('.CloseSourceChoice').append('<div class="padding col-sd-4"></div><div class="padding col-md-4"><button type="button" id="UploadPicture" data-dismiss="modal" class="closeOverlay blueB center-block btn btn-default btn-circle btn-xl"><i class="fa fa-times"></i><br><span class="iconTextStyling "></span></i></button></div><div class="padding col-md-4"></div>');
      } else {
          console.log("No device found no content set in overlay....");
      }
@@ -438,6 +459,13 @@ var ListOfWords = [];
                              // Called after received response from the server
                              onCompleted: function (response) {
                                  fileModel.uploadCompleted(true);
+
+                                 // Show the image to the user and let them edit their photo 400 * 400
+                                 $('#myModal').modal('hide');
+                                  $('#ImageEditModel').modal({ show: true });
+                                 EditFotoRegion();
+
+
                              },
 
                              // Called during upload progress, first parameter
@@ -479,3 +507,58 @@ var ListOfWords = [];
          }
      });
  });
+
+
+
+ function EditFotoRegion()
+ {
+
+     console.log('UserDI: '+ student);
+    // Add new contentpanel with uploaded img
+    $('#ImageEditModel').modal({ show: true });
+
+
+    $.ajax({
+        url: '/Admin/Students/GetStudentPath.cshtml',
+        type: 'POST',
+        data: {
+            data: student
+        },
+        dataType: 'json',
+        success: function (data) {
+            imgUrl = data;
+
+            var cropperOptions = {
+			
+            cropUrl:'SaveImage.cshtml',
+            modal:false,
+            customUploadButtonId:'UploadPicture',
+            loadPicture:'/'+imgUrl
+            //Upload/Photos/StudentPhotos/114006.jpeg
+		}	
+
+            cropperHeader = new Croppic('imgCropHolder', cropperOptions);
+        } // End of success function of ajax form
+    });
+    
+
+     
+    console.log("Second model should have been appeard....");
+    // Let the user control the img area
+   
+
+    // Onclick listener to save the img
+
+    // Delete the image that we are not gonne use.
+
+ }
+
+ $(document).on('click', '.ReplacePicture', function () {
+
+     $('#myModal').modal({ show: true });
+      
+     });
+
+     
+
+     
