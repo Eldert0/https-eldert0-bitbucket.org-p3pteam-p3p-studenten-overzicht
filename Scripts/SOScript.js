@@ -77,9 +77,9 @@ var ListOfWords = [];
          $('#preContent').css("display", "none");
 
          var img;
-         
+
          var fieldData = $(this).val();
-          ListOfWords = [];
+         ListOfWords = [];
 
 
 
@@ -185,7 +185,7 @@ var ListOfWords = [];
 
      // Foto stuff
      function RenderStudent(data) {
-
+         console.log(data);
          IDCurrentStudentShown = data[0].Uid;
 
 
