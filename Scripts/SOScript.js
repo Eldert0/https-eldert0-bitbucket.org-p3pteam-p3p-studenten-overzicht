@@ -1,8 +1,9 @@
 // Variabelen
-var IDCurrentStudentShown = 0;
+var IDCurrentStudentShown;
 var manager;
 var CurrentStudentListId = [];
-var idx;
+var idx = 0;
+var ListOfWords = [];
 
 // Initialize Materialize
  $('.materialboxed').materialbox();
@@ -75,9 +76,14 @@ var idx;
          // Remove search content placeholder
          $('#preContent').css("display", "none");
 
-
          var img;
+
          var fieldData = $(this).val();
+         ListOfWords = [];
+
+
+
+         ListOfWords = fieldData.split(' ');
 
          if (fieldData.length >= 2) {
 
@@ -88,7 +94,7 @@ var idx;
                  url: '/Data/GetData.cshtml',
 
                  data: {
-                     searchQueryValue: fieldData
+                     searchQueryValue: ListOfWords
                  },
                  type: 'POST',
                  error: function () {
@@ -154,7 +160,7 @@ var idx;
          $('#StudentContent').addClass('bounceInLeft');
 
          var student = $(this).attr("sId");
-         idx = jQuery.inArray(IDCurrentStudentShown, CurrentStudentListId );
+         idx = jQuery.inArray(IDCurrentStudentShown, CurrentStudentListId);
          RetrieveStudentData(student);
      });
 
@@ -179,7 +185,7 @@ var idx;
 
      // Foto stuff
      function RenderStudent(data) {
-
+         console.log(data);
          IDCurrentStudentShown = data[0].Uid;
 
 
@@ -264,41 +270,19 @@ var idx;
          }
      }
 
-$(document).on('click', '.VerwijderAlles', function () {
-
-         var txt;
-         var r = confirm("Weet je zeker dat je deze student wilt verwijderen?");
-         
-
-         if (r == true) {
-             $.ajax({
-                 url: '/admin/students/DeleteAllStudents.cshtml',
-                 type: 'GET',
-                 data: {
-                     data: 1
-                 },
-                 dataType: 'json',
-                 success: FadeRow() // End of success function of ajax form
-             });
-
-             function FadeRow() {
-
-             }
-         }
-     });
 
      $(document).on('click', '.verwijderstudentbutton', function () {
-        
+         console.log('i"m here');
          var element = $(this).closest("tr");
          var StudentsTodelete = $(this).attr("data-id");
-         
+         console.log('i"m here');
          var txt;
          var r = confirm("Weet je zeker dat je deze student wilt verwijderen?");
-         
+         console.log('i"m here 2');
 
          if (r == true) {
              $.ajax({
-                 url: '/admin/students/DeleteStudent.cshtml',
+                 url: '/admin/students/deletestudent.cshtml',
                  type: 'GET',
                  data: {
                      data: StudentsTodelete
@@ -346,8 +330,6 @@ $(document).on('click', '.VerwijderAlles', function () {
          $('#SearchResultContainer').css("height", windowHeigth);
      });
 
-
-
      // -------------------------------------------------------------------------------------------------------------------- Foto handler code
      var device;
      // Se what for device is on the page.
@@ -361,7 +343,6 @@ $(document).on('click', '.VerwijderAlles', function () {
          device = "Onbekend"
          console.log("Device Onbekend..");
      }
-
 
      // Add content to the overlay depending on the type of device the user is using
 
@@ -377,7 +358,6 @@ $(document).on('click', '.VerwijderAlles', function () {
          console.log("No device found no content set in overlay....");
      }
 
-
      // Trigger hidden file input onclick
      //UseWebcam
 
@@ -389,7 +369,6 @@ $(document).on('click', '.VerwijderAlles', function () {
 
 
      // Using live upload library
-
      /*global require, alert*/
      /*jslint browser:true*/
 
@@ -451,7 +430,6 @@ $(document).on('click', '.VerwijderAlles', function () {
                          });
                      }
                  });
-
                  models.applyBindings(uploadsModel, context);
              }
          });
@@ -462,31 +440,24 @@ $(document).on('click', '.VerwijderAlles', function () {
 
 
      $(document).on('click', '.PrevStudent', function () {
-
-
          if (idx != 0) {
+
              RetrieveStudentData(CurrentStudentListId[idx = idx - 1])
              console.log("Prev Student " + idx);
          } else {
              idx = CurrentStudentListId.length;
          }
-
-      
-
-
      });
 
      $(document).on('click', '.NextStudent', function () {
 
-         if (idx != CurrentStudentListId.length) {
+         if (idx <= CurrentStudentListId.length) {
              RetrieveStudentData(CurrentStudentListId[idx = idx + 1])
              console.log("Next Student " + idx);
          } else {
-             RetrieveStudentData(CurrentStudentListId[0])
+             RetrieveStudentData(CurrentStudentListId[CurrentStudentListId.length])
+             console.log("Next Student " + idx);
              idx = 0;
          }
      });
-
-
-
  });
