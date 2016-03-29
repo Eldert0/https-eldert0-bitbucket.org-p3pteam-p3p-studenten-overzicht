@@ -9,7 +9,7 @@
 
             var studentnummer = db.QueryValue("SELECT studentnummer FROM Students WHERE id=@0", id);
 
-            var result = db.QueryValue("SELECT imageUrl FROM StudentPhotos WHERE studentnummer=@0", studentnummer);
+            var result = db.QueryValue("SELECT TempImageUrl FROM StudentPhotos WHERE studentnummer=@0", studentnummer);
 
             db.Close();
 

@@ -466,9 +466,10 @@ iframe[id^='twitter-widget-']{
 }
 
 .StudentPicture{
-    width: 100%;
-    max-width: 400px;
-    height: auto;
+    
+    width: 400px;
+    height: 400px;
+    background-color: blue;
     margin-bottom: 50px;
     
 }
