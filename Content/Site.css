@@ -421,10 +421,14 @@ iframe[id^='twitter-widget-']{
 .uploadimage-totalprogressbar { background: #107EC2; height: 6px; }
 
 .description { margin: 40px 0; }
+
 .NextStudent{
     float: right;
 }
 .PrevStudent{
+    float: left;
+}
+.EditStudentHome{
     float: left;
 }
 
