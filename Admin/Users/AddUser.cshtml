@@ -104,7 +104,8 @@
                 } catch (System.Web.Security.MembershipCreateUserException e) {
                     ModelState.AddFormError(e.Message);
                 }
-            } else {
+            } 
+            else {
                 // User already exists
                 ModelState.AddFormError("Email-adres is al in gebruik.");
             }
