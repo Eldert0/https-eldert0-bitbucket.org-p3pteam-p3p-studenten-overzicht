@@ -1,0 +1,65 @@
+﻿
+@{  
+
+    if(!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Account/Login");
+    }
+
+    //WebImage img = null;
+
+
+    //db.Execute("INSERT INTO StudentPhotos(Uid, imageUrl, thumbUrl, studentnummer) VALUES (@0, @1, @2, @3)", StudentID, imagePath, imageThumbPath, studentNumber);
+
+
+    if(IsPost){
+       
+        var student =   Request.Form["student"];
+        var url =       Request.Form["imgUrl"];
+        
+        int imgInitW =  Convert.ToInt32(Request.Form["imgInitW"]);
+        int imgInitH =  Convert.ToInt32(Request.Form["imgInitH"]);
+        
+        int imgW =      Int32.Parse(Request.Form["imgW"]);
+        int imgH =      Int32.Parse(Request.Form["imgH"]);
+        
+        int imgY1 =     Convert.ToInt32(Request.Form["imgY1"]);
+        int imgX1 =     Convert.ToInt32(Request.Form["imgX1"]);
+        
+        int cropH =     Convert.ToInt32(Request.Form["cropH"]);
+        int cropW =     Convert.ToInt32(Request.Form["cropW"]);
+       
+
+        var rotation =  Request.Form["rotation"];
+
+
+        var img = new WebImage(Server.MapPath(Path.Combine("~.", url)));
+
+        //img.Crop(image_y, image_x, image_y + image_h, image_x + image_w);
+        var scale = imgInitW / imgW;
+
+        var left = imgX1 *scale;
+        var top = imgY1 * scale;
+
+
+        var right = (imgW * scale) - (left + (cropW * scale));
+        var bottom  = (imgH * scale) - (top + (cropW * scale));
+
+
+        img.Crop(top, left, bottom, right);
+
+
+        //img.Resize(400, 400, preserveAspectRatio: true, preventEnlarge: true);
+
+        string[] data =  new string[] {"imgInitW: "+imgInitW.ToString(), "imgInitH: "+imgInitH.ToString(), "imgW: "+imgW.ToString(), "imgH: "+imgH.ToString(), "imgY1: "+imgY1.ToString(), "imgX1: "+imgX1.ToString(),  "cropH: "+cropH.ToString(), "cropW: "+cropW.ToString() };
+
+         Json.Write(data, Response.Output);
+         Response.ContentType = "application/json";
+
+
+
+       img.Save(@"~/Upload/TestImg"+Path.GetExtension(url));
+
+    } 
+}
+

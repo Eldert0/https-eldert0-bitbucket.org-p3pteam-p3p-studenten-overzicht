@@ -242,11 +242,11 @@ var fieldData;
              $('.groep').text(data[0].groep);
              $('.fase').text(data[0].fase);
 
-             $('.datumvan').date(data[0].datumvan);
-             $('.datumtot').date(data[0].datumtot);
-             $('.aankomst_bij_isatcode').date(data[0].aankomstBijIsatcode);
-             $('.aanmeldingdatum').date(data[0].aanmeldingdatum);
-             $('.datumdefinitief').date(data[0].datumdefinitief);
+             $('.datumvan').text(data[0].datumvan);
+             $('.datumtot').text(data[0].datumtot);
+             $('.aankomst_bij_isatcode').text(data[0].aankomstBijIsatcode);
+             $('.aanmeldingdatum').text(data[0].aanmeldingdatum);
+             $('.datumdefinitief').text(data[0].datumdefinitief);
 
 
              // Contact gegevens
@@ -529,14 +529,23 @@ var fieldData;
         success: function (data) {
             imgUrl = data;
 
+            console.log(imgUrl);
+
             var cropperOptions = {
-			
-            cropUrl:'SaveImage.cshtml',
-            modal:false,
-            customUploadButtonId:'UploadPicture',
-            loadPicture:'/'+imgUrl
-            //Upload/Photos/StudentPhotos/114006.jpeg
-		}	
+                cropUrl: 'CropImage.cshtml',
+                modal: false,
+                onImgDrag:		function(){ 
+                
+                 
+                
+                
+                },
+                customUploadButtonId: 'UploadPicture',
+                loadPicture: imgUrl,
+                cropData:{
+				    "student":student
+			    }
+            }
 
             cropperHeader = new Croppic('imgCropHolder', cropperOptions);
         } // End of success function of ajax form
