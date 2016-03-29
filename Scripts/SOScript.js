@@ -7,6 +7,7 @@ var ListOfWords = [];
 var student;
 var imgUrl = "";
 var cropperHeader;
+var fieldData;
 
 // Initialize Materialize
  $('.materialboxed').materialbox();
@@ -60,7 +61,7 @@ var cropperHeader;
      } else {
          $('#table_id').dataTable({
              "columnDefs": [
-           
+
             { "orderable": false, "targets": 8 },
             { "orderable": false, "targets": 9 }
 
@@ -88,10 +89,10 @@ var cropperHeader;
 
              var img;
 
-             var fieldData = $('#SearchBox').val();
-             ListOfWords = [];
+             fieldData = $('#SearchBox').val();
 
-             ListOfWords = fieldData.split(' ');
+
+             fieldData = fieldData.split(' ').join('_');
 
              if (fieldData.length >= 2) {
 
@@ -220,7 +221,7 @@ var cropperHeader;
              }
 
 
-             
+
 
              $('#StudentContent').addClass('bounceInLeft');
 
@@ -372,6 +373,7 @@ var cropperHeader;
      var device;
      // Se what for device is on the page.
      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+         //$('.UploadSourceChoice').remove('');
          device = "Mobile";
          console.log("Mobile");
      } else if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
@@ -461,7 +463,7 @@ var cropperHeader;
 
                                  // Show the image to the user and let them edit their photo 400 * 400
                                  $('#myModal').modal('hide');
-                                  $('#ImageEditModel').modal({ show: true });
+                                 $('#ImageEditModel').modal({ show: true });
                                  EditFotoRegion();
 
 
