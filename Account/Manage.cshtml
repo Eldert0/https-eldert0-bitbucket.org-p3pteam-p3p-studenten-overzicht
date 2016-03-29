@@ -7,6 +7,7 @@
     Page.Title = "Account beheren";
     int curUserId = WebSecurity.CurrentUserId;
     var action = Request.Form["action"];
+    var action2 = Request.Form["action2"];
 
     bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.CurrentUserId);
 
@@ -21,28 +22,6 @@
     int userExist = 0;
     var id = "";
     
- 
-       // Setup validation
-    Validation.Add("voornaam", 
-       Validator.Required("Veld mag niet leeg zijn"), 
-       Validator.StringLength(20, 2, "Voornaam moet langer zijn dan 2 karakters"));
-
-    Validation.Add("achternaam", 
-       Validator.Required("Veld mag niet leeg zijn"), 
-       Validator.StringLength(20, 2, "Niet meer dan 20 karakters"));
-
-    Validation.Add("geslacht", 
-       Validator.Required("Veld mag niet leeg zijn"));
-
-    Validation.Add("telefoonnummer", 
-       Validator.Required("Veld mag niet leeg zijn"), 
-       Validator.StringLength(20, 0,"Niet meer dan 20 karakters"));
-        
-    Validation.Add("email", 
-       Validator.Required("Veld mag niet leeg zijn"),
-       Validator.Regex(@"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$","Foutief Email-adres")); 
-        
-
     //userdata variables
     var voornaam = "";
     var achternaam = "";
@@ -53,8 +32,9 @@
     var roloud = "";
     var db = Database.Open("database");
     var rol = "";
-    
-  
+    bool isSuccess = false;
+    bool isSuccess2 = false;
+    var k = "not set yet";
  
      if (curUserId > 0)
      {
@@ -72,9 +52,8 @@
             achternaam = userData.achternaam;
             telefoonnummer = userData.telefoonnummer;
             geslacht = userData.geslacht;
-            email = userData.email;        
+            email = userData.email;
          } 
-         
          else 
          {
            Response.Redirect("~/Account/Manage");
@@ -83,10 +62,29 @@
      else{
       Response.Redirect("~/Account/Manage");
      }
+           
+        if (Request.Form["action"] == "changeUserData") {
+           k = "Im here";
+            // Setup validation
+            Validation.Add("voornaam", 
+               Validator.Required("Veld mag niet leeg zijn"), 
+               Validator.StringLength(20, 2, "Voornaam moet langer zijn dan 2 karakters"));
 
-     if(IsPost)
-      { 
-        if (action == "changeUserData") {
+            Validation.Add("achternaam", 
+               Validator.Required("Veld mag niet leeg zijn"), 
+               Validator.StringLength(20, 2, "Niet meer dan 20 karakters"));
+
+            Validation.Add("geslacht", 
+               Validator.Required("Veld mag niet leeg zijn"));
+
+            Validation.Add("telefoonnummer", 
+               Validator.Required("Veld mag niet leeg zijn"), 
+               Validator.StringLength(20, 0,"Niet meer dan 20 karakters"));
+        
+            Validation.Add("email", 
+               Validator.Required("Veld mag niet leeg zijn"),
+               Validator.Regex(@"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$","Foutief Email-adres"));
+
              //opvragen van informatie
           
              voornaam = Request.Form["voornaam"];
@@ -94,44 +92,39 @@
              telefoonnummer = Request.Form["telefoonnummer"];
              geslacht = Request.Form["geslacht"];
              email = Request.Form["email"];
-
+              
              // If all information is valid, update account
              if(Validation.IsValid())
              {
+                isSuccess = true;
+               
                 var updateCommand = "UPDATE UserProfile SET voornaam=@0, achternaam=@1, geslacht=@2, telefoonnummer=@3, email=@4 WHERE UserId=@5";
                 db.Execute(updateCommand, voornaam, achternaam, geslacht, telefoonnummer, email, curUserId);
-
+               
                 Response.Redirect("~/Account/Manage");
              } 
          }
-       }
+         k = Request.Form["voornaam"];
+         if(Request.Form["passwrd"] == "change") {
+           
+            Validation.RequireField("currentPassword", "Veld mag niet leeg zijn.");
+            Validation.Add("currentPassword",
+                Validator.StringLength(
+                    maxLength: Int32.MaxValue,
+                    minLength: 6,
+                    errorMessage: "Huidig wachtwoord moet langer zijn dan 6 karakters"));
 
-    // Setup validation
-    if (hasLocalAccount) 
-    {
-        Validation.RequireField("currentPassword", "Veld mag niet leeg zijn.");
-        Validation.Add("currentPassword",
-            Validator.StringLength(
-                maxLength: Int32.MaxValue,
-                minLength: 6,
-                errorMessage: "Huidig wachtwoord moet langer zijn dan 6 karakters"));
-    }
+            Validation.Add("confirmPassword",
+            Validator.Required("Veld mag niet leeg zijn."),
+            Validator.EqualsTo("newPassword", "Het nieuwe wachtwoord komt niet overeen met het bevestigde wachtwoord"));
 
-    
-    Validation.Add("confirmPassword",
-        Validator.Required("Veld mag niet leeg zijn."),
-        Validator.EqualsTo("newPassword", "Het nieuwe wachtwoord komt niet overeen met het bevestigde wachtwoord"));
+            Validation.RequireField("newPassword", "Veld mag niet leeg zijn.");
+            Validation.Add("newPassword",
+                Validator.StringLength(
+                    maxLength: Int32.MaxValue,
+                    minLength: 6,
+                    errorMessage: "Het nieuwe wachtwoord moet langer zijn dan 6 karakters"));
 
-    Validation.RequireField("newPassword", "Veld mag niet leeg zijn.");
-    Validation.Add("newPassword",
-        Validator.StringLength(
-            maxLength: Int32.MaxValue,
-            minLength: 6,
-            errorMessage: "Het nieuwe wachtwoord moet langer zijn dan 6 karakters"));
-
-    if (IsPost)
-     {
-          if(action == "changeUserPass") {
             // Handle local account password operations
             var currentPassword = Request.Form["currentPassword"];
             var newPassword = Request.Form["newPassword"];
@@ -158,92 +151,81 @@
                 { 
                     Response.Redirect("~/Account/Manage?message=ChangedPasswordfailed");
                 }
-            }                                            
+            }                                    
         }
-      }
 }
 
- <div id="content">
- <div class="row">
- <form method="POST" action="">
+<div id="content">
+    <div class="row">
+        <div class="col-lg-4">
+            <form method="POST" action="">
+                    <h2 class="page-header headerpaddingfix">Wijzig persoonsgegevens</h2>
+                    @if(isSuccess){
+                        <noscript>Uw persoonsgegevens zijn succesvol aangepast!</noscript>
+                    }
+                    <div class="form-group"> 
+                        <label for="achternaam">Voornaam</label>
+                        <input type="text" name="voornaam" class="form-control" id="IdVoornaam" placeholder="Voer voornaam in" value="@voornaam" @Validation.For("voornaam")>
+                        <noscript>@Html.ValidationMessage("voornaam")</noscript>
+                    </div>
 
-    <div class="col-lg-6">
-    <h2 class="page-header headerpaddingfix">Wijzig persoonsgegevens</h2>
-
-    <div class="form-group"> 
-    <label for="achternaam">Voornaam</label>
-    <input type="text" name="voornaam" class="form-control" id="IdVoornaam" placeholder="Voer voornaam in" value="@voornaam" @Validation.For("voornaam")>
-    <noscript>@Html.ValidationMessage("voornaam")</noscript>
-    </div>
-
-    <div class="form-group"> 
-    <label for="achternaam">Achternaam</label>
-    <input type="text" name="achternaam" class="form-control" id="IdAchternaam" placeholder="Voer achternaam in" value="@achternaam" @Validation.For("achternaam")>
-    <noscript>@Html.ValidationMessage("achternaam")</noscript>
-    </div>
+                    <div class="form-group"> 
+                        <label for="achternaam">Achternaam</label>
+                        <input type="text" name="achternaam" class="form-control" id="IdAchternaam" placeholder="Voer achternaam in" value="@achternaam" @Validation.For("achternaam")>
+                        <noscript>@Html.ValidationMessage("achternaam")</noscript>
+                    </div>
               
              
-    <div class="form-group">    
-    <label for="geslacht">Geslacht</label>
-    <select name="geslacht" class="form-control">
+                    <div class="form-group">    
+                        <label for="geslacht">Geslacht</label>
+                        <select name="geslacht" class="form-control">
                     
-            @if(geslacht.ToString() == "1")
-            {
-            <option value="1" selected="selected">Man</option>
-            <option value="2">vrouw</option>
-            }
-            else
-            {
-                <option value="1">Man</option>
-                <option value="2" selected="selected">vrouw</option>
-            }
+                                @if(geslacht.ToString() == "1")
+                                {
+                                <option value="1" selected="selected">Man</option>
+                                <option value="2">vrouw</option>
+                                }
+                                else
+                                {
+                                    <option value="1">Man</option>
+                                    <option value="2" selected="selected">vrouw</option>
+                                }
            
-    </select>
-    <noscript>@Html.ValidationMessage("geslacht")</noscript>
-    </div>
+                        </select>
+                        <noscript>@Html.ValidationMessage("geslacht")</noscript>
+                    </div>
                 
-    <div class="form-group"> 
-    <label for="telefoonnummer">Telefoonnummer</label>
-    <input type="tel" name="telefoonnummer" class="form-control" id="IdTelefoonnummer" placeholder="Voer telefoonnummer in" value="@telefoonnummer" @Validation.For("telefoonnummer")>
-    <noscript>@Html.ValidationMessage("telefoonnummer")</noscript>
-    </div>
+                <div class="form-group"> 
+                    <label for="telefoonnummer">Telefoonnummer</label>
+                    <input type="tel" name="telefoonnummer" class="form-control" id="IdTelefoonnummer" placeholder="Voer telefoonnummer in" value="@telefoonnummer" @Validation.For("telefoonnummer")>
+                    <noscript>@Html.ValidationMessage("telefoonnummer")</noscript>
+                </div>
                 
 
-    <div class="form-group">
-    <label for="email">Email-adres</label>
-    <input type="email" name="email" class="form-control" id="IdEmail" placeholder="Voer Email-adres in" value="@email" @Validation.For("email")>
-    <noscript>@Html.ValidationMessage("email")</noscript>
-    </div>
+                <div class="form-group">
+                    <label for="email">Email-adres</label>
+                    <input type="email" name="email" class="form-control" id="IdEmail" placeholder="Voer Email-adres in" value="@email" @Validation.For("email")>
+                    <noscript>@Html.ValidationMessage("email")</noscript>
+                </div>
 
-    <input name="__RequestVerificationToken" type="hidden" value=""/>  
-    <button type="submit" name="action" value="changeUserData" class="btn btn-default">Gegevens Opslaan</button>
-   </form>      
+                <input name="__RequestVerificationToken" type="hidden" value=""/>
+                <input type="hidden" name="action" value="changeUserData" />
+                <button type="submit" class="btn btn-default">Gegevens Opslaan</button>
+               </form>
+        </div>
+        <div class="col-lg-4">
+                    <h2 class="page-header headerpaddingfix">Wijzig wachtwoord</h2>
+                    @{
+                        if(isSuccess2){
+                            <noscript>Uw wachtwoord is aangepast!</noscript>
+                        }
 
-    </div>
-    @AntiForgery.GetHtml()
-
-            <div class="col-lg-6">
-                  <h2 class="page-header headerpaddingfix">Wijzig wachtwoord</h2>
-                @{
                     string successMessage = "";
                     var message = Request.QueryString["message"];
-                }
-                    @if(!message.IsEmpty())
-                    {
-                        if (message == "PasswordChanged")
-                        {
-                            <span class="passwordvalidationsucces">@Html.ValidationSummary(excludeFieldErrors: true)</span> 
-                        } 
-                        else if (message == "Passwordchangefailed") 
-                        {
-                            <span class="passwordvalidationerror">@Html.ValidationSummary(excludeFieldErrors: true)</span> 
-                        }
-                        
-                   }
-  
+                    }
             @if (hasLocalAccount) {
 
-      <form method="POST">
+        <form method="POST">
                 <div class="form-group">
                     <label for="currentPassword" >Huidig wachtwoord</label>
                     <input type="password" id="currentPassword"  class="form-control" name="currentPassword" @Validation.For("currentPassword")/>
@@ -264,20 +246,18 @@
                     <input type="password" id="confirmPassword"  class="form-control" name="confirmPassword" @Validation.For("confirmPassword")/>
                     @Html.ValidationMessage("confirmPassword")
                 </div>
-           }
+           <input type="hidden" name="passwrd" value="change" />
    
         
-        @if (hasLocalAccount) 
+        @if(hasLocalAccount) 
         {
-            <button type="submit" name="action" value="changeUserPass" class="btn btn-default">Change Password</button>
-        } 
+            <button type="submit"  class="btn btn-default">Change Password</button>
+        }
         else {
-            <button type="submit" name="action" value="changeUserPass" class="btn btn-default">Set Password</button>
+            <button type="submit" class="btn btn-default">Set Password</button>
         }
-          </form>
+            </form>
         }
-   </div>
-    
- </div>
 </div>
-
+    </div>
+</div>
