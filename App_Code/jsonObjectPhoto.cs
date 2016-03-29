@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Web;
 using System.Web.Script.Serialization;
-    
+
+
+
 
 public class Data
 {
@@ -15,6 +17,9 @@ public class Data
 
  public class PhotoInfo
 {
+
+      
+
     public string StatusVal = "";
     public string UrlVal = "";
     public int WidthVal = 0;

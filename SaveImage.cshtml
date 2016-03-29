@@ -12,6 +12,7 @@
     var newFileName = "";
     var imagePath = "";
     var imageThumbPath = "";
+    var TempImageUrl = "";
     var width = 0;
     var height = 0;
 
@@ -41,17 +42,18 @@
             imageThumbPath = @"/Upload/Photos/Thumbnails/" + studentNumber + "-thumb"+Path.GetExtension(photoBig.FileName);
             imagePath = @"Upload/Photos/StudentPhotos/" + studentNumber+Path.GetExtension(photoBig.FileName);
 
+            TempImageUrl = @"/Upload/Photos/StudentPhotos/" + studentNumber + "-temp"+Path.GetExtension(photoBig.FileName);
            
 
             // Set studentnumber in StudentPhotosTable to get the Url Later
             if(Exists < 1)
             {
-                db.Execute("INSERT INTO StudentPhotos(Uid, imageUrl, thumbUrl, studentnummer) VALUES (@0, @1, @2, @3)", StudentID, imagePath, imageThumbPath, studentNumber);
+                db.Execute("INSERT INTO StudentPhotos(Uid, studentnummer, TempImageUrl) VALUES (@0, @1, @2)", StudentID, studentNumber, TempImageUrl);
             
             }else{
 
                 //Update query on studentnumber
-                db.Execute("UPDATE StudentPhotos SET imageUrl=@0, thumbUrl=@1 WHERE studentnummer=@2", imagePath, imageThumbPath, studentNumber);
+                db.Execute("UPDATE StudentPhotos SET TempImageUrl=@0 WHERE studentnummer=@1", TempImageUrl, studentNumber);
             }
 
  
@@ -62,7 +64,7 @@
                     width = photoBig.Width;
                     height = photoBig.Height;
 
-                    photoBig.Save(@"~/" + imagePath);
+                    photoBig.Save(@"~/" + TempImageUrl);
                 }
 
                 {    
