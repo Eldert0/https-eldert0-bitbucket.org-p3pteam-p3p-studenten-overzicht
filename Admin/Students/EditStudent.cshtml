@@ -96,7 +96,7 @@
 
         Validation.Add("etiketregel2", 
         Validator.Required("Je moet een postcode en woonplaats invullen"), 
-        Validator.StringLength(40, 2, "Niet meer dan 20 karakters")); 
+        Validator.StringLength(40, 2, "Niet meer dan 40 karakters")); 
 
         Validation.Add("land",
         Validator.Required("Je moet een land invullen"),
@@ -104,7 +104,7 @@
 
         Validation.Add("telefoonnummermobiel", 
         Validator.Required("Je moet een mobiele telefoonnummer invullen"), 
-        Validator.StringLength(15, 2, "Niet meer dan 20 karakters"));
+        Validator.StringLength(15, 2, "Niet meer dan 15 karakters"));
 
         Validation.Add("herinschrijving", 
         Validator.Required("ja of nee")); 
@@ -220,20 +220,21 @@
 
         
          if (Validation.IsValid()) 
-        {
+         {
             db = Database.Open("database");
           
             var updateCommand = "UPDATE students SET roepnaam=@0, naam=@1, groep=@2, mentor=@3, studentnummer=@4, voorvoegsels=@5, geslacht=@6, geboortedatum=@7, vooropleiding=@8, emailprive=@9, emailinstelling=@10, adrestype=@11, etiketnaam=@12, etiketregel1=@13, etiketregel2=@14, land=@15, telefoonnummer=@16, telefoonnummermobiel=@17, herinschrijving=@18, opleiding=@19, fase=@20, datumvan=@21, datumtot=@22, aankomst_bij_isatcode=@23, aanmeldingdatum=@24, datumdefinitief=@25 WHERE Id = @26";
                            db.Execute(updateCommand, roepnaam, naam, groep, mentor, studentnummer, voorvoegsels, geslacht, geboortedatum, vooropleiding, email, emailinstelling, adrestype, etiketnaam, etiketregel1, etiketregel2, telefoonnummer, land, telefoonnummermobiel, herinschrijving, opleiding, fase, datumvan, datumtot, aankomst_bij_isatcode, aanmeldingdatum, datumdefinitief, id);  
             Response.Redirect("~/admin/Students/ViewStudents");
+         
         }
-
     else 
    {
     ModelState.AddFormError("Student bestaat al.");
    }
+   }
   }
-}
+
 
 
          
@@ -364,7 +365,7 @@
 
             <div class="form-group">
             <label for="herinschrijving">Herinschrijving</label>
-            <select name="geslacht" class="form-control">
+            <select name="herinschrijving" class="form-control">
             <option value=" " selected="selected">Voer ja of nee in</option>
             <option value="0" selected=@(Request.Form["geslacht"] == "0") >nee</option>
             <option value="1" selected=@(Request.Form["geslacht"] == "1")>ja</option>

@@ -173,7 +173,6 @@
             Response.Redirect("~/admin/Students/ViewStudents");
             }
         }
-
     else 
     {
     // User already exists
@@ -310,7 +309,7 @@
 
             <div class="form-group">
             <label for="herinschrijving">Herinschrijving</label>
-            <select name="geslacht" class="form-control">
+            <select name="herinschrijving" class="form-control">
             <option value=" " selected="selected">Voer ja of nee in</option>
             <option value="0" selected=@(Request.Form["geslacht"] == "0") >nee</option>
             <option value="1" selected=@(Request.Form["geslacht"] == "1")>ja</option>
