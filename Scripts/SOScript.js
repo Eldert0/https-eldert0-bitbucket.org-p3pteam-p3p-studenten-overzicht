@@ -522,7 +522,7 @@ var fieldData;
                          "student": student
                      },
                      onAfterImgCrop: function () {
-                         //window.location.replace("/Home");
+                         window.location.replace("/Home");
                      },
                      onReset: function () { console.log('onReset') },
                      cropUrl: 'CropImage.cshtml',
