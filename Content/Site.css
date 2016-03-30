@@ -424,16 +424,23 @@ iframe[id^='twitter-widget-']{
 
 .NextStudent{
     float: right;
-    background-color: #5CB85C;
+    background-color: rgba(136, 141, 156, 0.73);
     padding: 20px;
 }
 .PrevStudent{
-    background-color: #5CB85C;
+    background-color: rgba(136, 141, 156, 0.73);
     padding: 20px;
     float: left;
 }
 .EditStudentHome{
-    width: 100%;
+    width: 80%;
+}
+
+.btn-success {
+    font-size: 30px;
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
 }
 
 .VerwijderAlles{
