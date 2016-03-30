@@ -83,12 +83,13 @@
                 var token = WebSecurity.CreateAccount(email, pass, requireEmailConfirmation);
                 if (requireEmailConfirmation) {
                     var hostUrl = Request.Url.GetComponents(UriComponents.SchemeAndServer, UriFormat.Unescaped);
-                    var confirmationUrl = hostUrl + ":8070" + VirtualPathUtility.ToAbsolute("~/Account/Confirm?confirmationCode=" + HttpUtility.UrlEncode(token));
+                    var ho = "http://p3p.frolich-it.nl:8070/";
+                    var confirmationUrl = k + VirtualPathUtility.ToAbsolute("Account/Confirm?confirmationCode=" + HttpUtility.UrlEncode(token));
                    
                     WebMail.Send(
                         to: email,
                         subject: "Activeer uw account | Studentoverzicht",
-                        body: "<b>Gebruik onderstaande gegevens om in te loggen:</b><br /> Email: "+email+" <br /> Password: "+pass+" <br /> Bezoek onderstaande link om uw account te activeren: </br> <a href='\"" + confirmationUrl + "\">" + confirmationUrl + "'</a><br />"
+                        body: "<b>Gebruik onderstaande gegevens om in te loggen:</b><br /> Email: "+email+" <br /> Password: "+pass+" <br /> Bezoek onderstaande link om uw account te activeren: </br> <a href='" + confirmationUrl + "'>" + confirmationUrl + "</a><br />"
                     ); 
                 }
 
