@@ -2,7 +2,7 @@
 var IDCurrentStudentShown;
 var manager;
 var CurrentStudentListId = [];
-var idx = 0;
+var idxS = 0;
 var ListOfWords = [];
 var student;
 var imgUrl = "";
@@ -207,6 +207,7 @@ var fieldData;
      function RenderStudent(data) {
          console.log(data);
          IDCurrentStudentShown = data[0].Uid;
+         $(".StudentEditBtn a").attr("href", "/admin/students/editstudent?student=" + student);
 
          if (data != "ClearData") {
              $('#StudentContent').css('display', 'block');
@@ -387,11 +388,13 @@ var fieldData;
      // Add content to the overlay depending on the type of device the user is using
 
      if (device == "Desktop") {
-         $('.UploadSourceChoice').append('<div class="padding col-md-6"><button type="button" class="UseWebcam orange center-block btn btn-default btn-circle btn-xl"><i class="glyphicon fa fa-video-camera"><br><span class="iconTextStyling">Webcam</span></i></button></div><div class="padding col-md-6"><button type="button" class="UploadFileOrMakePicture crim center-block btn btn-default btn-circle btn-xl"><i class="glyphicon fa fa-file"><br> <span class="iconTextStyling ">File</span></i></button></div>');
+         $('.UploadSourceChoice').append('<div class="padding col-md-12"><button type="button" class="UploadFileOrMakePicture crim center-block btn btn-default btn-circle btn-xl"><i class="glyphicon fa fa-file"><br> <span class="iconTextStyling ">File</span></i></button></div>');
          $('.CloseSourceChoice').append('<div class="padding col-md-4"></div><div class="padding col-md-4"><button type="button" id="UploadPicture" data-dismiss="modal" class="closeOverlay blueB center-block btn btn-default btn-circle btn-xl"><i class="fa fa-times"></i><br><span class="iconTextStyling "></span></i></button></div><div class="padding col-md-4"></div>');
 
      }
      else if (device == "Mobile") {
+
+         $('.GoToDashboard').remove();
          $('.UploadSourceChoice').append('<div class="padding col-sd-12"><button type="button" class="UploadFileOrMakePicture aqua center-block btn btn-default btn-circle btn-xl"><i class="glyphicon fa fa-camera"><br><span class="iconTextStyling">Foto</span></i></button></div>');
          $('.CloseSourceChoice').append('<div class="padding col-sd-4"></div><div class="padding col-md-4"><button type="button" id="UploadPicture" data-dismiss="modal" class="closeOverlay blueB center-block btn btn-default btn-circle btn-xl"><i class="fa fa-times"></i><br><span class="iconTextStyling "></span></i></button></div><div class="padding col-md-4"></div>');
      } else {
@@ -487,27 +490,27 @@ var fieldData;
 
 
      $(document).on('click', '.PrevStudent', function () {
-         if (idx != 0) {
-
-             RetrieveStudentData(CurrentStudentListId[idx = idx - 1])
-             console.log("Prev Student " + idx);
+         if (!idxS < 1) {
+             RetrieveStudentData(CurrentStudentListId[idxS = idxS - 1])
+             console.log("Prev Student " + idxS);
          } else {
-             idx = CurrentStudentListId.length;
+             idxS = CurrentStudentListId.length - 1;
+             RetrieveStudentData(CurrentStudentListId[idxS]);
+
+             console.log("Prev Student " + idxS);
          }
      });
 
      $(document).on('click', '.NextStudent', function () {
-
-         if (idx <= CurrentStudentListId.length) {
-             RetrieveStudentData(CurrentStudentListId[idx = idx + 1])
-             console.log("Next Student " + idx);
+         if (idxS < CurrentStudentListId.length - 1) {
+             RetrieveStudentData(CurrentStudentListId[idxS = idxS + 1])
          } else {
-             RetrieveStudentData(CurrentStudentListId[CurrentStudentListId.length])
-             console.log("Next Student " + idx);
-             idx = 0;
+             idxS = 0;
+             RetrieveStudentData(CurrentStudentListId[idxS]);
          }
      });
  });
+
 
 
 
@@ -529,23 +532,16 @@ var fieldData;
         success: function (data) {
             imgUrl = data;
 
-            console.log(imgUrl);
-
             var cropperOptions = {
-                cropUrl: 'CropImage.cshtml',
-                modal: false,
-                onImgDrag:		function(){ 
-                
-                 
-                
-                
-                },
-                customUploadButtonId: 'UploadPicture',
-                loadPicture: imgUrl,
-                cropData:{
-				    "student":student
-			    }
-            }
+			cropData:{
+				"student":114006	
+			},
+            cropUrl:'CropImage.cshtml',
+            modal:false,
+            customUploadButtonId:'UploadPicture',
+            loadPicture:'/'+imgUrl
+            //Upload/Photos/StudentPhotos/114006.jpeg
+		}	
 
             cropperHeader = new Croppic('imgCropHolder', cropperOptions);
         } // End of success function of ajax form

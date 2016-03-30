@@ -1,4 +1,9 @@
 ﻿@{
+
+    if(!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/home");
+    }
     Layout = "~/_MainLayout.cshtml";
     Page.Title = "Edit student";
     var userExist = 0;
@@ -364,7 +369,7 @@
 
             <div class="form-group">    
                 <label for="herinschrijving">Herinschrijving</label>
-                <select name="geslacht" class="form-control">
+                <select name="herinschrijving" class="form-control">
                     
                      @if(herinschrijving.ToString() == "0")
                      {

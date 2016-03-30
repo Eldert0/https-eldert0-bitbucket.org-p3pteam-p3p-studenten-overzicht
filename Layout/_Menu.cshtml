@@ -18,9 +18,31 @@
                 <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
             </a>
             <ul class="dropdown-menu dropdown-user">
-                <li><a href="/Admin/Dashboard"><i class="fa fa-user fa-fw"></i>Admin dashboard</a>
-                <li><a href="/Account/Manage"><i class="fa fa-user fa-fw"></i>Account</a>
-                </li>
+
+                @{
+                
+                
+                    if(Roles.IsUserInRole("administrator"))
+                    {
+                        
+                        <li class="GoToDashboard"><a href="/Admin/Dashboard"><i class="fa fa-user fa-fw"></i>Admin dashboard</a></li>
+                        <li><a href="/Account/Manage"><i class="fa fa-user fa-fw"></i>Account</a></li>
+                    }
+                    else if(Roles.IsUserInRole("user"))
+                    {
+                        <li class="GoToDashboard"><a href="/Admin/Dashboard"><i class="fa fa-user fa-fw"></i>Dashboard</a></li>
+                        <li><a href="/Account/Manage"><i class="fa fa-user fa-fw"></i>Account</a></li>
+                    }
+                    else
+                    {
+                        Response.Redirect("~/Account/Login");
+                    }
+
+                }
+                
+
+
+
                 <li class="divider"></li>
                 <li><a href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-sign-out fa-fw"></i>Uitloggen</a>
                 <form id="logoutForm" action="~/Account/Logout" method="post">
@@ -39,13 +61,13 @@
                 if(Roles.IsUserInRole("administrator"))
                 {
                         <ul class="nav" id="side-menu">
-                        <li>
+                        <li class="GoToDashboard">
                             <a href="~/Admin/Dashboard"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <li>
                             <a href="~/"><i class="glyphicon glyphicon-th-list menuNoTop"></i> Studenten overzicht</a>
                         </li>
-                        <li>
+                        <li class="GoToDashboard">
                             <a href="~/Admin/Dashboard"><i class="glyphicon glyphicon-user menuNoTop"></i> Gebruikers</a>
                              <ul class="nav nav-second-level">
                                  <li>
@@ -56,7 +78,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li>
+                        <li class="GoToDashboard">
                             <a href="#"><i class="glyphicon glyphicon-education menuNoTop"></i> Studenten</a>
                             <ul class="nav nav-second-level">
                                  <li>
@@ -70,9 +92,26 @@
                         </li>          
                     </ul>
                 }else if(Roles.IsUserInRole("user")){
-                
-                    // Gebruikers zonder admin recht    
-
+                                            <ul class="nav" id="side-menu">
+                        <li class="GoToDashboard">
+                            <a href="~/Admin/Dashboard"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="~/"><i class="glyphicon glyphicon-th-list menuNoTop"></i> Studenten overzicht</a>
+                        </li>
+                        <li class="GoToDashboard">
+                            <a href="#"><i class="glyphicon glyphicon-education menuNoTop"></i> Studenten</a>
+                            <ul class="nav nav-second-level">
+                                 <li>
+                                    <a href="/Admin/Students/ViewStudents">Bekijken</a>
+                                </li>
+                                <li>
+                                    <a href="/Admin/Students/AddStudents">Toevoegen</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>          
+                    </ul>
                 }else{
                     Response.Redirect("~/Account/Login");
                 }
