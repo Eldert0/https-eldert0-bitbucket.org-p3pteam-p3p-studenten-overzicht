@@ -199,20 +199,33 @@ HOnestudentnaam{
     display:none;
     }
 }
-@media(max-width: 990px){
+@media(max-width: 999px){
    .studentImage{
     float: none;
-    
-    
     }
-.nhlLogo{
-    display:none;
-}
+    .nhlLogo{
+        display:none;
+    }
 
-    .container-fluid-homepage{
-        height:100% !important;
-        overflow-y: auto !important;
+        .container-fluid-homepage{
+            height:100% !important;
+            overflow-y: auto !important;
+        }
+
+    .studentImage{
+        width: 100%;
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+        padding:0px;
+        margin:0px;
+        
     }
+    .StudentImageHolder{
+        width:100%;
+    }
+
+    
 }
 @media(max-width:768px) {
     .navbar-top-links .dropdown-user{
@@ -424,16 +437,23 @@ iframe[id^='twitter-widget-']{
 
 .NextStudent{
     float: right;
-    background-color: #5CB85C;
+    background-color: rgba(136, 141, 156, 0.73);
     padding: 20px;
 }
 .PrevStudent{
-    background-color: #5CB85C;
+    background-color: rgba(136, 141, 156, 0.73);
     padding: 20px;
     float: left;
 }
 .EditStudentHome{
-    width: 100%;
+    width: 80%;
+}
+
+.btn-success {
+    font-size: 25px;
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
 }
 
 .VerwijderAlles{
