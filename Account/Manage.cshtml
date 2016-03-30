@@ -62,9 +62,9 @@
      else{
       Response.Redirect("~/Account/Manage");
      }
-           
-        if (Request.Form["action"] == "changeUserData") {
-           k = "Im here";
+          
+        if (Validation.IsValid() && Request.Form["action"] == "changeUserData") {
+            k = "above changeuserdata";
             // Setup validation
             Validation.Add("voornaam", 
                Validator.Required("Veld mag niet leeg zijn"), 
@@ -94,17 +94,12 @@
              email = Request.Form["email"];
               
              // If all information is valid, update account
-             if(Validation.IsValid())
-             {
                 isSuccess = true;
                
                 var updateCommand = "UPDATE UserProfile SET voornaam=@0, achternaam=@1, geslacht=@2, telefoonnummer=@3, email=@4 WHERE UserId=@5";
                 db.Execute(updateCommand, voornaam, achternaam, geslacht, telefoonnummer, email, curUserId);
-               
-                Response.Redirect("~/Account/Manage");
-             } 
          }
-         k = Request.Form["voornaam"];
+        
          if(Request.Form["passwrd"] == "change") {
            
             Validation.RequireField("currentPassword", "Veld mag niet leeg zijn.");
@@ -132,24 +127,13 @@
 
             if (Validation.IsValid()) 
             {
-                if(newPassword != confirmPassword)
-                {
-                    Response.Redirect("~/Account/Manage?message=ChangedPasswordfailed");
-                    return;
-                }
-                else{
-                    ModelState.AddFormError("Wachtwoorden komen niet overeen.");
-
-                }
                 if (WebSecurity.ChangePassword(WebSecurity.CurrentUserName, currentPassword, newPassword)) 
                 {
                         
-                    Response.Redirect("~/Account/Manage?message=PasswordChanged");
-                    return;
-                } 
-                else 
-                { 
-                    Response.Redirect("~/Account/Manage?message=ChangedPasswordfailed");
+                   isSuccess2 = true;
+                }
+                else{
+                    Validation.AddFormError("Het door u ingevulde wachtwoord komt niet overeen met het account in de database!");
                 }
             }                                    
         }
@@ -160,8 +144,9 @@
         <div class="col-lg-4">
             <form method="POST" action="">
                     <h2 class="page-header headerpaddingfix">Wijzig persoonsgegevens</h2>
+                    
                     @if(isSuccess){
-                        <noscript>Uw persoonsgegevens zijn succesvol aangepast!</noscript>
+                        <div class="alert alert-success" role="alert">Uw persoonsgegevens zijn succesvol aangepast!</div>
                     }
                     <div class="form-group"> 
                         <label for="achternaam">Voornaam</label>
@@ -217,15 +202,13 @@
                     <h2 class="page-header headerpaddingfix">Wijzig wachtwoord</h2>
                     @{
                         if(isSuccess2){
-                            <noscript>Uw wachtwoord is aangepast!</noscript>
+                             <div class="alert alert-success" role="alert">Uw wachtwoord is aangepast!</div>
                         }
-
-                    string successMessage = "";
-                    var message = Request.QueryString["message"];
                     }
             @if (hasLocalAccount) {
 
         <form method="POST">
+            @Html.ValidationSummary(excludeFieldErrors: true)
                 <div class="form-group">
                     <label for="currentPassword" >Huidig wachtwoord</label>
                     <input type="password" id="currentPassword"  class="form-control" name="currentPassword" @Validation.For("currentPassword")/>
