@@ -12,6 +12,7 @@ var fieldData;
 // Initialize Materialize
  $('.materialboxed').materialbox();
  $(document).ready(function () {
+
      // voor beide tabellen (viewusers & viewstudents)
      $('#ViewUserTable, #ViewStudentTable').DataTable({
          language: {
@@ -90,9 +91,6 @@ var fieldData;
              var img;
 
              fieldData = $('#SearchBox').val();
-
-
-             fieldData = fieldData.split(' ').join('_');
 
              if (fieldData.length >= 2) {
 
@@ -184,7 +182,6 @@ var fieldData;
      });
 
      function RetrieveStudentData(student) {
-
          $.ajax({
              url: '/Data/GetStudentData.cshtml',
              data: {
@@ -202,10 +199,9 @@ var fieldData;
          });
      }
 
-
      // Foto stuff
      function RenderStudent(data) {
-         console.log(data);
+
          IDCurrentStudentShown = data[0].Uid;
          $(".StudentEditBtn a").attr("href", "/admin/students/editstudent?student=" + student);
 
@@ -220,9 +216,6 @@ var fieldData;
                  $('.StudentImageHolder').empty();
                  $('.StudentImageHolder').append('<img alt="StudentPicture" class="materialboxed"  src="' + data[0].imageUrl + '"></img><button class="ReplacePicture btn">Vervang foto</button>');
              }
-
-
-
 
              $('#StudentContent').addClass('bounceInLeft');
 
@@ -374,7 +367,6 @@ var fieldData;
      var device;
      // Se what for device is on the page.
      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-         //$('.UploadSourceChoice').remove('');
          device = "Mobile";
          console.log("Mobile");
      } else if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
@@ -509,62 +501,44 @@ var fieldData;
              RetrieveStudentData(CurrentStudentListId[idxS]);
          }
      });
- });
 
 
+     function EditFotoRegion() {
+         // Add new contentpanel with uploaded img
+         $('#ImageEditModel').modal({ show: true });
 
+         $.ajax({
+             url: '/Admin/Students/GetStudentPath.cshtml',
+             type: 'POST',
+             data: {
+                 data: student
+             },
+             dataType: 'json',
+             success: function (data) {
+                 imgUrl = data;
 
- function EditFotoRegion()
- {
+                 var cropperOptions = {
+                     cropData: {
+                         "student": student
+                     },
+                     onAfterImgCrop: function () {
+                         //window.location.replace("/Home");
+                     },
+                     onReset: function () { console.log('onReset') },
+                     cropUrl: 'CropImage.cshtml',
+                     modal: false,
+                     customUploadButtonId: 'UploadPicture',
+                     loadPicture: '/' + imgUrl
+                 }
 
-     console.log('UserDI: '+ student);
-    // Add new contentpanel with uploaded img
-    $('#ImageEditModel').modal({ show: true });
+                 cropperHeader = new Croppic('imgCropHolder', cropperOptions);
+             } // End of success function of ajax form
+         });
+     }
 
+     $(document).on('click', '.ReplacePicture', function () {
 
-    $.ajax({
-        url: '/Admin/Students/GetStudentPath.cshtml',
-        type: 'POST',
-        data: {
-            data: student
-        },
-        dataType: 'json',
-        success: function (data) {
-            imgUrl = data;
-
-            var cropperOptions = {
-			cropData:{
-				"student":114006	
-			},
-            cropUrl:'CropImage.cshtml',
-            modal:false,
-            customUploadButtonId:'UploadPicture',
-            loadPicture:'/'+imgUrl
-            //Upload/Photos/StudentPhotos/114006.jpeg
-		}	
-
-            cropperHeader = new Croppic('imgCropHolder', cropperOptions);
-        } // End of success function of ajax form
-    });
-    
-
-     
-    console.log("Second model should have been appeard....");
-    // Let the user control the img area
-   
-
-    // Onclick listener to save the img
-
-    // Delete the image that we are not gonne use.
-
- }
-
- $(document).on('click', '.ReplacePicture', function () {
-
-     $('#myModal').modal({ show: true });
-      
+         $('#myModal').modal({ show: true });
      });
 
-     
-
-     
+ });

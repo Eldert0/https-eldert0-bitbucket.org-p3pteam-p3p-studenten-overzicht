@@ -8,6 +8,9 @@
 
     //WebImage img = null;
     var student ="";
+    var imageThumbPath = "";
+
+
     if(IsPost){
        
         student =   Request.Form["student"];
@@ -16,61 +19,73 @@
         int imgInitW =  Convert.ToInt32(Request.Form["imgInitW"]);
         int imgInitH =  Convert.ToInt32(Request.Form["imgInitH"]);
         
-        int imgW =      Int32.Parse(Request.Form["imgW"]);
-        int imgH =      Int32.Parse(Request.Form["imgH"]);
+        double imgWD =  Convert.ToDouble(Request.Form["imgW"]);
+        double imgHD =  Convert.ToDouble(Request.Form["imgH"]);
         
+        int imgW = Convert.ToInt32(Math.Round(imgWD));
+        int imgH = Convert.ToInt32(Math.Round(imgHD));
+
         int imgY1 =     Convert.ToInt32(Request.Form["imgY1"]);
         int imgX1 =     Convert.ToInt32(Request.Form["imgX1"]);
         
-        int cropH =     Convert.ToInt32(Request.Form["cropH"]);
-        int cropW =     Convert.ToInt32(Request.Form["cropW"]);
+        int cropH =     Convert.ToInt32(Request.Form["cropH"]); //400
+        int cropW =     Convert.ToInt32(Request.Form["cropW"]); //400
        
 
         var rotation =  Request.Form["rotation"];
-
-
         var img = new WebImage(Server.MapPath(Path.Combine("~.", url)));
 
-        //img.Crop(image_y, image_x, image_y + image_h, image_x + image_w);
-        var scale = imgInitW / imgW;
+        var path = "Upload/TempStudentImages/"+student+"-temp.jpg";
 
+        var def = Server.MapPath(path);
+        File.Delete(def);
+
+        //img.Crop(image_y, image_x, image_y + image_h, image_x + image_w);
+        
+        var scale1 = imgInitW / imgW;
+        double scale = (double)imgInitW / imgW;
         var left = imgX1 *scale;
         var top = imgY1 * scale;
-
 
         var right = (imgW * scale) - (left + (cropW * scale));
         var bottom  = (imgH * scale) - (top + (cropW * scale));
 
 
-        img.Crop(top, left, bottom, right);
+        img.Crop(Convert.ToInt32(top), Convert.ToInt32(left), Convert.ToInt32(bottom), Convert.ToInt32(right));
+
+        img.Resize(400, 400, preserveAspectRatio: true, preventEnlarge: false);
 
 
-        img.Resize(400, 400, preserveAspectRatio: true, preventEnlarge: true);
-
-        //string[] data =  new string[] {"imgInitW: "+imgInitW.ToString(), "imgInitH: "+imgInitH.ToString(), "imgW: "+imgW.ToString(), "imgH: "+imgH.ToString(), "imgY1: "+imgY1.ToString(), "imgX1: "+imgX1.ToString(),  "cropH: "+cropH.ToString(), "cropW: "+cropW.ToString() };
-
-         //Json.Write(data, Response.Output);
-         //Response.ContentType = "application/json";
+         
 
 
-         var TempPath = @"Upload/TempStudentImages/"+student+Path.GetExtension(img.FileName);
-        img.Save(@"~/"+TempPath);
+     
+        
+        var StudentImage = @"Upload/Photos/StudentPhotos/"+student+Path.GetExtension(img.FileName);
+        
+        
+        img.Save(@"~/"+StudentImage);
+
+
+       WebImage photoThumb = null;
+
+       photoThumb = img.Clone();
+
+       imageThumbPath = @"/Upload/Photos/Thumbnails/" + student + "-thumb"+Path.GetExtension(img.FileName);
+
+       photoThumb.Resize(width: 50, height: 50, preserveAspectRatio: true, preventEnlarge: true);
+       photoThumb.Save(@"~/" + imageThumbPath);    
        
-       
-       
-
-       var FinalImg = new WebImage(Server.MapPath(Path.Combine("~.", url)));
-
-       WebImage StudentPhoto = FinalImg.Clone();
-
-       var Newurl = @"/Upload/Photos/StudentPhotos/"+student+Path.GetExtension(StudentPhoto.FileName);
-
-       var imageThumbPath = @"/Upload/Photos/Thumbnails/" + student+"-thumb"+Path.GetExtension(StudentPhoto.FileName);
        var db = Database.Open("database");
-       db.Execute("UPDATE StudentPhotos SET imageUrl=@0, thumbUrl=@1 WHERE Uid=@2", Newurl, imageThumbPath, student);
+
+       db.Execute("UPDATE StudentPhotos SET imageUrl=@0, thumbUrl=@1 WHERE Uid=@2", StudentImage, StudentImage, student);
        
        db.Close();
-       StudentPhoto.Save(@"~/" + Newurl);
+
+       
+       string[] data =  new string[] {"imgInitW: "+imgInitW.ToString(), "imgInitH: "+imgInitH.ToString(), "imgW: "+imgW.ToString(), "imgH: "+imgH.ToString(), "imgY1: "+imgY1.ToString(), "imgX1: "+imgX1.ToString(),  "cropH: "+cropH.ToString(), "cropW: "+cropW.ToString(), "scale: "+scale.ToString(), "Scale1: "+scale1.ToString() };
+       Json.Write(data, Response.Output);
+       Response.ContentType = "application/json";
 
     } 
 }

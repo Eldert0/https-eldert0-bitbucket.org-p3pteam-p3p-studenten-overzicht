@@ -1,5 +1,4 @@
-﻿
-@{  
+﻿@{  
 
     if(!WebSecurity.IsAuthenticated)
     {
@@ -7,7 +6,6 @@
     }
 
     WebImage photoBig = null;
-    WebImage photoThumb = null;
 
     var newFileName = "";
     var imagePath = "";
@@ -18,16 +16,12 @@
 
     int StudentID = -1;
 
-
     if(IsPost){
 
         StudentID = Convert.ToInt32(Request.Form["id"]);
         if(StudentID > 0) {
             
             photoBig = WebImage.GetImageFromRequest();
-            photoThumb = photoBig.Clone();
-
-
 
             // Go to db and find the matching id then get student number
             var db = Database.Open("database");
@@ -36,27 +30,15 @@
 
             var Exists = db.QueryValue("SELECT COUNT(*) FROM StudentPhotos WHERE studentnummer=@0", studentNumber);
 
-          
-
-                       
-            imageThumbPath = @"/Upload/Photos/Thumbnails/" + studentNumber + "-thumb"+Path.GetExtension(photoBig.FileName);
-            imagePath = @"Upload/Photos/StudentPhotos/" + studentNumber+Path.GetExtension(photoBig.FileName);
-
-            TempImageUrl = @"Upload/TempStudentImages/" + studentNumber + "-temp"+Path.GetExtension(photoBig.FileName);
-           
+            TempImageUrl = @"Upload/TempStudentImages/" + StudentID + "-temp"+Path.GetExtension(photoBig.FileName);
+         
 
             // Set studentnumber in StudentPhotosTable to get the Url Later
             if(Exists < 1)
             {
                 db.Execute("INSERT INTO StudentPhotos(Uid, studentnummer, TempImageUrl) VALUES (@0, @1, @2)", StudentID, studentNumber, TempImageUrl);
             
-            }else{
-
-                //Update query on studentnumber
-                db.Execute("UPDATE StudentPhotos SET TempImageUrl=@0 WHERE studentnummer=@1", TempImageUrl, studentNumber);
             }
-
- 
 
             if(photoBig != null){
                 {
@@ -64,17 +46,12 @@
                     width = photoBig.Width;
                     height = photoBig.Height;
 
+                    photoBig.Resize(width / 2, height /2, preserveAspectRatio: true, preventEnlarge: false);
+
                     photoBig.Save(@"~/" + TempImageUrl);
                 }
-
-                {    
-                    photoThumb.Resize(width: 50, height: 50, preserveAspectRatio: true, preventEnlarge: true);
-                    photoThumb.Save(@"~/" + imageThumbPath);    
-
-                }
+             
             }
-
-            
 
             Data data = new Data();
             data.height = height;
@@ -82,12 +59,10 @@
             data.status = "success";
             data.url = imagePath.ToString();
 
-
             PhotoInfo photo = new PhotoInfo(data);
 
             var JsonFinal = Json.Decode(photo.ReturnJson());
-
-           
+       
             Json.Write(JsonFinal, Response.Output);
            
             data = null;
