@@ -84,7 +84,7 @@
                 if (requireEmailConfirmation) {
                     var hostUrl = Request.Url.GetComponents(UriComponents.SchemeAndServer, UriFormat.Unescaped);
                     var ho = "http://p3p.frolich-it.nl:8070/";
-                    var confirmationUrl = k + VirtualPathUtility.ToAbsolute("Account/Confirm?confirmationCode=" + HttpUtility.UrlEncode(token));
+                    var confirmationUrl = ho + VirtualPathUtility.ToAbsolute("Account/Confirm?confirmationCode=" + HttpUtility.UrlEncode(token));
                    
                     WebMail.Send(
                         to: email,
