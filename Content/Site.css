@@ -516,3 +516,12 @@ iframe[id^='twitter-widget-']{
 .MoveEditPhoto{
     
 }
+
+.modal-body{
+  overflow: hidden !important;
+    
+}
+
+.cropControls{
+    left: 0;
+}

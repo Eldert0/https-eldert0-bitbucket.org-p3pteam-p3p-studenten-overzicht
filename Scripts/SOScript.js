@@ -522,11 +522,19 @@ var fieldData;
                  imgUrl = data;
 
                  var cropperOptions = {
+
+                     doubleZoomControls: false,
+                     rotateControls: false,
+
                      cropData: {
                          "student": student
                      },
                      onAfterImgCrop: function () {
                          window.location.replace("/Home");
+                     },
+                     onBeforeImgCrop: function () {
+                         //.cropControls
+                         console.log("onBeforeImgCrop");
                      },
                      onReset: function () { console.log('onReset') },
                      cropUrl: 'CropImage.cshtml',
