@@ -41,18 +41,18 @@
     //student validation
         Validation.Add("roepnaam", 
         Validator.Required("Je moet een voornaam invullen"), 
-        Validator.StringLength(20, 2, "Niet meer dan 20 karakters"));
+        Validator.StringLength(10, 2, "Niet meer dan 20 karakters"));
 
         Validation.Add("naam", 
         Validator.Required("Je moet een achternaam invullen"), 
-        Validator.StringLength(20, 2, "Niet meer dan 20 karakters"));
+        Validator.StringLength(30, 2, "Niet meer dan 20 karakters"));
 
         Validation.Add("groep", 
         Validator.Required("je moet een klas invullen"));
 
         Validation.Add("telefoonnummer", 
         Validator.Required("je moet een telefoonnummer invullen"), 
-        Validator.StringLength(20, 0,"Niet meer dan 20 karakters")); 
+        Validator.StringLength(15, 0,"Niet meer dan 20 karakters")); 
 
         Validation.Add("email", 
         Validator.Required("Je moet een email-adres invullen"),
@@ -61,11 +61,11 @@
          
         Validation.Add("mentor", 
         Validator.Required("Je moet een mentor invullen"), 
-        Validator.StringLength(20, 2, "Niet meer dan 20 karakters"));
+        Validator.StringLength(30, 2, "Niet meer dan 20 karakters"));
 
         Validation.Add("studentnummer", 
         Validator.Required("Je moet een studentnummer invullen"), 
-        Validator.StringLength(20, 2, "Niet meer dan 20 karakters"));
+        Validator.StringLength(6, 2, "Niet meer dan 20 karakters"));
 
         Validation.Add("geslacht", 
         Validator.Required("Je moet een geslacht invullen")); 
@@ -92,11 +92,11 @@
 
         Validation.Add("etiketregel1", 
         Validator.Required("Je moet een straatnaam en huisnummer invullen"), 
-        Validator.StringLength(20, 2, "Niet meer dan 20 karakters"));
+        Validator.StringLength(50, 2, "Niet meer dan 20 karakters"));
 
         Validation.Add("etiketregel2", 
         Validator.Required("Je moet een postcode en woonplaats invullen"), 
-        Validator.StringLength(20, 2, "Niet meer dan 20 karakters")); 
+        Validator.StringLength(40, 2, "Niet meer dan 20 karakters")); 
 
         Validation.Add("land",
         Validator.Required("Je moet een land invullen"),
@@ -104,31 +104,34 @@
 
         Validation.Add("telefoonnummermobiel", 
         Validator.Required("Je moet een mobiele telefoonnummer invullen"), 
-        Validator.StringLength(20, 2, "Niet meer dan 20 karakters"));
+        Validator.StringLength(15, 2, "Niet meer dan 20 karakters"));
 
         Validation.Add("herinschrijving", 
-        Validator.Required("Bij herinschrijving voer in: 1"), 
-        Validator.StringLength(20, 1, "Niet meer dan 20 karakters"));
+        Validator.Required("ja of nee")); 
 
         Validation.Add("opleiding", 
         Validator.Required("Je moet een opleiding invullen"), 
-        Validator.StringLength(20, 2, "Niet meer dan 20 karakters"));
+        Validator.StringLength(50, 2, "Niet meer dan 20 karakters"));
 
         Validation.Add("fase", 
         Validator.Required("Je moet een fase invullen"), 
         Validator.StringLength(50, 2, "Niet meer dan 50 karakters"));
 
+        Validation.Add("datumvan", 
+        Validator.Required("je moet een datum invullen")); 
+
+        Validation.Add("datumtot", 
+        Validator.Required("je moet een datum invullen")); 
+
         Validation.Add("aankomst_bij_isatcode", 
-        Validator.Required("Je moet aankomst bij isatcode invullen"), 
-        Validator.StringLength(20, 2, "Niet meer dan 20 karakters"));
-
+        Validator.Required("Je moet aankomst bij isatcode invullen")); 
+       
         Validation.Add("aanmeldingdatum", 
-        Validator.Required("Je moet een aanmeldingsdatum invullen"), 
-        Validator.StringLength(20, 2, "Niet meer dan 20 karakters"));
-
+        Validator.Required("Je moet een aanmeldingsdatum invullen")); 
+       
         Validation.Add("datumdefinitief", 
-        Validator.Required("Je moet een definitieve datum invullen"), 
-        Validator.StringLength(20, 2, "Niet meer dan 20 karakters"));
+        Validator.Required("Je moet een definitieve datum invullen"));
+        
         
    
     //if student id not empty continue.
@@ -241,20 +244,20 @@
         <form id="AddForm" method="POST" action="">
 
              <div class="form-group"> 
-             <label for="roepnaam">Roepnaam</label>
-             <input type="text" name="roepnaam" class="form-control" id="Idroepnaam" placeholder="Voer naam in" value="@roepnaam" @Validation.For("roepnaam")>
+             <label for="roepnaam">Voornaam</label>
+             <input type="text" name="roepnaam" class="form-control" id="Idroepnaam" placeholder="Voer voornaam in" value="@roepnaam" @Validation.For("roepnaam")>
              <noscript>@Html.ValidationMessage("roepnaam")</noscript>
           </div>
 
              <div class="form-group">
-             <label for="naam">Naam</label>
-             <input type="text" name="naam" class="form-control" id="Idnaam" placeholder="Voer naam in" value="@naam" @Validation.For("naam")>
+             <label for="naam">Achternaam</label>
+             <input type="text" name="naam" class="form-control" id="Idnaam" placeholder="Voer achternaam in" value="@naam" @Validation.For("naam")>
              <noscript>@Html.ValidationMessage("naam")</noscript>
           </div>
                
              <div class="form-group">
-             <label for="voorvoegsels">Voorvoegsels</label>
-             <input type="text" name="voorvoegsels" class="form-control" id="Idvoorvoegsels" placeholder="Voer voorvoegsels in" value="@voorvoegsels" @Validation.For("voorvoegsels")>
+             <label for="voorvoegsels">Tussenvoegsels</label>
+             <input type="text" name="voorvoegsels" class="form-control" id="Idvoorvoegsels" placeholder="Voer tussenvoegsels in" value="@voorvoegsels" @Validation.For("voorvoegsels")>
              <noscript>@Html.ValidationMessage("voorvoegsels")</noscript>
           </div>
 
@@ -264,25 +267,16 @@
              <noscript>@Html.ValidationMessage("etiketnaam")</noscript>
           </div>
 
-             <div class="form-group">    
-                <label for="geslacht">Geslacht</label>
-                <select name="geslacht" class="form-control">
-                    
-                     @if(geslacht.ToString() == "1")
-                     {
-                        <option value="1" selected="selected">Man</option>
-                        <option value="2">vrouw</option>
-                     }
-                     else
-                     {
-                         <option value="1">Man</option>
-                         <option value="2" selected="selected">vrouw</option>
-                     }
-           
-                </select>
-                <noscript>@Html.ValidationMessage("geslacht")</noscript>
-                </div>
-             
+            <div class="form-group">
+            <label for="geslacht">Geslacht</label>
+            <select name="geslacht" class="form-control">
+            <option value=" " selected="selected">Voer een geslacht in</option>
+            <option value="1" selected=@(Request.Form["geslacht"] == "1") >Man</option>
+            <option value="2" selected=@(Request.Form["geslacht"] == "2")>Vrouw</option>
+            </select>
+            <noscript>@Html.ValidationMessage("geslacht")</noscript>
+          </div>
+                
              <div class="form-group">
              <label for="groep">Klas</label>
              <input type="text" name="groep" class="form-control" id="Idgroep" placeholder="Voer een groep in" value="@groep" @Validation.For("groep")>
@@ -368,24 +362,15 @@
             <noscript>@Html.ValidationMessage("opleiding")</noscript>
           </div>
 
-            <div class="form-group">    
-                <label for="herinschrijving">Herinschrijving</label>
-                <select name="herinschrijving" class="form-control">
-                    
-                     @if(herinschrijving.ToString() == "0")
-                     {
-                        <option value="0" selected="selected">nee</option>
-                        <option value="1">ja</option>
-                     }
-                     else
-                     {
-                         <option value="0">nee</option>
-                         <option value="1" selected="selected">ja</option>
-                     }
-           
-                </select>
-                <noscript>@Html.ValidationMessage("herinschrijving")</noscript>
-                </div> 
+            <div class="form-group">
+            <label for="herinschrijving">Herinschrijving</label>
+            <select name="geslacht" class="form-control">
+            <option value=" " selected="selected">Voer ja of nee in</option>
+            <option value="0" selected=@(Request.Form["geslacht"] == "0") >nee</option>
+            <option value="1" selected=@(Request.Form["geslacht"] == "1")>ja</option>
+            </select>
+            <noscript>@Html.ValidationMessage("herinschrijving")</noscript>
+          </div>
 
             <div class="form-group">
             <label for="aanmeldingdatum">Aanmeldingsdatum</label>
@@ -409,13 +394,17 @@
           </div>
 
             <div class="form-group">
-            <label for="datumvan">Opleidingsduur van/tot</label>
+            <label for="datumvan">Opleidingsduur datum van</label>
             <input type="date" name="datumvan" class="form-control" id="Iddatumvan" placeholder="Voer datumvan in" value="@datumvan" @Validation.For("datumvan")>             
             <noscript>@Html.ValidationMessage("datumvan")</noscript>
-             &nbsp;tot&nbsp;
-            <label for="datumtot"></label>
+            &nbsp;
+         </div>
+
+            <div class="form-group">
+            <label for="datumtot">Datum tot</label>
             <input type="date" name="datumtot" class="form-control" id="Iddatumtot" placeholder="Voer datumtot in" value="@datumtot" @Validation.For("datumtot")>             
             <noscript>@Html.ValidationMessage("datumtot")</noscript>
+            &nbsp;
           </div>
 
 
@@ -427,7 +416,7 @@
           </div>
              
              <button type="submit" class="btn btn-default">Submit</button>   
-      </form> 
+       </form> 
    </div>
  </div>
 </div>

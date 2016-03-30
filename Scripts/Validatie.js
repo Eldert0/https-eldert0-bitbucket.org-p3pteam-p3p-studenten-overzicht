@@ -104,11 +104,11 @@ $('#AddForm').bootstrapValidator({
                     },
                     stringLength: {
                         min: 2,
-                        message: 'Roepnaam moet langer zijn dan 1 letters'
+                        message: 'Voornaam moet langer zijn dan 1 letters'
                     },
                     regexp: {
                         regexp: /^[a-zA-Z]+$/,
-                        message: 'Roepnaam mag alleen alfabetische karakters bevatten'
+                        message: 'Voornaam mag alleen alfabetische karakters bevatten'
                     }
                 }
             },
@@ -165,7 +165,7 @@ $('#AddForm').bootstrapValidator({
                 validators: {
                   regexp: {
                         regexp: /^[a-zA-Z. ]+$/,
-                        message: 'Voorvoegsels mogen alleen alfabetische karakters bevatten'
+                        message: 'Tussenvoegsels mogen alleen alfabetische karakters bevatten'
                     }
                 }
             },
@@ -177,6 +177,7 @@ $('#AddForm').bootstrapValidator({
                     },
                     stringLength: {
                         min: 1,
+                        max:10,
                         message: 'Studentnummer mag maximaal 10 cijfers bevatten'
                     },
                     regexp: {
@@ -423,7 +424,7 @@ $('#AddForm').bootstrapValidator({
                 }
             },
          
-            aanmeldingsdatum: { 
+            aanmeldingdatum: { 
                 validators: {
                     notEmpty: {
                         message: 'Veld mag niet leeg zijn'

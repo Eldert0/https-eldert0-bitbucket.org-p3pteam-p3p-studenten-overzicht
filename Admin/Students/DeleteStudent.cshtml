@@ -11,14 +11,14 @@
         if(db.QueryValue("SELECT count(*) FROM students WHERE id =@0",id) == 1) 
         {
         var studentverwijderen = db.Execute("DELETE FROM students WHERE id = @0", id); 
-          
-        db.Close();
+         db.Close();
         }
    
         else
         {
         Response.Redirect("~/admin/students/viewstudents");
         }
+         db.Close();
            
     }
     else
