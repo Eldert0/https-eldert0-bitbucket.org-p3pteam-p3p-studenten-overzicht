@@ -7,14 +7,10 @@
     }
 
     //WebImage img = null;
-
-
-    //db.Execute("INSERT INTO StudentPhotos(Uid, imageUrl, thumbUrl, studentnummer) VALUES (@0, @1, @2, @3)", StudentID, imagePath, imageThumbPath, studentNumber);
-
-
+    var student ="";
     if(IsPost){
        
-        var student =   Request.Form["student"];
+        student =   Request.Form["student"];
         var url =       Request.Form["imgUrl"];
         
         int imgInitW =  Convert.ToInt32(Request.Form["imgInitW"]);
@@ -49,16 +45,32 @@
         img.Crop(top, left, bottom, right);
 
 
-        //img.Resize(400, 400, preserveAspectRatio: true, preventEnlarge: true);
+        img.Resize(400, 400, preserveAspectRatio: true, preventEnlarge: true);
 
-        string[] data =  new string[] {"imgInitW: "+imgInitW.ToString(), "imgInitH: "+imgInitH.ToString(), "imgW: "+imgW.ToString(), "imgH: "+imgH.ToString(), "imgY1: "+imgY1.ToString(), "imgX1: "+imgX1.ToString(),  "cropH: "+cropH.ToString(), "cropW: "+cropW.ToString() };
+        //string[] data =  new string[] {"imgInitW: "+imgInitW.ToString(), "imgInitH: "+imgInitH.ToString(), "imgW: "+imgW.ToString(), "imgH: "+imgH.ToString(), "imgY1: "+imgY1.ToString(), "imgX1: "+imgX1.ToString(),  "cropH: "+cropH.ToString(), "cropW: "+cropW.ToString() };
 
-         Json.Write(data, Response.Output);
-         Response.ContentType = "application/json";
+         //Json.Write(data, Response.Output);
+         //Response.ContentType = "application/json";
 
 
+         var TempPath = @"Upload/TempStudentImages/"+student+Path.GetExtension(img.FileName);
+        img.Save(@"~/"+TempPath);
+       
+       
+       
 
-       img.Save(@"~/Upload/TestImg"+Path.GetExtension(url));
+       var FinalImg = new WebImage(Server.MapPath(Path.Combine("~.", url)));
+
+       WebImage StudentPhoto = FinalImg.Clone();
+
+       var Newurl = @"/Upload/Photos/StudentPhotos/"+student+Path.GetExtension(StudentPhoto.FileName);
+
+       var imageThumbPath = @"/Upload/Photos/Thumbnails/" + student+"-thumb"+Path.GetExtension(StudentPhoto.FileName);
+       var db = Database.Open("database");
+       db.Execute("UPDATE StudentPhotos SET imageUrl=@0, thumbUrl=@1 WHERE Uid=@2", Newurl, imageThumbPath, student);
+       
+       db.Close();
+       StudentPhoto.Save(@"~/" + Newurl);
 
     } 
 }

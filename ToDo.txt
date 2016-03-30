@@ -1,30 +1,14 @@
 
 =====To-Do===============
-- Studenten overzicht (Knoppen maken (Next / Vorige) en edit -> Dan naar student pagina)
+
 - Gebruiker de foto laten editen.
-- Webcam upload
-- Data inside table row for mobile view (https://datatables.net/examples/server_side/row_details.html) of dat ie mee schaalt (view student op telefoon etc) (desktop only)
 
-- Delete all students
+
 - Validate invoeren + fotos en eigen account (eigen gegevens in database zetten)
-
-=====Styling shit=========
-
-- Admin dashboard Stylen
-- Upload progress bar stylen
 
 
 =====Werkt ongeveer=======
-- User aanmaken (bij bestaande user foutmelding geven) (is inprincipe gedaan mailadres kan niet 2x gebruikt worden)
 
 - password veranderen (account) frontend succes messages of  error message
+- password reset werkt nog niet in zijn / haar geheel
 
-
-=====Presentatie===========
-- manier vinden om telefoon op scherm te tonen
-- Website live krijgen
-
-===== Etc ===========
-Kolomnamen bij het op de importeer pagina
-Betere beschrijving wat er voor nodig is om een excel sheet in te kunnen laden.
-Overschrijven van data in de student tabel ipv verwijderen Oude moeten wel verwijdert worden net zo als de koppeling naar de foto.

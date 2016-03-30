@@ -1,4 +1,9 @@
 ﻿@{
+
+    if(!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/home");
+    }
     Layout = "~/_MainLayout.cshtml";
     Page.Title = "Edit student";
     var userExist = 0;

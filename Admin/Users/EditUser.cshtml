@@ -1,4 +1,9 @@
 ﻿@{
+    if(!Roles.IsUserInRole("administrator") || !WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/home");
+    }
+
     Layout = "~/_MainLayout.cshtml";
     Page.Title = "Edit user";
     var db = Database.Open("database");

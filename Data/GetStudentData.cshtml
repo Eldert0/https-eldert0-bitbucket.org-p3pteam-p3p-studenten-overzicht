@@ -18,8 +18,6 @@
     
     var db = Database.Open("database");
 
-
-
     var query = "SELECT * FROM students LEFT JOIN StudentPhotos ON StudentPhotos.Uid=students.id WHERE students.id = @0";
 
     var result = db.Query(query, value);
@@ -56,8 +54,7 @@
         aankomstBijIsatcode = x.aankomst_bij_isatcode,
         imageUrl = x.imageUrl,
         thumbUrl = x.thumbUrl
-        
-                     
+                           
     }).ToArray();
 
     Json.Write(data, Response.Output);

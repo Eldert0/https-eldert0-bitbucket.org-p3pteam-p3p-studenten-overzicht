@@ -4,10 +4,8 @@
         Response.Redirect("~/Account/Login");
     }
 
-
     string[] searchValues;
     var SearchValue = "";
-    
 
     if(IsAjax)
     { 
@@ -16,36 +14,14 @@
     else
     {
         // Redirect to login page
+        Response.Redirect("~/Account/Login");
     }
 
-    searchValues = SearchValue.Split('_');
-    
     var query = "";
     var db = Database.Open("database");
 
-    
-    //http://stackoverflow.com/questions/8687923/multiple-fields-searching
-    if(searchValues.Length != 0)
-    {
-        if(searchValues.Length != 1){
-               
-            foreach (string search in searchValues)
-            {
-                  query += "SELECT students.id, students.roepnaam, students.naam, students.voorvoegsels, students.studentnummer, StudentPhotos.Uid, StudentPhotos.imageUrl, StudentPhotos.studentnummer, StudentPhotos.thumbUrl FROM students LEFT JOIN StudentPhotos ON StudentPhotos.Uid=students.id WHERE groep LIKE "+search+" OR mentor LIKE "+search+" OR students.studentnummer LIKE "+search+" OR roepnaam LIKE "+search+" OR voorvoegsels LIKE "+search+" OR naam LIKE "+search+" OR geslacht LIKE "+search+" OR geboortedatum LIKE "+search+" OR vooropleiding LIKE "+search+" OR emailprive LIKE "+search+" OR emailinstelling LIKE "+search+" OR adrestype LIKE "+search+" OR etiketnaam LIKE "+search+" OR etiketregel1 LIKE "+search+" OR etiketregel2 LIKE "+search+" OR land LIKE "+search+" OR telefoonlandnummer LIKE "+search+" OR telefoonnummermobiel LIKE "+search+" OR herinschrijving LIKE "+search+" OR opleiding LIKE "+search+" OR fase LIKE "+search+" OR datumvan LIKE "+search+" OR datumtot LIKE "+search+" OR aanmeldingdatum LIKE "+search+" OR datumdefinitief LIKE "+search+" OR telefoonnummer LIKE "+search+" OR aankomst_bij_isatcode LIKE "+search+" AND ";
-            }
-        }
-        else
-        {        
-            query = "SELECT students.id, students.roepnaam, students.naam, students.voorvoegsels, students.studentnummer, StudentPhotos.Uid, StudentPhotos.imageUrl, StudentPhotos.studentnummer, StudentPhotos.thumbUrl FROM students LEFT JOIN StudentPhotos ON StudentPhotos.Uid=students.id WHERE groep LIKE @0 OR mentor LIKE @0 OR students.studentnummer LIKE @0 OR roepnaam LIKE @0 OR voorvoegsels LIKE @0 OR naam LIKE @0 OR geslacht LIKE @0 OR geboortedatum LIKE @0 OR vooropleiding LIKE @0 OR emailprive LIKE @0 OR emailinstelling LIKE @0 OR adrestype LIKE @0 OR etiketnaam LIKE @0 OR etiketregel1 LIKE @0 OR etiketregel2 LIKE @0 OR land LIKE @0 OR telefoonlandnummer LIKE @0 OR telefoonnummermobiel LIKE @0 OR herinschrijving LIKE @0 OR opleiding LIKE @0 OR fase LIKE @0 OR datumvan LIKE @0 OR datumtot LIKE @0 OR aanmeldingdatum LIKE @0 OR datumdefinitief LIKE @0 OR telefoonnummer LIKE @0 OR aankomst_bij_isatcode LIKE @0";
-            
-        }
-    }
-
-    
-    
+    query = "SELECT students.id, students.roepnaam, students.naam, students.voorvoegsels, students.studentnummer, StudentPhotos.Uid, StudentPhotos.imageUrl, StudentPhotos.studentnummer, StudentPhotos.thumbUrl FROM students LEFT JOIN StudentPhotos ON StudentPhotos.Uid=students.id WHERE groep LIKE @0 OR mentor LIKE @0 OR students.studentnummer LIKE @0 OR roepnaam LIKE @0 OR voorvoegsels LIKE @0 OR naam LIKE @0 OR geslacht LIKE @0 OR geboortedatum LIKE @0 OR vooropleiding LIKE @0 OR emailprive LIKE @0 OR emailinstelling LIKE @0 OR adrestype LIKE @0 OR etiketnaam LIKE @0 OR etiketregel1 LIKE @0 OR etiketregel2 LIKE @0 OR land LIKE @0 OR telefoonlandnummer LIKE @0 OR telefoonnummermobiel LIKE @0 OR herinschrijving LIKE @0 OR opleiding LIKE @0 OR fase LIKE @0 OR datumvan LIKE @0 OR datumtot LIKE @0 OR aanmeldingdatum LIKE @0 OR datumdefinitief LIKE @0 OR telefoonnummer LIKE @0 OR aankomst_bij_isatcode LIKE @0";
     var result = db.Query(query, '%'+SearchValue+'%');
-  
-    
 
     var data = result.Select(x => new 
     {

@@ -1,4 +1,11 @@
 ﻿@{
+
+        if(!Roles.IsUserInRole("administrator") || !WebSecurity.IsAuthenticated)
+        {
+            Response.Redirect("~/home");
+        }
+       
+
         Layout = "~/_MainLayout.cshtml";
         Page.Title = "Gebruikers";
         var db = Database.Open("database");

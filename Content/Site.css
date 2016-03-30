@@ -152,7 +152,7 @@ HOnestudentnaam{
     height: 100px;
 }
 #StudentVooropleiding{
-    height: 200px;
+    height: 150px;
 }
 #StudentContactGegevens{
 }
@@ -424,12 +424,16 @@ iframe[id^='twitter-widget-']{
 
 .NextStudent{
     float: right;
+    background-color: #5CB85C;
+    padding: 20px;
 }
 .PrevStudent{
+    background-color: #5CB85C;
+    padding: 20px;
     float: left;
 }
 .EditStudentHome{
-    float: left;
+    width: 100%;
 }
 
 .VerwijderAlles{
