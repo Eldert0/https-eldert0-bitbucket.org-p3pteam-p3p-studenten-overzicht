@@ -234,7 +234,7 @@ var fieldData;
              $('.voorvoegsels').text(data[0].voorvoegsels);
              $('.naam').text(data[0].naam);
              $('.studentnummer').text(data[0].studentnummer);
-             $('.geboortedatum').text(data[0].geboortedatum);
+             $('.geboortedatum').text($.date(data[0].geboortedatum));
              $('.geslacht').text(data[0].geslacht);
 
              //Opleiding
@@ -243,11 +243,11 @@ var fieldData;
              $('.groep').text(data[0].groep);
              $('.fase').text(data[0].fase);
 
-             $('.datumvan').text(data[0].datumvan);
-             $('.datumtot').text(data[0].datumtot);
-             $('.aankomst_bij_isatcode').text(data[0].aankomstBijIsatcode);
-             $('.aanmeldingdatum').text(data[0].aanmeldingdatum);
-             $('.datumdefinitief').text(data[0].datumdefinitief);
+             $('.datumvan').text($.date(data[0].datumvan));
+             $('.datumtot').text($.date(data[0].datumtot));
+             $('.aankomst_bij_isatcode').text($.date(data[0].aankomstBijIsatcode));
+             $('.aanmeldingdatum').text($.date(data[0].aanmeldingdatum));
+             $('.datumdefinitief').text($.date(data[0].datumdefinitief));
 
 
              // Contact gegevens
@@ -566,5 +566,18 @@ var fieldData;
      });
 
      
+$.date = function(dateObject) {
+    var d = new Date(dateObject);
+    var day = d.getDate();
+    var month = d.getMonth() + 1;
+    var year = d.getFullYear();
+    if (day < 10) {
+        day = "0" + day;
+    }
+    if (month < 10) {
+        month = "0" + month;
+    }
+    var date = day + "/" + month + "/" + year;
 
-     
+    return date;
+};
