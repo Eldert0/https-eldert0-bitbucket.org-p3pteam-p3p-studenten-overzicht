@@ -12,13 +12,13 @@
         {
         var studentverwijderen = db.Execute("DELETE FROM students WHERE id = @0", id); 
           
-        db.Close();
         }
    
         else
         {
         Response.Redirect("~/admin/students/viewstudents");
         }
+         db.Close();
            
     }
     else
