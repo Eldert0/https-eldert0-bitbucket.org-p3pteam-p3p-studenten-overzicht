@@ -12,7 +12,8 @@
  
     var k = db.QuerySingle("SELECT userId FROM UserProfile WHERE email = @0", User.Identity.Name);
 
-    if(Request.QueryString["user"].IsEmpty() || Convert.ToInt32(k.userId) == Convert.ToInt32(Request.QueryString["user"])){
+    if(Request.QueryString["user"].IsEmpty() || Convert.ToInt32(k.userId) == Convert.ToInt32(Request.QueryString["user"]))  
+    {
          Response.Redirect("/Admin/Users/ViewUsers");
     }
 
@@ -95,24 +96,24 @@
          email = Request.Form["email"];
          rol = Request.Form["roleSelect"];
 
-         // If all information is valid, create a new account
-         if(Validation.IsValid())
-         {
-            var updateCommand = "UPDATE UserProfile SET voornaam=@0, achternaam=@1, geslacht=@2, telefoonnummer=@3, email=@4 WHERE UserId=@5";
-            db.Execute(updateCommand, voornaam, achternaam, geslacht, telefoonnummer, email, id);
-            db.Execute("UPDATE webpages_UsersInRoles SET RoleId=@0 WHERE UserID=@1", rol.ToString(), id);
+             // If all information is valid, create a new account
+             if(Validation.IsValid())
+             {
+                var updateCommand = "UPDATE UserProfile SET voornaam=@0, achternaam=@1, geslacht=@2, telefoonnummer=@3, email=@4 WHERE UserId=@5";
+                db.Execute(updateCommand, voornaam, achternaam, geslacht, telefoonnummer, email, id);
+                db.Execute("UPDATE webpages_UsersInRoles SET RoleId=@0 WHERE UserID=@1", rol.ToString(), id);
 
-            Response.Redirect("~/admin/Users/ViewUsers");
-         } 
-         else 
-         {
+                Response.Redirect("~/admin/Users/ViewUsers");
+             } 
+             else 
+             {
                 
-            ModelState.AddFormError("Email-adres is al in gebruik.");
-         }
+                ModelState.AddFormError("Email-adres is al in gebruik.");
+             }
         
     
-       }
- 
+         }
+    
 }
 <noscript>Your browser does not support JavaScript!</noscript>
 <div id="content">

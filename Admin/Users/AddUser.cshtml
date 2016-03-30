@@ -1,14 +1,8 @@
 ﻿@using System;
 @using System.Text;
 @{
-     
-    if(!Roles.IsUserInRole("administrator") || !WebSecurity.IsAuthenticated)
-    {
-        Response.Redirect("~/home");
-    }
-
-        Layout = "~/_MainLayout.cshtml";
-        Page.Title = "Gebruiker toevoegen";
+    Layout = "~/_MainLayout.cshtml";
+    Page.Title = "Gebruiker toevoegen";
 
 
 
@@ -55,13 +49,15 @@
 
 
         // If all information is valid, create a new account
-        if (Validation.IsValid()) {
+        if (Validation.IsValid()) 
+        {
             // Insert a new user into the database
             db = Database.Open("database");
 
             // Check if user already exists
             var user = db.QuerySingle("SELECT Email FROM UserProfile WHERE LOWER(Email) = LOWER(@0)", email);
-            if (user == null) {
+            if (user == null) 
+            {
                 // Insert email into the profile table
                 var userQuery = db.Execute("INSERT INTO UserProfile (Email, voornaam, achternaam, telefoonnummer, geslacht ) VALUES (@0, @1, @2, @3, @4) ", email, voornaam, achternaam, telefoonnummer, geslacht);
                 
@@ -82,36 +78,38 @@
                 // Create and associate a new entry in the membership database.
                 // If successful, continue processing the request
 
-                try {
-                    bool requireEmailConfirmation = !WebMail.SmtpServer.IsEmpty();
-                    var token = WebSecurity.CreateAccount(email, pass, requireEmailConfirmation);
-                    if (requireEmailConfirmation) {
-                        var hostUrl = Request.Url.GetComponents(UriComponents.SchemeAndServer, UriFormat.Unescaped);
-                        var confirmationUrl = hostUrl + VirtualPathUtility.ToAbsolute("~/Account/Confirm?confirmationCode=" + HttpUtility.UrlEncode(token));
+        try {
+                bool requireEmailConfirmation = !WebMail.SmtpServer.IsEmpty();
+                var token = WebSecurity.CreateAccount(email, pass, requireEmailConfirmation);
+                if (requireEmailConfirmation) {
+                    var hostUrl = Request.Url.GetComponents(UriComponents.SchemeAndServer, UriFormat.Unescaped);
+                    var confirmationUrl = hostUrl + VirtualPathUtility.ToAbsolute("~/Account/Confirm?confirmationCode=" + HttpUtility.UrlEncode(token));
 
-                        WebMail.Send(
-                            to: email,
-                            subject: "Activeer uw account | Studentoverzicht",
-                            body: "<b>Gebruik onderstaande gegevens om in te loggen:</b><br /> Email: "+email+" <br /> Password: "+pass+" <br /> Bezoek onderstaande link om uw account te activeren: </br> <a href=\"" + confirmationUrl + "\">" + confirmationUrl + "</a><br />"
-                        ); 
-                    }
+                    WebMail.Send(
+                        to: email,
+                        subject: "Activeer uw account | Studentoverzicht",
+                        body: "<b>Gebruik onderstaande gegevens om in te loggen:</b><br /> Email: "+email+" <br /> Password: "+pass+" <br /> Bezoek onderstaande link om uw account te activeren: </br> <a href=\"" + confirmationUrl + "\">" + confirmationUrl + "</a><br />"
+                    ); 
+                }
 
-                    if (requireEmailConfirmation)
-                     {
-                        // Thank the user for registering and let them know an email is on its way
-                       Response.Redirect("~/Admin/Users/ViewUsers");
-                    } 
-                    else {
-                        // Navigate back to the homepage and exit
-                        WebSecurity.Login(email, password);
+                if (requireEmailConfirmation)
+                    {
+                    // Thank the user for registering and let them know an email is on its way
+                    Response.Redirect("~/Admin/Users/ViewUsers");
+                } 
+                else {
+                    // Navigate back to the homepage and exit
+                    WebSecurity.Login(email, password);
 
-                        Response.Redirect("~/");
-                    }
-                } catch (System.Web.Security.MembershipCreateUserException e) {
+                    Response.Redirect("~/");
+                }
+                } catch (System.Web.Security.MembershipCreateUserException e) 
+                {
                     ModelState.AddFormError(e.Message);
                 }
             } 
-            else {
+            else 
+            {
                 // User already exists
                 ModelState.AddFormError("Email-adres is al in gebruik.");
             }
