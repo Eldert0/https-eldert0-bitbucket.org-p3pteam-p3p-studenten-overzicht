@@ -424,11 +424,11 @@ iframe[id^='twitter-widget-']{
 
 .NextStudent{
     float: right;
-    background-color: rgba(136, 141, 156, 0.73);
+    background-color: rgba(136, 141, 156, 0.42);
     padding: 20px;
 }
 .PrevStudent{
-    background-color: rgba(136, 141, 156, 0.73);
+    background-color: rgba(136, 141, 156, 0.42);
     padding: 20px;
     float: left;
 }
