@@ -510,4 +510,18 @@ iframe[id^='twitter-widget-']{
 .ReplacePicture{
     display: block;
     background-color: rgba(234, 234, 234, 0.2);
+    
+}
+
+.MoveEditPhoto{
+    
+}
+
+.modal-body{
+  overflow: hidden !important;
+    
+}
+
+.cropControls{
+    left: 0;
 }

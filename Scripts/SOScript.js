@@ -13,6 +13,7 @@ var fieldData;
  $('.materialboxed').materialbox();
  $(document).ready(function () {
 
+
      // voor beide tabellen (viewusers & viewstudents)
      $('#ViewUserTable, #ViewStudentTable').DataTable({
          language: {
@@ -202,6 +203,7 @@ var fieldData;
      // Foto stuff
      function RenderStudent(data) {
 
+
          IDCurrentStudentShown = data[0].Uid;
          $(".StudentEditBtn a").attr("href", "/admin/students/editstudent?student=" + student);
 
@@ -214,7 +216,7 @@ var fieldData;
                  $('.StudentImageHolder').append('<img id="NoImageID" alt="StudentPicture"  data-toggle="modal" data-target="#myModal" class="NoImageYet studentImage animated shake" src="/Images/thumb.png"></img>');
              } else {
                  $('.StudentImageHolder').empty();
-                 $('.StudentImageHolder').append('<img alt="StudentPicture" class="materialboxed"  src="' + data[0].imageUrl + '"></img><button class="ReplacePicture btn">Vervang foto</button>');
+                 $('.StudentImageHolder').append('<div class="MoveEditPhoto" ><img alt="StudentPicture" class="materialboxed"  src="' + data[0].imageUrl + '"></img><button class="ReplacePicture btn">Vervang foto</button></div>');
              }
 
              $('#StudentContent').addClass('bounceInLeft');
@@ -236,7 +238,7 @@ var fieldData;
              $('.groep').text(data[0].groep);
              $('.fase').text(data[0].fase);
 
-             $('.datumvan').text($.date(data[0].datumvan)));
+             $('.datumvan').text($.date(data[0].datumvan));
              $('.datumtot').text($.date(data[0].datumtot));
              $('.aankomst_bij_isatcode').text($.date(data[0].aankomstBijIsatcode));
              $('.aanmeldingdatum').text($.date(data[0].aanmeldingdatum));
@@ -254,6 +256,7 @@ var fieldData;
              //Opleidinghistorie
              $('.vooropleiding').text(data[0].vooropleiding);
 
+             ButtonSize();
          }
          else {
              $('#StudentContent').css('display', 'none');
@@ -359,6 +362,7 @@ var fieldData;
 
      // -----------------------------------------------------------------------------------------------------------------     Fix left sidebar height onresize event
      $(window).resize(function () {
+         ButtonSize();
          windowHeigth = window.innerHeight - 150;
          $('#SearchResultContainer').css("height", windowHeigth);
      });
@@ -518,11 +522,19 @@ var fieldData;
                  imgUrl = data;
 
                  var cropperOptions = {
+
+                     doubleZoomControls: false,
+                     rotateControls: false,
+
                      cropData: {
                          "student": student
                      },
                      onAfterImgCrop: function () {
                          window.location.replace("/Home");
+                     },
+                     onBeforeImgCrop: function () {
+                         //.cropControls
+                         console.log("onBeforeImgCrop");
                      },
                      onReset: function () { console.log('onReset') },
                      cropUrl: 'CropImage.cshtml',
@@ -558,3 +570,12 @@ $.date = function(dateObject) {
 
     return date;
 };
+
+function ButtonSize(){
+     $(".ReplacePicture").css("width", $(".materialboxed").width());
+     console.log("hallojumbo");
+}
+
+
+ 
+            
