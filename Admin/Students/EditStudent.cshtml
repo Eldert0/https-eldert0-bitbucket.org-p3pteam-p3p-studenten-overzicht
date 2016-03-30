@@ -126,61 +126,63 @@
         Validator.StringLength(20, 2, "Niet meer dan 20 karakters"));
         
    
-
+    //if student id not empty continue.
     if (!Request.QueryString["student"].IsEmpty())
     {
-    id = Request.QueryString["student"];
-    db = Database.Open("database");
- 
-    var Query = "SELECT count(*) FROM students WHERE id = @0";
-    userExist = db.QueryValue(Query,id);
+        id = Request.QueryString["student"];
+        db = Database.Open("database");
+
+        //checking if user exist
+        var Query = "SELECT count(*) FROM students WHERE id = @0";
+        userExist = db.QueryValue(Query,id);
+
+        //if user exist continue
+        if(userExist == 1)
+        {
+        //retrieving user details
+            var DataQuery = "SELECT * FROM students WHERE id = @0";
+            var userData = db.QuerySingle(DataQuery,id);
     
-    if(userExist == 1)
-    {
-    var DataQuery = "SELECT * FROM students WHERE id = @0";
-    var userData = db.QuerySingle(DataQuery,id);
-    
-    roepnaam                    = userData.roepnaam;
-    naam                        = userData.naam;
-    groep                       = userData.groep;
-    mentor                      = userData.mentor;
-    studentnummer               = userData.studentnummer;
-    voorvoegsels                = userData.voorvoegsels;
-    geslacht                    = userData.geslacht;
-    geboortedatum               = userData.geboortedatum;
-    vooropleiding               = userData.vooropleiding;
-    email                       = userData.emailprive;
-    emailinstelling             = userData.emailinstelling;
-    adrestype                   = userData.adrestype;
-    etiketnaam                  = userData.etiketnaam;
-    etiketregel1                = userData.etiketregel1;
-    etiketregel2                = userData.etiketregel2;
-    land                        = userData.land;
-    telefoonnummer              = userData.telefoonnummer;
-    telefoonnummermobiel        = userData.telefoonnummermobiel;
-    herinschrijving             = userData.herinschrijving;
-    opleiding                   = userData.opleiding;
-    fase                        = userData.fase;
-    datumvan                    = userData.datumvan;
-    datumtot                    = userData.datumtot;
-    aankomst_bij_isatcode       = userData.aankomst_bij_isatcode;
-    aanmeldingdatum             = userData.aanmeldingdatum;
-    datumdefinitief             = userData.datumdefinitief;
+            roepnaam                    = userData.roepnaam;
+            naam                        = userData.naam;
+            groep                       = userData.groep;
+            mentor                      = userData.mentor;
+            studentnummer               = userData.studentnummer;
+            voorvoegsels                = userData.voorvoegsels;
+            geslacht                    = userData.geslacht;
+            geboortedatum               = userData.geboortedatum;
+            vooropleiding               = userData.vooropleiding;
+            email                       = userData.emailprive;
+            emailinstelling             = userData.emailinstelling;
+            adrestype                   = userData.adrestype;
+            etiketnaam                  = userData.etiketnaam;
+            etiketregel1                = userData.etiketregel1;
+            etiketregel2                = userData.etiketregel2;
+            land                        = userData.land;
+            telefoonnummer              = userData.telefoonnummer;
+            telefoonnummermobiel        = userData.telefoonnummermobiel;
+            herinschrijving             = userData.herinschrijving;
+            opleiding                   = userData.opleiding;
+            fase                        = userData.fase;
+            datumvan                    = userData.datumvan;
+            datumtot                    = userData.datumtot;
+            aankomst_bij_isatcode       = userData.aankomst_bij_isatcode;
+            aanmeldingdatum             = userData.aanmeldingdatum;
+            datumdefinitief             = userData.datumdefinitief;
+        }
+        else
+        {
+            Response.Redirect("~/admin/students/viewstudents");
+        }
     }
-     else
-     {
-       Response.Redirect("~/admin/students/viewstudents");
-     }
-   }
    else
    {
-    Response.Redirect("~/admin/students/viewstudents");
+       Response.Redirect("~/admin/students/viewstudents");
    }
 
 
     if (IsPost) 
-     {  
-
+     { 
         roepnaam                = Request.Form["roepnaam"];
         naam                    = Request.Form["naam"];
         groep                   = Request.Form["groep"]; 
@@ -219,9 +221,8 @@
         }
 
     else 
-    {
-    // User already exists
-    ModelState.AddFormError("Email address is already in use.");
+   {
+    ModelState.AddFormError("Student bestaat al.");
    }
   }
 }
@@ -364,7 +365,7 @@
 
             <div class="form-group">    
                 <label for="herinschrijving">Herinschrijving</label>
-                <select name="geslacht" class="form-control">
+                <select name="herinschrijving" class="form-control">
                     
                      @if(herinschrijving.ToString() == "0")
                      {

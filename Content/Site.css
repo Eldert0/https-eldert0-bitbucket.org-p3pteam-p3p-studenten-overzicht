@@ -434,9 +434,9 @@ iframe[id^='twitter-widget-']{
 
 .VerwijderAlles{
     position: relative;
-    background-color: #B8B8B8;
+    background-color: red;
     border: none;
-    font-size: 28px;
+    font-size: 13px;
     color: #FFFFFF;
     padding: 10px;
     text-align: center;
