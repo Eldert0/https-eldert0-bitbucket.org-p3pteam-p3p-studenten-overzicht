@@ -55,13 +55,14 @@
 
         img.Resize(400, 400, preserveAspectRatio: true, preventEnlarge: false);
 
-
+        var db = Database.Open("database");
          
 
-
+        var inc = db.QueryValue("SELECT photoInc FROM StudentPhotos WHERE Uid=@0", student);
      
-        
-        var StudentImage = @"Upload/Photos/StudentPhotos/"+student+Path.GetExtension(img.FileName);
+        var newinc = inc +1;
+
+        var StudentImage = @"Upload/Photos/StudentPhotos/"+student+"_"+newinc+Path.GetExtension(img.FileName);
         
         
         img.Save(@"~/"+StudentImage);
@@ -71,14 +72,14 @@
 
        photoThumb = img.Clone();
 
-       imageThumbPath = @"/Upload/Photos/Thumbnails/" + student + "-thumb"+Path.GetExtension(img.FileName);
+       imageThumbPath = @"/Upload/Photos/Thumbnails/" + student + "-thumb"+"_"+newinc+Path.GetExtension(img.FileName);
 
        photoThumb.Resize(width: 50, height: 50, preserveAspectRatio: true, preventEnlarge: true);
        photoThumb.Save(@"~/" + imageThumbPath);    
        
-       var db = Database.Open("database");
+       
 
-       db.Execute("UPDATE StudentPhotos SET imageUrl=@0, thumbUrl=@1 WHERE Uid=@2", StudentImage, StudentImage, student);
+       db.Execute("UPDATE StudentPhotos SET imageUrl=@0, thumbUrl=@1, photoInc=@2 WHERE Uid=@3", StudentImage, StudentImage, newinc, student);
        
        db.Close();
 
