@@ -261,15 +261,25 @@
              <noscript>@Html.ValidationMessage("etiketnaam")</noscript>
           </div>
 
-            <div class="form-group">
-            <label for="geslacht">Geslacht</label>
-            <select name="geslacht" class="form-control">
-            <option value=" " selected="selected">Voer een geslacht in</option>
-            <option value="1" selected=@(Request.Form["geslacht"] == "1") >Man</option>
-            <option value="2" selected=@(Request.Form["geslacht"] == "2")>Vrouw</option>
-            </select>
-            <noscript>@Html.ValidationMessage("geslacht")</noscript>
-          </div>
+            
+                <div class="form-group">    
+                <label for="geslacht">Geslacht</label>
+                <select name="geslacht" class="form-control">
+                    
+                     @if(geslacht.ToString() == "1")
+                     {
+                        <option value="1" selected="selected">Man</option>
+                        <option value="2">vrouw</option>
+                     }
+                     else
+                     {
+                         <option value="1">Man</option>
+                         <option value="2" selected="selected">vrouw</option>
+                     }
+           
+                </select>
+                <noscript>@Html.ValidationMessage("geslacht")</noscript>
+                </div>
                 
              <div class="form-group">
              <label for="groep">Klas</label>
@@ -353,9 +363,32 @@
             <div class="form-group">
             <label for="herinschrijving">Herinschrijving</label>
             <select name="herinschrijving" class="form-control">
-            <option value=" " selected="selected">Voer ja of nee in</option>
-            <option value="0" selected=@(Request.Form["geslacht"] == "0") >nee</option>
-            <option value="1" selected=@(Request.Form["geslacht"] == "1")>ja</option>
+            @if(herinschrijving.ToString() == "0")
+            {
+                <option value="1">Voer ja of nee in</option>
+                <option value="2" selected="selected">nee</option>
+                <option value="3" >ja</option>
+            }
+            else if(herinschrijving.ToString() == "1")
+            {
+                <option value="1">Voer ja of nee in</option>
+                <option value="2">nee</option>
+                <option value="3" selected="selected">ja</option>
+            }
+            else if(herinschrijving.ToString() == "3")
+            {
+                <option value="1">Voer ja of nee in</option>
+                <option value="2">nee</option>
+                <option value="3" selected="selected">ja</option>
+                
+            }
+            else if(herinschrijving.ToString() == "2")
+            {
+                <option value="1">Voer ja of nee in</option>
+                <option value="2" selected="selected">nee</option>
+                <option value="3" >ja</option>
+                
+            }
             </select>
             <noscript>@Html.ValidationMessage("herinschrijving")</noscript>
           </div>
